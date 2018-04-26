@@ -7,16 +7,12 @@ public class Resource {
 	private boolean available =  false;
 	private int ID;
 	
-	public Resource(int startTimeOccupied,
-					int endTimeOccupied,
-					int ID)
+	public Resource(int ID)
 	{
-		this.startTimeOccupied = startTimeOccupied;
-		this.endTimeOccupied = endTimeOccupied;
 		this.ID = ID;
 	}
 	
-	public void Occupy(int startTime, int timeUnitsRequired)
+	public void Seize(int startTime, int timeUnitsRequired)
 	{
 		
 	}

@@ -2,6 +2,7 @@ package Simulation.Model;
 import  Simulation.Interfaces.*;
 import Simulation.Model.Process.ProcessManager;
 import Simulation.Model.Queue.QueueManager;
+import Simulation.Model.Resource.Boat;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
 import Simulation.Interfaces.*;
@@ -31,8 +32,9 @@ public class Model implements Tick_Listener {
 	
 	private void Create()
 	{
+		
 		// Create Resources/Queue/Processes
-		resourceManager
+		resourceManager.AddResource();
 	}
 	
 	public void Run()
