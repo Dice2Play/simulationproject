@@ -18,7 +18,6 @@ public class TimeManager  {
 	// Fire listeners
 	public static void Tick()
 	{
-		System.out.println("Fired from timeManager...");
 		timeUnitsPassed = timeUnitsPassed + 1;
 		FireTickListeners(); // Fire listeners
 	}
@@ -34,7 +33,6 @@ public class TimeManager  {
 	{
 		for(Tick_Listener listener : tickListeners)
 		{
-			System.out.println(timeUnitsPassed);
 			listener.Event_Tick(timeUnitsPassed);
 		}
 	}

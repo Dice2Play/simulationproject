@@ -11,11 +11,11 @@ public class Model implements Tick_Listener {
 
 	private final TimeManager timeManager = new TimeManager();
 	private final QueueManager queueManager = new QueueManager();
-	private final ResourceManager resourceManager = new ResourceManager();
+	private final ResourceManager resourceManager = new ResourceManager(timeManager);
 	private final ProcessManager processManager = new ProcessManager();
 
-	private int amountOfTimeUnitsToRun = 0;
-	private int amountOfTimeUnitsPassed = 0;
+	private int amountOfTimeUnitsToRun;
+	private int amountOfTimeUnitsPassed;
 	
 	public Model(int amountOfTimeUnitsToRun)
 	{
@@ -32,6 +32,7 @@ public class Model implements Tick_Listener {
 	private void Create()
 	{
 		// Create Resources/Queue/Processes
+		resourceManager
 	}
 	
 	public void Run()
@@ -39,6 +40,7 @@ public class Model implements Tick_Listener {
 		while(amountOfTimeUnitsPassed < amountOfTimeUnitsToRun)
 		{
 			// Print amount of timeUnitsPassed
+			System.out.println(amountOfTimeUnitsPassed);
 			System.out.println("Amount of time units passed :" + amountOfTimeUnitsPassed);
 			
 			// Check if ProcessManager can fire any process

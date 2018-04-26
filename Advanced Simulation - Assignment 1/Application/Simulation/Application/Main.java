@@ -8,11 +8,11 @@ public class Main {
 	
 	public static void main(String[] args) {
 
-		Scenario scenario_1 = new Scenario(1,60);
+		Scenario scenario_1 = new Scenario(60,1);
 		scenario_1.Run();
 		
 		
-		System.out.println("qq");
+		System.out.println("End");
 
 	}
 
