@@ -37,5 +37,11 @@ public class TimeManager  {
 		}
 	}
 	
+	// Return amount of time passed
+	public static int AmountOfTimePassed()
+	{
+		return timeUnitsPassed;
+	}
+	
 	
 }

@@ -6,13 +6,13 @@ import Simulation.Model.Resource.Boat;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
 import Simulation.Interfaces.*;
-
+import Simulation.Model.Resource.*;
 
 public class Model implements Tick_Listener {
 
 	private final TimeManager timeManager = new TimeManager();
 	private final QueueManager queueManager = new QueueManager();
-	private final ResourceManager resourceManager = new ResourceManager(timeManager);
+	private final ResourceManager resourceManager = new ResourceManager();
 	private final ProcessManager processManager = new ProcessManager();
 
 	private int amountOfTimeUnitsToRun;
@@ -34,7 +34,20 @@ public class Model implements Tick_Listener {
 	{
 		
 		// Create Resources/Queue/Processes
-		resourceManager.AddResource();
+		resourceManager.AddResource(new Boat[] {new Boat("1"),
+												new Boat("2"),
+												new Boat("3"),
+												new Boat("4"),
+												new Boat("5"),
+												new Boat("6"),
+												new Boat("7"),
+												new Boat("8"),
+												new Boat("9"),
+												new Boat("10")});
+		
+		
+		
+		
 	}
 	
 	public void Run()

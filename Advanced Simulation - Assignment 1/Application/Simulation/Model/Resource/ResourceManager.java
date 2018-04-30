@@ -8,13 +8,12 @@ import Simulation.Model.Time.TimeManager;
 
 public class ResourceManager implements Tick_Listener {
 
-	private List<Resource> resources = new ArrayList<Resource>();
-	private TimeManager timeManager;
+	private static List<Resource> resources = new ArrayList<Resource>();
+	private static TimeManager timeManager = new TimeManager();
 	
-	public ResourceManager(TimeManager timeManager)
+	
+	public ResourceManager()
 	{
-		// Set fields
-		this.timeManager = timeManager;
 		
 		// Subscribe to event handlers
 		timeManager.AddTickListener(this);
@@ -23,10 +22,13 @@ public class ResourceManager implements Tick_Listener {
 	@Override
 	public void Event_Tick(int timePassed) {
 		// Check if any resource can be released
-		
+		if(CheckIfAnyResourceCanBeReleased())
+		{
+			ReleaseResource();
+		}
 	}
 	
-	public void AddResource(Resource[] resourcesToAdd)
+	public static void AddResource(Resource[] resourcesToAdd)
 	{
 		for(Resource resource: resourcesToAdd)
 		{
@@ -35,12 +37,12 @@ public class ResourceManager implements Tick_Listener {
 		
 	}
 	
-	private void CheckIfResourceCanBeReleased()
+	private static boolean CheckIfAnyResourceCanBeReleased()
 	{
-		
+		return false;
 	}
 	
-	private void ReleaseResource()
+	private static void ReleaseResource()
 	{
 		
 	}

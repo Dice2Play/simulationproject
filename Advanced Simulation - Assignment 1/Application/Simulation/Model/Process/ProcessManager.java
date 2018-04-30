@@ -5,7 +5,8 @@ import java.util.List;
 
 public class ProcessManager {
 
-	List<Process> processes = new ArrayList<Process>();
+	private static List<Process> processes = new ArrayList<Process>();
+
 	
 	public static boolean CanFire()
 	{
@@ -15,6 +16,14 @@ public class ProcessManager {
 	public static void Fire()
 	{
 		//Fire all processes
+	}
+	
+	public static void AddProcess(Process[] processesToAdd)
+	{
+		for(Process proc : processesToAdd)
+		{
+			processes.add(proc);
+		}
 	}
 	
 }

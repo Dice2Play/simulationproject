@@ -5,9 +5,9 @@ public class Resource {
 	private int startTimeOccupied;
 	private int endTimeOccupied;
 	private boolean available =  false;
-	private int ID;
+	private String ID;
 	
-	public Resource(int ID)
+	public Resource(String ID)
 	{
 		this.ID = ID;
 	}

@@ -5,7 +5,7 @@ public class Boat extends Resource{
 	final int capacity = 8;
 	int amountOfPlacesTaken = 0;
 	
-	public Boat(int ID)
+	public Boat(String ID)
 	{
 		super(ID);	
 	}
