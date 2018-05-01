@@ -1,7 +1,7 @@
 package Simulation.Model;
 
 import Simulation.Enums.Queue_Priority;
-import Simulation.Enums.Resource_Types;
+import Simulation.Enums.Resource_Type;
 import  Simulation.Interfaces.*;
 import Simulation.Model.Process.ProcessManager;
 import Simulation.Model.Queue.Queue;
@@ -18,8 +18,8 @@ public class Model implements Tick_Listener {
 	private final QueueManager queueManager = new QueueManager();
 	private final ResourceManager resourceManager = new ResourceManager();
 	private final ProcessManager processManager = new ProcessManager();
-
-	private int amountOfTimeUnitsToRun;
+	private final int amountOfTimeUnitsToRun;
+	
 	private int amountOfTimeUnitsPassed;
 	
 	public Model(int amountOfTimeUnitsToRun)
@@ -30,7 +30,7 @@ public class Model implements Tick_Listener {
 		// Create model objects
 		Create();
 		
-		// Event handlers
+		// Set listeners
 		timeManager.AddTickListener(this);
 	}
 	
@@ -38,23 +38,23 @@ public class Model implements Tick_Listener {
 	{
 		
 		// Create Resources/Queue/Processes
-		resourceManager.AddResource(new Boat[] {new Boat("1"),
-												new Boat("2"),
-												new Boat("3"),
-												new Boat("4"),
-												new Boat("5"),
-												new Boat("6"),
-												new Boat("7"),
-												new Boat("8"),
-												new Boat("9"),
-												new Boat("10")});
+		resourceManager.AddResource(new Boat[] {new Boat("BOAT_1"),
+												new Boat("BOAT_2"),
+												new Boat("BOAT_3"),
+												new Boat("BOAT_4"),
+												new Boat("BOAT_5"),
+												new Boat("BOAT_6"),
+												new Boat("BOAT_7"),
+												new Boat("BOAT_8"),
+												new Boat("BOAT_9"),
+												new Boat("BOAT_10")});
 		
 		
-		queueManager.AddQueue(new Queue[] {		new Queue(Queue_Priority.High, 1,8),
-												new Queue(Queue_Priority.Low, 1,1) });
+		queueManager.AddQueue(new Queue[] {		new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"),
+												new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE") });
 		
 		
-		processManager.AddProcess(new Simulation.Model.Process.Process[] { new Simulation.Model.Process.Process("Boattrip", 4 , Resource_Types.BOAT)});
+		processManager.AddProcess(new Simulation.Model.Process.Process[] { new Simulation.Model.Process.Process("Boattrip", 4 , Resource_Type.BOAT)});
 		
 	}
 	
@@ -62,8 +62,8 @@ public class Model implements Tick_Listener {
 	{
 		while(amountOfTimeUnitsPassed < amountOfTimeUnitsToRun)
 		{
-			// Print amount of timeUnitsPassed
-			System.out.println("Amount of time units passed :" + amountOfTimeUnitsPassed);
+			// Print amount of time units passed
+			timeManager.PrintAmountOfTimePassed();
 			
 			// Check if ProcessManager can fire any process
 			// If so, fire processes
@@ -76,11 +76,15 @@ public class Model implements Tick_Listener {
 		
 	}
 	
+	private void SetTimePassed(int timeValue)
+	{
+		amountOfTimeUnitsPassed = timeValue;	
+	}
 	
 
 	@Override
 	public void Event_Tick(int timePassed) {
-		amountOfTimeUnitsPassed = timePassed;	
+		SetTimePassed(timePassed);	
 	}
 	
 	

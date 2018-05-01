@@ -7,20 +7,20 @@ import Simulation.Model.*;
 public class Scenario {
 	
 	private int timeUnitsToRun;
-	private int amountOfSimulations;
+	private int amountOfSimulationsToRun;
 	private List<Model> replications = new ArrayList<Model>();
 	
 	public Scenario(int timeUnitsToRun, int amountOfSimulations)
 	{
 		// Set fields
 		this.timeUnitsToRun = timeUnitsToRun;
-		this.amountOfSimulations = amountOfSimulations;
+		this.amountOfSimulationsToRun = amountOfSimulations;
 
 	}
 	
 	public void Run()
 	{
-		for(int amountOfReplicationsRun = 0; amountOfReplicationsRun < amountOfSimulations; amountOfReplicationsRun++)
+		for(int amountOfReplicationsRan = 0; amountOfReplicationsRan < amountOfSimulationsToRun; amountOfReplicationsRan++)
 		{
 			Model model = new Model(timeUnitsToRun);
 			model.Run();

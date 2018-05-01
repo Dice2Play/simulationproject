@@ -1,11 +1,13 @@
 package Simulation.Model.Queue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 
 import Simulation.Enums.Queue_Priority;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class QueueManager {
 
@@ -18,38 +20,50 @@ public class QueueManager {
 			queues.add(q);
 		}
 	}
-	
-	// For each queue return first object
-	// First return the queue's with high priority, these will be tried to fit first.
-	public static QueueObject[] GetNextQueueObjects()
-	{
-		ReturnOrderedQueuesBy(Queue_Priority.High);
-		
-		List<QueueObject> FirstQueueObjects = new ArrayList<QueueObject>();
-		queues.forEach(queue -> FirstQueueObjects.add(queue.FirstQueueObject()));
-	
-		
-		return new int[] {0};
-	}
-	
-	
+			
 	private static List<Queue> ReturnOrderedQueuesByHighPriority()
 	{
-		List<Queue> orderedArray = queues.
+		// Create copy
+		List<Queue> orderedQueueArrayList = new ArrayList<Queue>();
+		queues.forEach(q -> orderedQueueArrayList.add(q));
 		
-		return null;
+		// Sort 
+		orderedQueueArrayList.sort(new SortByQueuePriority());
+		
+		// Return list
+		return orderedQueueArrayList;
 	}
 	
+
+	// Returns amount of spots seized
+	public static int SeizeQueueObject(int seizeTime, int capacity ) 
+	{
+		int amountOfSpotsTaken = 0;
+		while(amountOfSpotsTaken < capacity)
+		{
+			// Check if group-queue can be fit
+			
+			// Check if single rider can be fit
+		}
+		
+		
+		return amountOfSpotsTaken;
+	}
+	
+	private static Queue[] GetQueueByPriority(Queue_Priority priority)
+	{
+		List
+	}
+	
+
 		
 }
 
-class SortByQueuePriority implements Comparator<Queue_Priority>
+class SortByQueuePriority implements Comparator<Queue>
 {
-
 	@Override
-	public int compare(Queue_Priority arg0, Queue_Priority arg1) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compare(Queue queue_arg0, Queue queue_arg1) {
+		return queue_arg0.GetQueuePriority().getLevelCode() - queue_arg1.GetQueuePriority().getLevelCode();
 	}
 	
 }

@@ -14,18 +14,25 @@ public class TimeManager  {
 	private static int timeUnitsPassed = 0;
 	
 	
-	// Increment time unit by one
-	// Fire listeners
 	public static void Tick()
 	{
+		// Increment time unit by one
 		timeUnitsPassed = timeUnitsPassed + 1;
-		FireTickListeners(); // Fire listeners
+
+		// Fire listeners
+		FireTickListeners(); 
 	}
 	
 	// Add subscriber to tick event
 	public static void AddTickListener(Tick_Listener listener)
 	{
 		tickListeners.add(listener);
+	}
+	
+	// Remove subscriber to tick event
+	public static void RemoveTickListener(Tick_Listener listener)
+	{
+		tickListeners.remove(listener);
 	}
 	
 	// Notify subscribers
@@ -38,9 +45,15 @@ public class TimeManager  {
 	}
 	
 	// Return amount of time passed
-	public static int AmountOfTimePassed()
+	public static int GetTimeUnitsPassed()
 	{
 		return timeUnitsPassed;
+	}
+	
+	// Print amount of timeUnitsPassed
+	public static void PrintAmountOfTimePassed()
+	{
+		System.out.println("TIME MANAGER: Amount of time units passed ["+ GetTimeUnitsPassed() + "]");
 	}
 	
 	
