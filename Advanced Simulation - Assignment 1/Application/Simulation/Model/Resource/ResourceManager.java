@@ -3,7 +3,7 @@ package Simulation.Model.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import Simulation.Enums.Resource_Types;
+import Simulation.Enums.Resource_Type;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
@@ -16,7 +16,7 @@ public class ResourceManager implements Tick_Listener {
 	public ResourceManager()
 	{
 		
-		// Subscribe to event handlers
+		// Set listeners
 		timeManager.AddTickListener(this);
 	}
 
@@ -38,13 +38,13 @@ public class ResourceManager implements Tick_Listener {
 		
 	}
 	
-	public static boolean CheckForAvailableResource(Resource_Types typeOfResourceNeeded, int capacityNeeded)
+	public static boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)
 	{
 		for(Resource res : resources)
 		{
 			if(res.GetResourceType() == typeOfResourceNeeded)
 			{
-				if(res.CanSeize(capacityNeeded))
+				if(res.CanSeize())
 				{
 					return true;
 				}
@@ -57,18 +57,20 @@ public class ResourceManager implements Tick_Listener {
 	
 	
 	
-	public static void SeizeResource(Resource_Types typeOfResourceNeeded, int capacityNeeded, int amountOfTimeNeeded, String processID)
+	public static void SeizeResource(Resource_Type typeOfResourceNeeded, int capacityNeeded, int amountOfTimeNeeded, String processID)
 	{
 		for(Resource res : resources)
 		{
 			if(res.GetResourceType() == typeOfResourceNeeded)
 			{
-				if(res.CanSeize(capacityNeeded))
+				if(res.CanSeize())
 				{
 					res.Seize(amountOfTimeNeeded, capacityNeeded);
 					
-					System.out.println("Process ID["+processID+"] "
-							+ "seized resource of type["+typeOfResourceNeeded+"] "
+					System.out.println("RESOURCE MANAGER: "
+							+ "Process ID["+processID+"] "
+							+ "seized resource ["+res.GetID()+"] "
+							+ "of type["+typeOfResourceNeeded+"] "
 							+ "for ["+ capacityNeeded+ "] capacity, "
 							+ "for ["+amountOfTimeNeeded+"] timeunits." );
 					
@@ -105,6 +107,11 @@ public class ResourceManager implements Tick_Listener {
 				System.out.println("Resource ["+res.GetID()+"] has been released.");
 			}
 		}
+	}
+	
+	public static int GetCapacityOfResource(Resource_Type type)
+	{
+		return type.GetCapacity();
 	}
 	
 	

@@ -2,7 +2,7 @@ package Simulation.Model.Process;
 
 import java.util.ArrayList;
 
-import Simulation.Enums.Resource_Types;
+import Simulation.Enums.Resource_Type;
 import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Queue.QueueObject;
 import Simulation.Model.Resource.Resource;
@@ -10,59 +10,30 @@ import Simulation.Model.Resource.ResourceManager;
 
 public class Process {
 
-	private String ID;
-	private int processTime; // Amount of time-units needed for completing process. 
-	private ResourceManager resourceManager = new ResourceManager();
-	private QueueManager queueManager = new QueueManager();
-	private Resource_Types type; 
+	private final String ID;
+	private final int processTime; // Amount of time-units needed for completing process. 
+	private final ResourceManager resourceManager = new ResourceManager();
+	private final QueueManager queueManager = new QueueManager();
+	private final Resource_Type type; 
 	
 	
-	public Process(String ID, int processTime, Resource_Types type)
+	public Process(String ID, int processTime, Resource_Type type)
 	{
 		this.ID = ID;
 		this.processTime = processTime;
 		this.type = type;
 	}
 	
-	
-	
 	public boolean CanFire()
 	{
-		// Retrieve for each queue first queue_object in line
-		int[] groupSizes = queueManager.GetNextGroupSizes();
-		
-		for(int groupSize : groupSizes)
-		{
-			// Check if there are available resources with given groupsize
-			if(resourceManager.CheckForAvailableResource(type, groupSize))
-			{
-				return true;
-			}
-			
-		}
-		
-		// If no 
-		return false;
+		return resourceManager.CheckForAvailableResource(type);
 	}
 	
 	public void Fire()
 	{
-		// Get next group and seize resource
-		// Retrieve for each queue first queue_object in line
-		int[] groupSizes = queueManager.GetNextGroupSizes();
-		
-		for(int groupSize : groupSizes)
-		{
-			// Check if there are available resources with given groupsize
-			if(resourceManager.CheckForAvailableResource(type, groupSize))
-			{
-				// Fire process
-				resourceManager.SeizeResource(Resource_Types.BOAT, groupSize, processTime, ID);
-				break;
-			}
-			
-		}
-		
+		// Fire process
+		//resourceManager.SeizeResource(type, queueObject.GetGroupSize(), processTime, ID);
+		//queueManager.SeizeQueueObject(queueObject.GetQueueID(), processTime, int );
 	}
 	
 	

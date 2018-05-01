@@ -1,6 +1,6 @@
 package Simulation.Model.Resource;
 
-import Simulation.Enums.Resource_Types;
+import Simulation.Enums.Resource_Type;
 import Simulation.Model.Time.TimeManager;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -10,11 +10,11 @@ public class Resource {
 	private int endTimeOccupied;
 	private boolean available = true;
 	private String ID;
-	private Resource_Types type;
+	private Resource_Type type;
 	private TimeManager timeManager = new TimeManager();
 	
 	
-	public Resource(String ID, Resource_Types type)
+	public Resource(String ID, Resource_Type type)
 	{
 		this.ID = ID;
 		this.type = type;
@@ -22,18 +22,19 @@ public class Resource {
 	
 	public void Seize(int timeUnitsRequired, int capacityNeeded)
 	{
-		startTimeOccupied = timeManager.AmountOfTimePassed();
+		startTimeOccupied = timeManager.GetTimeUnitsPassed();
 		endTimeOccupied = startTimeOccupied + timeUnitsRequired; 
+		SetAvailable(false);
 	}
 	
-	public boolean CanSeize(int capacityNeeded)
+	public boolean CanSeize()
 	{
-		return false;
+		return IsAvailable();
 	}
 	
 	public boolean CanRelease()
 	{
-		return timeManager.AmountOfTimePassed() > endTimeOccupied;
+		return timeManager.GetTimeUnitsPassed() > endTimeOccupied;
 	}
 	
 	public void Release()
@@ -41,10 +42,10 @@ public class Resource {
 		// Update statistics
 		
 		// Reset all
-		
+		SetAvailable(true);
 	}
 	
-	public Resource_Types GetResourceType()
+	public Resource_Type GetResourceType()
 	{
 		return type;
 	}

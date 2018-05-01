@@ -1,6 +1,6 @@
 package Simulation.Model.Resource;
 
-import Simulation.Enums.Resource_Types;
+import Simulation.Enums.Resource_Type;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Boat extends Resource{
@@ -11,13 +11,7 @@ public class Boat extends Resource{
 	
 	public Boat(String ID)
 	{
-		super(ID, Resource_Types.BOAT);	
-	}
-	
-	// Returns if amountOfSpots + amountOfPlacesTaken exceeds the capacity
-	public boolean DoesFit(int amountOfSpots)
-	{
-		return (amountOfSpots + amountOfPlacesTaken) < capacity ;
+		super(ID, Resource_Type.BOAT);	
 	}
 	
 	public void Seize(int timeUnitsRequired, int capacityNeeded)
@@ -36,11 +30,5 @@ public class Boat extends Resource{
 		amountOfPlacesTaken = amountOfPlacesTaken + amountOfSpots;
 	}
 	
-	@Override
-	public boolean CanSeize(int capacityNeeded)
-	{
-		if(super.IsAvailable() && DoesFit(capacityNeeded)) { return true;}
-		else return false;
-			
-	}
+
 }
