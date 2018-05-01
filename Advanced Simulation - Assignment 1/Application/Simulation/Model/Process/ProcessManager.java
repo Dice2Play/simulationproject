@@ -10,12 +10,27 @@ public class ProcessManager {
 	
 	public static boolean CanFire()
 	{
+		for(Process process : processes)
+		{
+			if(process.CanFire())
+			{
+				return true;
+			}
+		}
+		
+		// If no process can fire return false
 		return false;
 	}
 	
 	public static void Fire()
 	{
-		//Fire all processes
+		for(Process process : processes)
+		{
+			if(process.CanFire())
+			{
+				process.Fire();
+			}
+		}
 	}
 	
 	public static void AddProcess(Process[] processesToAdd)

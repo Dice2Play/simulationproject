@@ -5,21 +5,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import Simulation.Enums.queue_priority;
+
+import Simulation.Enums.Queue_Priority;
 
 public class Queue {
 
-	private queue_priority queueingPriority;
+	private Queue_Priority queueingPriority;
 	private LinkedList<QueueObject> groupsInQueue = new LinkedList<QueueObject>();
-	private final int maxQueueSize = 8;
-	private final int minQueueSize = 1;
+	private int maxGroupSize;
+	private int minGroupSize;
 	private final int maxQueueLength = 10;
 	
-	public Queue(queue_priority queueingPriority, int minQueueSize, int maxQueueSize)
+	public Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize)
 	{
-		
-		this
+		this.maxGroupSize = maxGroupSize;
+		this.minGroupSize = minGroupSize;
 		this.queueingPriority = queueingPriority;
+		
+		// Generate queue
+		GenerateQueueObjects();
 	}
 	
 	// Return size of NextQueueObject
@@ -29,8 +33,8 @@ public class Queue {
 	
 	}
 	
-	// Retrieve NextQueueObject
-	public QueueObject NextQueueObject()
+	// Retrieve first QueueObject
+	public QueueObject FirstQueueObject()
 	{
 		return groupsInQueue.getFirst();
 	}
@@ -38,14 +42,20 @@ public class Queue {
 	private void GenerateQueueObjects()
 	{
 		Random rand = new Random();
-		
-		
-		
+
 		// Generate QueueObjects till max 
 		for(int i = groupsInQueue.size(); i< maxQueueLength; i++)
 		{
-			// Generate random number between 1 and 8
-			groupsInQueue.add(new QueueObject(rand.nextInt(maxQueueSize) + minQueueSize));
+			if(maxGroupSize > 1)
+			{
+				// Generate random number between 1 and 8
+				groupsInQueue.add(new QueueObject(rand.nextInt(maxGroupSize) + minGroupSize));
+			}
+			
+			else
+			{
+				groupsInQueue.add(new QueueObject(1));
+			}
 		}
 	}
 	

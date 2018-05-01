@@ -1,6 +1,10 @@
 package Simulation.Model;
+
+import Simulation.Enums.Queue_Priority;
+import Simulation.Enums.Resource_Types;
 import  Simulation.Interfaces.*;
 import Simulation.Model.Process.ProcessManager;
+import Simulation.Model.Queue.Queue;
 import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.Boat;
 import Simulation.Model.Resource.ResourceManager;
@@ -46,7 +50,11 @@ public class Model implements Tick_Listener {
 												new Boat("10")});
 		
 		
+		queueManager.AddQueue(new Queue[] {		new Queue(Queue_Priority.High, 1,8),
+												new Queue(Queue_Priority.Low, 1,1) });
 		
+		
+		processManager.AddProcess(new Simulation.Model.Process.Process[] { new Simulation.Model.Process.Process("Boattrip", 4 , Resource_Types.BOAT)});
 		
 	}
 	
@@ -55,15 +63,14 @@ public class Model implements Tick_Listener {
 		while(amountOfTimeUnitsPassed < amountOfTimeUnitsToRun)
 		{
 			// Print amount of timeUnitsPassed
-			System.out.println(amountOfTimeUnitsPassed);
 			System.out.println("Amount of time units passed :" + amountOfTimeUnitsPassed);
 			
 			// Check if ProcessManager can fire any process
 			// If so, fire processes
-			if(processManager.CanFire()){ processManager.Fire();}
+			while(processManager.CanFire()){ processManager.Fire();}
 			
-			// Else increment timeUnit, such that subscribed resourceManager can release resources.
-			else timeManager.Tick();
+			// increment timeUnit, such that subscribed resourceManager can release resources.
+			timeManager.Tick();
 			
 		}
 		
