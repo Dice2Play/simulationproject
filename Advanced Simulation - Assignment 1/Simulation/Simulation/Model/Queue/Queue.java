@@ -14,8 +14,6 @@ public class Queue implements Tick_Listener {
 
 	private final Queue_Priority queueingPriority;
 	private final int maxGroupSize;
-	private final int minGroupSize;
-	private final int maxQueueLength = 10;
 	private final String queueID;
 	private final TimeManager timeManager = new TimeManager();
 	
@@ -24,7 +22,6 @@ public class Queue implements Tick_Listener {
 	public Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
 	{
 		this.maxGroupSize = maxGroupSize;
-		this.minGroupSize = minGroupSize;
 		this.queueingPriority = queueingPriority;
 		this.queueID = queueID;
 		
@@ -63,19 +60,49 @@ public class Queue implements Tick_Listener {
 		return groupsInQueue.getFirst();
 	}
 	
-	private void GenerateQueueObjects()
+	// Return if queue has another queuobject
+	public boolean HasNextQueueObject()
 	{
-		Random rand = new Random();
-		
+		return groupsInQueue.isEmpty();
+	}
+	
+	private void GenerateQueueObjects() throws Exception
+	{
 		// Check if group queue yes/no
 		if(maxGroupSize > 1)
 		{
-			int[] amountOfGroups = {0,1,2};
-			
-			for(int amount)
+			int amountOfGroups = 0; 
 			
 			
+			boolean[] addGroups = {	Probability.Probability.GetProbability(0.2),
+									Probability.Probability.GetProbability(0.6),
+									Probability.Probability.GetProbability(0.2)};
+			int amountOfGroupsCounter = 0;
+			for(boolean addGroup : addGroups)
+			{
+				if(addGroup) { amountOfGroups = amountOfGroupsCounter; break;}
+				else amountOfGroupsCounter = amountOfGroupsCounter + 1;
+			}
 			
+			
+			// For each group 	
+			for(int i = 0; i < amountOfGroups; i++)
+			{
+				boolean[] addPersons = {	Probability.Probability.GetProbability(0.2),
+											Probability.Probability.GetProbability(0.2),
+											Probability.Probability.GetProbability(0.2),
+											Probability.Probability.GetProbability(0.2),
+											Probability.Probability.GetProbability(0.2)};
+				
+				int amountOfPersonsCounter = 1;
+				
+				for(boolean addPerson : addPersons)
+				{
+						if(addPerson) { groupsInQueue.add(new QueueObject(amountOfPersonsCounter,queueID)); break;}
+						else amountOfPersonsCounter = amountOfPersonsCounter + 1;
+				}
+
+			}
 		}
 		
 		else
@@ -83,21 +110,7 @@ public class Queue implements Tick_Listener {
 			groupsInQueue.add(new QueueObject(1, queueID));
 		}
 		
-		
-/*		// Generate QueueObjects till max 
-		for(int i = groupsInQueue.size(); i< maxQueueLength; i++)
-		{
-			if(maxGroupSize > 1)
-			{
-				// Generate random number between 1 and 8
-				groupsInQueue.add(new QueueObject(rand.nextInt(maxGroupSize) + minGroupSize,queueID));
-			}
-			
-			else
-			{
-				groupsInQueue.add(new QueueObject(1, queueID));
-			}
-		}*/
+
 	}
 	
 	public String GetID()
@@ -107,9 +120,10 @@ public class Queue implements Tick_Listener {
 
 
 	@Override
-	public void Event_Tick(int timePassed) {
-		// TODO Auto-generated method stub
-		
+	public void Event_Tick(int timePassed)
+	{
+		try {GenerateQueueObjects();}
+		catch (Exception e) {e.printStackTrace();}
 	}
 	 
 	

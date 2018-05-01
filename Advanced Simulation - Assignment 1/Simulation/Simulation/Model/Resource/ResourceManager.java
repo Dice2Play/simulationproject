@@ -10,14 +10,14 @@ import Simulation.Model.Time.TimeManager;
 public class ResourceManager implements Tick_Listener {
 
 	private static List<Resource> resources = new ArrayList<Resource>();
-	private static TimeManager timeManager = new TimeManager();
+
 	
 	
 	public ResourceManager()
 	{
 		
 		// Set listeners
-		timeManager.AddTickListener(this);
+		TimeManager.AddTickListener(this);
 	}
 
 	@Override

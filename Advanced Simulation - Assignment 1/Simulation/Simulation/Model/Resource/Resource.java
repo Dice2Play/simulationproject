@@ -11,7 +11,6 @@ public class Resource {
 	private boolean available = true;
 	private String ID;
 	private Resource_Type type;
-	private TimeManager timeManager = new TimeManager();
 	
 	
 	public Resource(String ID, Resource_Type type)
@@ -22,7 +21,7 @@ public class Resource {
 	
 	public void Seize(int timeUnitsRequired, int capacityNeeded)
 	{
-		startTimeOccupied = timeManager.GetTimeUnitsPassed();
+		startTimeOccupied = TimeManager.GetTimeUnitsPassed();
 		endTimeOccupied = startTimeOccupied + timeUnitsRequired; 
 		SetAvailable(false);
 	}
@@ -34,7 +33,7 @@ public class Resource {
 	
 	public boolean CanRelease()
 	{
-		return timeManager.GetTimeUnitsPassed() > endTimeOccupied;
+		return TimeManager.GetTimeUnitsPassed() > endTimeOccupied;
 	}
 	
 	public void Release()

@@ -11,7 +11,7 @@ public class QueueObject implements Tick_Listener{
 	private int boardingTime;
 	private int leaveTime;
 	private final String queueID;
-	private TimeManager timeManager = new TimeManager();
+
 	private boolean isSeized;
 	 
 	
@@ -19,7 +19,7 @@ public class QueueObject implements Tick_Listener{
 	{
 		this.groupSize = groupSize;
 		this.queueID = queueID;
-		this.arrivalTime = timeManager.GetTimeUnitsPassed();
+		this.arrivalTime = TimeManager.GetTimeUnitsPassed();
 	}
 	
 	public int GetGroupSize()
@@ -53,13 +53,13 @@ public class QueueObject implements Tick_Listener{
 		SetIsSeized(true);
 		
 		// Set boarding time
-		SetBoardingTime(timeManager.GetTimeUnitsPassed());
+		SetBoardingTime(TimeManager.GetTimeUnitsPassed());
 		
 		// Set leave time
-		SetLeaveTime(timeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
+		SetLeaveTime(TimeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
 		
 		// Set event listener
-		timeManager.AddTickListener(this);
+		TimeManager.AddTickListener(this);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class QueueObject implements Tick_Listener{
 				SetIsSeized(false);
 				
 				// Remove from tick listener
-				timeManager.RemoveTickListener(this);	
+				TimeManager.RemoveTickListener(this);	
 			}
 
 		}
