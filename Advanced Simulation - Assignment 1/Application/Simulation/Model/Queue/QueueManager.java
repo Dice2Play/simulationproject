@@ -35,12 +35,7 @@ public class QueueManager {
 	
 	private static List<Queue> ReturnOrderedQueuesByHighPriority()
 	{
-		List<Queue> returnOrderedList = new ArrayList<Queue>();
-		
-		for(Queue q:  queues)
-		{
-			
-		}
+		List<Queue> orderedArray = queues.
 		
 		return null;
 	}
@@ -48,7 +43,13 @@ public class QueueManager {
 		
 }
 
-private class SortByQueuePriority implements Comparator<Queue_Priority>
+class SortByQueuePriority implements Comparator<Queue_Priority>
 {
+
+	@Override
+	public int compare(Queue_Priority arg0, Queue_Priority arg1) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }
