@@ -86,6 +86,12 @@ public class Model implements Tick_Listener {
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
 		if(QueueManager.CheckIfAnyQueueObjectCanBeReleased()) {QueueManager.ReleaseQueueObjects();}
 	}
+
+	public void Reset() {
+		QueueManager.Reset();
+		ResourceManager.Reset();
+		TimeManager.Reset();
+	}
 	
 	
 }

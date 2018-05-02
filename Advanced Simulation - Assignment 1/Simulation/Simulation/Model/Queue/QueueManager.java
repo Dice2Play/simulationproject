@@ -126,6 +126,11 @@ public class QueueManager {
 		}
 	}
 
+	public static void Reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 		
 }

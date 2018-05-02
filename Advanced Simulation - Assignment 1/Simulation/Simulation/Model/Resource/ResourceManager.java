@@ -95,6 +95,11 @@ public class ResourceManager {
 	{
 		return type.GetCapacity();
 	}
+
+	public static void Reset() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	
