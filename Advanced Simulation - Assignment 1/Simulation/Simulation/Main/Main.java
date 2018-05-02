@@ -1,4 +1,4 @@
-package Simulation.Application;
+package Simulation.Main;
 
 public class Main {
 
