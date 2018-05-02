@@ -18,9 +18,14 @@ public class ResultManager {
 		results.add(result);
 	}
 	
-	public static void ShowResults()
+	public static void ShowAllResults()
 	{
 		results.forEach(x -> x.Print());
+	}
+	
+	public static void ShowSummary()
+	{
+		
 	}
 	
 	public static void ExportToCSV()

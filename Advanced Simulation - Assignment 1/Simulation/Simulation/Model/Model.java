@@ -38,15 +38,7 @@ public class Model implements Tick_Listener {
 		
 		// Create Resources/Queue/Processes
 		ResourceManager.AddResource(new Boat[] {new Boat("BOAT_1"),
-												new Boat("BOAT_2"),
-												new Boat("BOAT_3"),
-												new Boat("BOAT_4"),
-												new Boat("BOAT_5"),
-												new Boat("BOAT_6"),
-												new Boat("BOAT_7"),
-												new Boat("BOAT_8"),
-												new Boat("BOAT_9"),
-												new Boat("BOAT_10")});
+												new Boat("BOAT_2")});
 		
 		
 		QueueManager.AddQueue(new Queue[] {		new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"),
@@ -101,8 +93,8 @@ public class Model implements Tick_Listener {
 	
 	private void Report()
 	{
-		// Nothing of interest at timeUnit 0
-		if(amountOfTimeUnitsPassed > 0)
-		ResultManager.AddResults(new Result);
+		// Nothing of interest at timeUnit 0, so skip.
+		//if(amountOfTimeUnitsPassed > 0)
+		//ResultManager.AddResults(new Result);
 	}
 }

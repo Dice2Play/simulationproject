@@ -2,17 +2,27 @@ package Simulation.Results;
 
 public class Result {
 
-	private final int meanWaitingTImeCustomer;
+	// General
+	private final int waitingTimeArbitraryCustomer;
+	private final int totalQueueLength;
+	private final double boatOccupancy;
 	
 	
-	
-	public Result()
+	public Result(	int waitingTimeArbitraryCustomer, 
+					int totalQueueLength,
+					double boatOccupancy)
 	{
-		
+		this.waitingTimeArbitraryCustomer = waitingTimeArbitraryCustomer;
+		this.totalQueueLength = totalQueueLength;
+		this.boatOccupancy = boatOccupancy;
 	}
 	
 	public void Print()
 	{
 		
 	}
+	
+	
 }
+
+

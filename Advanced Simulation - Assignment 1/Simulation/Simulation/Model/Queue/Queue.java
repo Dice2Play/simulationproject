@@ -25,7 +25,8 @@ public class Queue implements Tick_Listener {
 		this.queueingPriority = queueingPriority;
 		this.queueID = queueID;
 		
-		
+		// Set listener
+		TimeManager.AddTickListener(this);
 	}
 	
 	public void SeizeFirstQueueObject(int amountOfTimeToSeize)
