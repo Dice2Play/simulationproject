@@ -97,8 +97,7 @@ public class ResourceManager {
 	}
 
 	public static void Reset() {
-		// TODO Auto-generated method stub
-		
+		resources = new ArrayList<Resource>();
 	}
 	
 	

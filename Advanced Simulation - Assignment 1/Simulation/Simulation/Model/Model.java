@@ -9,6 +9,8 @@ import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.Boat;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
+import Simulation.Results.Result;
+import Simulation.Results.ResultManager;
 import Simulation.Interfaces.*;
 import Simulation.Model.Resource.*;
 
@@ -62,6 +64,9 @@ public class Model implements Tick_Listener {
 			// Print amount of time units passed
 			TimeManager.PrintAmountOfTimePassed();
 			
+			// Save results from previous timeUnit
+			Report();
+			
 			// Check if ProcessManager can fire any process
 			// If so, fire processes
 			if(ProcessManager.CanFire()){ ProcessManager.Fire();}
@@ -91,7 +96,13 @@ public class Model implements Tick_Listener {
 		QueueManager.Reset();
 		ResourceManager.Reset();
 		TimeManager.Reset();
+		ProcessManager.Reset();
 	}
 	
-	
+	private void Report()
+	{
+		// Nothing of interest at timeUnit 0
+		if(amountOfTimeUnitsPassed > 0)
+		ResultManager.AddResults(new Result);
+	}
 }

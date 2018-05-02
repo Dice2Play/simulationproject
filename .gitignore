@@ -2,3 +2,36 @@
 /.recommenders/
 TEMP/src/Main_Non_Struct.java
 TEMP/src/Main_Struct.java
+TEMP/.settings/org.eclipse.jdt.core.prefs
+TEMP/.classpath
+TEMP/.project
+Advanced Simulation - Assignment 1/.metadata/.lock
+Advanced Simulation - Assignment 1/.metadata/.log
+Advanced Simulation - Assignment 1/.metadata/.mylyn/.taskListIndex/segments_1
+Advanced Simulation - Assignment 1/.metadata/.mylyn/.tasks.xml.zip
+Advanced Simulation - Assignment 1/.metadata/.mylyn/.taskListIndex/write.lock
+Advanced Simulation - Assignment 1/.metadata/.mylyn/repositories.xml.zip
+*.zip
+*.version
+*.index
+*.tree
+*.resources
+*.prefs
+*.xmi
+Advanced Simulation - Assignment 1/.metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/http-cache.lucene60/segments_1
+*.lock
+*.cfe
+*.cfs
+*.si
+Advanced Simulation - Assignment 1/.metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history.lucene60/segments_1
+*.json
+Advanced Simulation - Assignment 1/.metadata/.plugins/org.eclipse.jdt.core/assumedExternalFilesCache
+Advanced Simulation - Assignment 1/.metadata/.plugins/org.eclipse.jdt.core/externalFilesCache
+*.db
+Advanced Simulation - Assignment 1/.metadata/.plugins/org.eclipse.jdt.core/nonChainingJarsCache
+*.dat
+*.xml
+*.log
+*.setup
+Advanced Simulation - Assignment 1/.metadata/.plugins/org.eclipse.ui.intro/introstate
+*.ini

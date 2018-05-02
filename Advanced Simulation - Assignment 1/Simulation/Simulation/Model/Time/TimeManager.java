@@ -25,6 +25,7 @@ public class TimeManager  {
 	
 	public static void Reset()
 	{
+		tickListeners = new ArrayList<Tick_Listener>();
 		timeUnitsPassed = 0;
 	}
 	

@@ -20,9 +20,15 @@ public class Scenario {
 	{
 		for(int amountOfReplicationsRan = 0; amountOfReplicationsRan < amountOfSimulationsToRun; amountOfReplicationsRan++)
 		{
+			// Set ResultManager
+			
+			
+			// Create/Run/Reset Model
 			Model model = new Model(timeUnitsToRun);
 			model.Run();
 			model.Reset();
+			
+			// Print current replication
 			System.out.println("End of simulation ["+amountOfReplicationsRan+"]");
 			
 			

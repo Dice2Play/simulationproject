@@ -1,6 +1,6 @@
 package Simulation.Main;
 
-import Simulation.Results.Results;
+import Simulation.Results.ResultManager;
 
 public class Main {
 
@@ -11,7 +11,7 @@ public class Main {
 		scenario_1.Run();
 		
 		
-		Results.ShowResults();
+		ResultManager.ShowResults();
 		
 		
 		
