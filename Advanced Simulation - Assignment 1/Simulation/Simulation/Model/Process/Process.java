@@ -12,8 +12,6 @@ public class Process {
 
 	private final String ID;
 	private final int processTime; // Amount of time-units needed for completing process. 
-	private final ResourceManager resourceManager = new ResourceManager();
-	private final QueueManager queueManager = new QueueManager();
 	private final Resource_Type type; 
 	
 	
@@ -26,14 +24,17 @@ public class Process {
 	
 	public boolean CanFire()
 	{
-		return resourceManager.CheckForAvailableResource(type);
+		return ResourceManager.CheckForAvailableResource(type);
 	}
 	
 	public void Fire()
 	{
 		// Fire process
-		//resourceManager.SeizeResource(type, queueObject.GetGroupSize(), processTime, ID);
-		//queueManager.SeizeQueueObject(queueObject.GetQueueID(), processTime, int );
+		int resourceCapacityFilled = QueueManager.SeizeQueueObject(processTime, ResourceManager.GetCapacityOfResource(type));
+		ResourceManager.SeizeResource(type, resourceCapacityFilled, processTime, ID);
+		
+		
+		
 	}
 	
 	

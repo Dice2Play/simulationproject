@@ -4,14 +4,14 @@ package Simulation.Model.Queue;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
-public class QueueObject implements Tick_Listener{
+public class QueueObject{
 
 	private int groupSize;
 	private int arrivalTime;
 	private int boardingTime;
 	private int leaveTime;
 	private final String queueID;
-	private TimeManager timeManager = new TimeManager();
+
 	private boolean isSeized;
 	 
 	
@@ -19,7 +19,7 @@ public class QueueObject implements Tick_Listener{
 	{
 		this.groupSize = groupSize;
 		this.queueID = queueID;
-		this.arrivalTime = timeManager.GetTimeUnitsPassed();
+		this.arrivalTime = TimeManager.GetTimeUnitsPassed();
 	}
 	
 	public int GetGroupSize()
@@ -53,40 +53,24 @@ public class QueueObject implements Tick_Listener{
 		SetIsSeized(true);
 		
 		// Set boarding time
-		SetBoardingTime(timeManager.GetTimeUnitsPassed());
+		SetBoardingTime(TimeManager.GetTimeUnitsPassed());
 		
 		// Set leave time
-		SetLeaveTime(timeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
-		
-		// Set event listener
-		timeManager.AddTickListener(this);
-	}
-
-	@Override
-	public void Event_Tick(int timePassed) {
-
-		if(isSeized)
-		{
-			// Check if time passed
-			if(timePassed > leaveTime)
-			{
-				// Results
-				
-				// isSeized back to false
-				SetIsSeized(false);
-				
-				// Remove from tick listener
-				timeManager.RemoveTickListener(this);	
-			}
-
-		}
-		
+		SetLeaveTime(TimeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
 	}
 	
+	public boolean CanRelease()
+	{
+		return TimeManager.GetTimeUnitsPassed() > leaveTime;
+	}
 	
-	
-	
-	
-	
+	public void Release()
+	{
+		// Update statistics
+		
+
+	}
+
+		
 	
 }

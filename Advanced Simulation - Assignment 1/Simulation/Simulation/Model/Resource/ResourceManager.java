@@ -7,27 +7,10 @@ import Simulation.Enums.Resource_Type;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
-public class ResourceManager implements Tick_Listener {
+public class ResourceManager {
 
 	private static List<Resource> resources = new ArrayList<Resource>();
-	private static TimeManager timeManager = new TimeManager();
-	
-	
-	public ResourceManager()
-	{
-		
-		// Set listeners
-		timeManager.AddTickListener(this);
-	}
 
-	@Override
-	public void Event_Tick(int timePassed) {
-		// Check if any resource can be released
-		if(CheckIfAnyResourceCanBeReleased())
-		{
-			ReleaseResources();
-		}
-	}
 	
 	public static void AddResource(Resource[] resourcesToAdd)
 	{
@@ -81,7 +64,7 @@ public class ResourceManager implements Tick_Listener {
 		}
 	}
 	
-	private static boolean CheckIfAnyResourceCanBeReleased()
+	public static boolean CheckIfAnyResourceCanBeReleased()
 	{
 		for(Resource res : resources)
 		{
@@ -95,16 +78,15 @@ public class ResourceManager implements Tick_Listener {
 		return false;
 	}
 	
-	private static void ReleaseResources()
+	public static void ReleaseResources()
 	{
 		for(Resource res : resources)
 		{
-			
 			// If resource is not available but can release, release resource
 			if(res.CanRelease() && (!res.IsAvailable())) 
 			{
 				res.Release();
-				System.out.println("Resource ["+res.GetID()+"] has been released.");
+				System.out.println("RESOURCE MANAGER: resource ["+res.GetID()+"] has been released.");
 			}
 		}
 	}
