@@ -15,7 +15,7 @@ public class Queue implements Tick_Listener {
 	private final Queue_Priority queueingPriority;
 	private final int maxGroupSize;
 	private final String queueID;
-	private final TimeManager timeManager = new TimeManager();
+	
 	
 	private LinkedList<QueueObject> groupsInQueue = new LinkedList<QueueObject>();
 	
@@ -25,8 +25,6 @@ public class Queue implements Tick_Listener {
 		this.queueingPriority = queueingPriority;
 		this.queueID = queueID;
 		
-		// Set listeners
-		timeManager.AddTickListener(this);
 		
 	}
 	

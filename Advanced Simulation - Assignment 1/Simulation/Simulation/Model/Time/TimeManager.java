@@ -23,6 +23,13 @@ public class TimeManager  {
 		FireTickListeners(); 
 	}
 	
+	public static void Reset()
+	{
+		tickListeners = new ArrayList<Tick_Listener>();
+		timeUnitsPassed = 0;
+	}
+	
+	
 	// Add subscriber to tick event
 	public static void AddTickListener(Tick_Listener listener)
 	{

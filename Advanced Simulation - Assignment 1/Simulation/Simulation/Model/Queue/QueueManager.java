@@ -126,6 +126,11 @@ public class QueueManager {
 		}
 	}
 
+	public static void Reset() {
+		queues = new ArrayList<Queue>();
+		
+	}
+
 
 		
 }

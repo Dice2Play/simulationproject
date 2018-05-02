@@ -41,4 +41,9 @@ public class ProcessManager {
 		}
 	}
 	
+	public static void Reset()
+	{
+		processes = new ArrayList<Process>();
+	}
+	
 }

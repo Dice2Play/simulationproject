@@ -1,6 +1,5 @@
 package Simulation.Main;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import Simulation.Model.*;
 
@@ -8,13 +7,12 @@ public class Scenario {
 	
 	private int timeUnitsToRun;
 	private int amountOfSimulationsToRun;
-	private List<Model> replications = new ArrayList<Model>();
 	
-	public Scenario(int timeUnitsToRun, int amountOfSimulations)
+	public Scenario(int timeUnitsToRun, int amountOfSimulationsToRun)
 	{
 		// Set fields
 		this.timeUnitsToRun = timeUnitsToRun;
-		this.amountOfSimulationsToRun = amountOfSimulations;
+		this.amountOfSimulationsToRun = amountOfSimulationsToRun;
 
 	}
 	
@@ -22,9 +20,18 @@ public class Scenario {
 	{
 		for(int amountOfReplicationsRan = 0; amountOfReplicationsRan < amountOfSimulationsToRun; amountOfReplicationsRan++)
 		{
+			// Set ResultManager
+			
+			
+			// Create/Run/Reset Model
 			Model model = new Model(timeUnitsToRun);
 			model.Run();
-			replications.add(model);
+			model.Reset();
+			
+			// Print current replication
+			System.out.println("End of simulation ["+amountOfReplicationsRan+"]");
+			
+			
 		}
 	}
 	
