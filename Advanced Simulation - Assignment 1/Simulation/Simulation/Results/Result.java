@@ -21,6 +21,18 @@ public class Result {
 	{
 		
 	}
+
+	public int GetWaitingTimeArbitraryCustomer() {
+		return waitingTimeArbitraryCustomer;
+	}
+
+	public int GetTotalQueueLength() {
+		return totalQueueLength;
+	}
+
+	public double GetBoatOccupancy() {
+		return boatOccupancy;
+	}
 	
 	
 }

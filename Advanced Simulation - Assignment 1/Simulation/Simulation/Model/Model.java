@@ -94,7 +94,10 @@ public class Model implements Tick_Listener {
 	private void Report()
 	{
 		// Nothing of interest at timeUnit 0, so skip.
-		//if(amountOfTimeUnitsPassed > 0)
-		//ResultManager.AddResults(new Result);
+		if(amountOfTimeUnitsPassed > 0)
+		ResultManager.AddResults(new Result(2,2,2.0));
+		
+		// QueueManager getWaitingTime etc in result
+		
 	}
 }
