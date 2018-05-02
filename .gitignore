@@ -35,3 +35,7 @@ Advanced Simulation - Assignment 1/.metadata/.plugins/org.eclipse.jdt.core/nonCh
 *.setup
 Advanced Simulation - Assignment 1/.metadata/.plugins/org.eclipse.ui.intro/introstate
 *.ini
+TEMP/.settings/org.eclipse.jdt.core.prefs
+TEMP/.classpath
+TEMP/.project
+TEMP/.settings/org.eclipse.jdt.core.prefs
