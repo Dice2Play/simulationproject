@@ -7,10 +7,13 @@ import java.util.List;
 
 
 import Simulation.Enums.Queue_Priority;
+import Simulation.Interfaces.Tick_Listener;
+import Simulation.Model.Resource.Resource;
+import Simulation.Model.Time.TimeManager;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class QueueManager {
-
+	
 	private static List<Queue> queues = new ArrayList<Queue>();
 		
 	public static void AddQueue(Queue[] queuesToAdd)
@@ -20,20 +23,6 @@ public class QueueManager {
 			queues.add(q);
 		}
 	}
-			
-/*	private static List<Queue> ReturnOrderedQueuesByHighPriority()
-	{
-		// Create copy
-		List<Queue> orderedQueueArrayList = new ArrayList<Queue>();
-		queues.forEach(q -> orderedQueueArrayList.add(q));
-		
-		// Sort 
-		orderedQueueArrayList.sort(new SortByQueuePriority());
-		
-		// Return list
-		return orderedQueueArrayList;
-	}
-	*/
 
 	// Returns amount of spots seized
 	public static int SeizeQueueObject(int seizeTime, int capacity ) 
@@ -83,7 +72,7 @@ public class QueueManager {
 				}
 				
 				
-				
+								
 				// Finally return amount of spots taken
 				return amountOfSpotsTaken;
 			}
@@ -112,15 +101,32 @@ public class QueueManager {
 		throw new Exception("No queue with given criteria could be found.");
 	}
 	
+	public static boolean CheckIfAnyQueueObjectCanBeReleased()
+	{
+		for(Queue q : queues)
+		{
+			if(q.CanRelease())
+			{
+				return true;
+			}
+		}
+		
+		// If no resources can be released
+		return false;
+	}
+	
+	public static void ReleaseQueueObjects()
+	{
+		for(Queue q : queues)
+		{
+			if(q.CanRelease())
+			{
+				q.Release();
+			}
+		}
+	}
+
 
 		
 }
 
-class SortByQueuePriority implements Comparator<Queue>
-{
-	@Override
-	public int compare(Queue queue_arg0, Queue queue_arg1) {
-		return queue_arg0.GetQueuePriority().getLevelCode() - queue_arg1.GetQueuePriority().getLevelCode();
-	}
-	
-}

@@ -30,8 +30,10 @@ public class Process {
 	public void Fire()
 	{
 		// Fire process
-		int resourceCapacityFilled = QueueManager.SeizeQueueObject(queueObject.GetQueueID(), processTime, int );
+		int resourceCapacityFilled = QueueManager.SeizeQueueObject(processTime, ResourceManager.GetCapacityOfResource(type));
 		ResourceManager.SeizeResource(type, resourceCapacityFilled, processTime, ID);
+		
+		
 		
 	}
 	

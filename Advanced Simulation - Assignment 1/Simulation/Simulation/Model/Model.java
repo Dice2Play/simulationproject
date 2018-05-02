@@ -28,6 +28,7 @@ public class Model implements Tick_Listener {
 		
 		// Set listeners
 		TimeManager.AddTickListener(this);
+
 	}
 	
 	private void Create()
@@ -63,7 +64,7 @@ public class Model implements Tick_Listener {
 			
 			// Check if ProcessManager can fire any process
 			// If so, fire processes
-			while(ProcessManager.CanFire()){ ProcessManager.Fire();}
+			if(ProcessManager.CanFire()){ ProcessManager.Fire();}
 			
 			// increment timeUnit, such that subscribed resourceManager can release resources.
 			TimeManager.Tick();
@@ -81,6 +82,9 @@ public class Model implements Tick_Listener {
 	@Override
 	public void Event_Tick(int timePassed) {
 		SetTimePassed(timePassed);	
+		
+		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
+		if(QueueManager.CheckIfAnyQueueObjectCanBeReleased()) {QueueManager.ReleaseQueueObjects();}
 	}
 	
 	

@@ -30,7 +30,6 @@ public class Queue implements Tick_Listener {
 		
 	}
 	
-	
 	public void SeizeFirstQueueObject(int amountOfTimeToSeize)
 	{
 		// Get first object
@@ -63,7 +62,7 @@ public class Queue implements Tick_Listener {
 	// Return if queue has another queuobject
 	public boolean HasNextQueueObject()
 	{
-		return groupsInQueue.isEmpty();
+		return !groupsInQueue.isEmpty();
 	}
 	
 	private void GenerateQueueObjects() throws Exception
@@ -118,14 +117,32 @@ public class Queue implements Tick_Listener {
 		return queueID;
 	}
 
-
 	@Override
 	public void Event_Tick(int timePassed)
 	{
 		try {GenerateQueueObjects();}
 		catch (Exception e) {e.printStackTrace();}
 	}
-	 
+	
+	public void Release()
+	{
+		for(QueueObject qo : groupsInQueue)
+		{
+			if(qo.CanRelease()) {qo.Release();}
+		}
+	}
+	
+	// Check if any queueObject can be released
+	public boolean CanRelease()
+	{
+		for(QueueObject qo : groupsInQueue)
+		{
+			if(qo.CanRelease()) {return true;}
+		}
+		
+		// If no queueobject can be released
+		return false;
+	}
 	
 	
 }

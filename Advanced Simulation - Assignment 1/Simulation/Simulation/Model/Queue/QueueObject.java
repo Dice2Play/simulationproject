@@ -4,7 +4,7 @@ package Simulation.Model.Queue;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
-public class QueueObject implements Tick_Listener{
+public class QueueObject{
 
 	private int groupSize;
 	private int arrivalTime;
@@ -57,36 +57,20 @@ public class QueueObject implements Tick_Listener{
 		
 		// Set leave time
 		SetLeaveTime(TimeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
-		
-		// Set event listener
-		TimeManager.AddTickListener(this);
-	}
-
-	@Override
-	public void Event_Tick(int timePassed) {
-
-		if(isSeized)
-		{
-			// Check if time passed
-			if(timePassed > leaveTime)
-			{
-				// Results
-				
-				// isSeized back to false
-				SetIsSeized(false);
-				
-				// Remove from tick listener
-				TimeManager.RemoveTickListener(this);	
-			}
-
-		}
-		
 	}
 	
+	public boolean CanRelease()
+	{
+		return TimeManager.GetTimeUnitsPassed() > leaveTime;
+	}
 	
-	
-	
-	
-	
+	public void Release()
+	{
+		// Update statistics
+		
+
+	}
+
+		
 	
 }
