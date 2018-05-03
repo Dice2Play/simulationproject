@@ -11,11 +11,7 @@ public class Main {
 		scenario_1.Run();
 		
 		
-		ResultManager.ShowResults();
-		
-		
-		
-		
+		ResultManager.ShowAllResults();	
 
 	}
 
