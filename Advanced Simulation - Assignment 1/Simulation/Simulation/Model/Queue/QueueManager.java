@@ -15,9 +15,9 @@ public class QueueManager {
 	
 	private static List<Queue> queues = new ArrayList<Queue>();
 		
-	public static void AddQueue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
+	public static void AddQueue(Queue queue)
 	{
-		queues.add(new Queue(queueingPriority, minGroupSize, maxGroupSize, queueID));
+		queues.add(queue);
 	}
 
 	// Returns amount of spots seized

@@ -35,9 +35,9 @@ public class ProcessManager {
 		}
 	}
 	
-	public static void AddProcess(String ID, int processTime, Resource_Type type)
+	public static void AddProcess(Process process)
 	{
-			processes.add(new Process(ID,processTime,type));
+			processes.add(process);
 	}
 	
 	public static void Reset()
