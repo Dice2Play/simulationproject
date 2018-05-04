@@ -10,7 +10,7 @@ import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
-class Queue implements Tick_Listener {
+public class Queue implements Tick_Listener {
 
 	private final Queue_Priority queueingPriority;
 	private final int maxGroupSize;
@@ -19,7 +19,7 @@ class Queue implements Tick_Listener {
 	
 	private LinkedList<QueueObject> groupsInQueue = new LinkedList<QueueObject>();
 	
-	Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
+	public Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
 	{
 		this.maxGroupSize = maxGroupSize;
 		this.queueingPriority = queueingPriority;
@@ -64,7 +64,7 @@ class Queue implements Tick_Listener {
 		return !groupsInQueue.isEmpty();
 	}
 	
-	private void GenerateQueueObjects() throws Exception
+	void GenerateQueueObjects() throws Exception
 	{
 		// Check if group queue yes/no
 		if(maxGroupSize > 1)

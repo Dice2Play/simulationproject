@@ -3,7 +3,7 @@ package Simulation.Model.Resource;
 import Simulation.Enums.Resource_Type;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-class Boat extends Resource{
+public class Boat extends Resource{
 
 	final int capacity = 8;
 	int amountOfPlacesTaken = 0;
@@ -14,7 +14,7 @@ class Boat extends Resource{
 		super(ID, Resource_Type.BOAT);	
 	}
 	
-	public void Seize(int timeUnitsRequired, int capacityNeeded)
+	void Seize(int timeUnitsRequired, int capacityNeeded)
 	{
 		// Call parent method
 		super.Seize(timeUnitsRequired, capacityNeeded);
@@ -25,7 +25,7 @@ class Boat extends Resource{
 	}
 	
 	// Seize spots
-	public void SeizeSpots(int amountOfSpots)
+	void SeizeSpots(int amountOfSpots)
 	{
 		amountOfPlacesTaken = amountOfPlacesTaken + amountOfSpots;
 	}

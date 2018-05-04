@@ -12,17 +12,9 @@ public class ResourceManager {
 	private static List<Resource> resources = new ArrayList<Resource>();
 
 	
-	public static void AddResource(Resource_Type type, String ID)
+	public static void AddResource(Resource resource)
 	{
-		switch (type)
-		{
-			case BOAT:  resources.add(new Boat(ID)); break;
-			
-		}
-			
-			
-		
-		
+		resources.add(resource); 
 	}
 	
 	public static boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)
