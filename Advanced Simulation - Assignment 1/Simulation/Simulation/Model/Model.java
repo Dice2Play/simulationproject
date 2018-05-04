@@ -4,9 +4,7 @@ import Simulation.Enums.Queue_Priority;
 import Simulation.Enums.Resource_Type;
 import  Simulation.Interfaces.*;
 import Simulation.Model.Process.ProcessManager;
-import Simulation.Model.Queue.Queue;
 import Simulation.Model.Queue.QueueManager;
-import Simulation.Model.Resource.Boat;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
 import Simulation.Results.Result;
@@ -37,15 +35,16 @@ public class Model implements Tick_Listener {
 	{
 		
 		// Create Resources/Queue/Processes
-		ResourceManager.AddResource(new Boat[] {new Boat("BOAT_1"),
-												new Boat("BOAT_2")});
+		// Resources
+		ResourceManager.AddResource(Resource_Type.BOAT, "BOAT_1");
+		ResourceManager.AddResource(Resource_Type.BOAT, "BOAT_2");
 		
+		// Queue's
+		QueueManager.AddQueue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE");
+		QueueManager.AddQueue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE");
 		
-		QueueManager.AddQueue(new Queue[] {		new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"),
-												new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE") });
-		
-		
-		ProcessManager.AddProcess(new Simulation.Model.Process.Process[] { new Simulation.Model.Process.Process("Boattrip", 4 , Resource_Type.BOAT)});
+		// Processes
+		ProcessManager.AddProcess("Boattrip", 4 , Resource_Type.BOAT);
 		
 	}
 	

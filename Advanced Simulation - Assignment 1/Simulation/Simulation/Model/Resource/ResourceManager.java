@@ -12,12 +12,16 @@ public class ResourceManager {
 	private static List<Resource> resources = new ArrayList<Resource>();
 
 	
-	public static void AddResource(Resource[] resourcesToAdd)
+	public static void AddResource(Resource_Type type, String ID)
 	{
-		for(Resource resource: resourcesToAdd)
+		switch (type)
 		{
-			resources.add(resource);
+			case BOAT:  resources.add(new Boat(ID)); break;
+			
 		}
+			
+			
+		
 		
 	}
 	

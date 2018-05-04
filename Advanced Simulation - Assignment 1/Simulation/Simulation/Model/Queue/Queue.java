@@ -10,7 +10,7 @@ import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
-public class Queue implements Tick_Listener {
+class Queue implements Tick_Listener {
 
 	private final Queue_Priority queueingPriority;
 	private final int maxGroupSize;
@@ -19,7 +19,7 @@ public class Queue implements Tick_Listener {
 	
 	private LinkedList<QueueObject> groupsInQueue = new LinkedList<QueueObject>();
 	
-	public Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
+	Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
 	{
 		this.maxGroupSize = maxGroupSize;
 		this.queueingPriority = queueingPriority;
@@ -29,7 +29,7 @@ public class Queue implements Tick_Listener {
 		TimeManager.AddTickListener(this);
 	}
 	
-	public void SeizeFirstQueueObject(int amountOfTimeToSeize)
+	void SeizeFirstQueueObject(int amountOfTimeToSeize)
 	{
 		// Get first object
 		QueueObject firstQueueObject = FirstQueueObject();
@@ -41,25 +41,25 @@ public class Queue implements Tick_Listener {
 		groupsInQueue.remove(firstQueueObject);		
 	}
 	
-	public Queue_Priority GetQueuePriority()
+	Queue_Priority GetQueuePriority()
 	{
 		return queueingPriority;
 	}
 	
 	// Return size of NextQueueObject
-	public int GroupSizeNextQueueObject()
+	int GroupSizeNextQueueObject()
 	{
 		return groupsInQueue.getFirst().GetGroupSize();
 	}
 	
 	// Retrieve first QueueObject
-	public QueueObject FirstQueueObject()
+	QueueObject FirstQueueObject()
 	{
 		return groupsInQueue.getFirst();
 	}
 	
 	// Return if queue has another queuobject
-	public boolean HasNextQueueObject()
+	boolean HasNextQueueObject()
 	{
 		return !groupsInQueue.isEmpty();
 	}
@@ -111,7 +111,7 @@ public class Queue implements Tick_Listener {
 
 	}
 	
-	public String GetID()
+	String GetID()
 	{
 		return queueID;
 	}
@@ -123,7 +123,7 @@ public class Queue implements Tick_Listener {
 		catch (Exception e) {e.printStackTrace();}
 	}
 	
-	public void Release()
+	void Release()
 	{
 		for(QueueObject qo : groupsInQueue)
 		{
@@ -132,7 +132,7 @@ public class Queue implements Tick_Listener {
 	}
 	
 	// Check if any queueObject can be released
-	public boolean CanRelease()
+	boolean CanRelease()
 	{
 		for(QueueObject qo : groupsInQueue)
 		{
