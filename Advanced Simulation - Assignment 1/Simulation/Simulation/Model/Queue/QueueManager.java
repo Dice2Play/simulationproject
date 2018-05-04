@@ -8,7 +8,6 @@ import java.util.List;
 
 import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
-import Simulation.Model.Resource.Resource;
 import Simulation.Model.Time.TimeManager;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -16,12 +15,9 @@ public class QueueManager {
 	
 	private static List<Queue> queues = new ArrayList<Queue>();
 		
-	public static void AddQueue(Queue[] queuesToAdd)
+	public static void AddQueue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
 	{
-		for(Queue q : queuesToAdd)
-		{
-			queues.add(q);
-		}
+		queues.add(new Queue(queueingPriority, minGroupSize, maxGroupSize, queueID));
 	}
 
 	// Returns amount of spots seized
