@@ -1,6 +1,6 @@
 package Simulation.Results;
 
-public class SingleRiderResult extends Result
+class SingleRiderResult extends Result
 {
 	
 	
