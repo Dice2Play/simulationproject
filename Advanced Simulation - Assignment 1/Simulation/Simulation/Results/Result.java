@@ -1,6 +1,6 @@
 package Simulation.Results;
 
-public class Result {
+class Result {
 
 	// General
 	private final int waitingTimeArbitraryCustomer;
