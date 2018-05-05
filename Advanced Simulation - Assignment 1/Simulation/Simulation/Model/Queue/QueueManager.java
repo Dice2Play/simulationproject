@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
+import java.util.Random;
 
 import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
@@ -97,36 +97,65 @@ public class QueueManager {
 		throw new Exception("No queue with given criteria could be found.");
 	}
 	
-	public static boolean CheckIfAnyQueueObjectCanBeReleased()
-	{
-		for(Queue q : queues)
-		{
-			if(q.CanRelease())
-			{
-				return true;
-			}
-		}
-		
-		// If no resources can be released
-		return false;
-	}
-	
-	public static void ReleaseQueueObjects()
-	{
-		for(Queue q : queues)
-		{
-			if(q.CanRelease())
-			{
-				q.Release();
-			}
-		}
-	}
 
 	public static void Reset() {
 		queues = new ArrayList<Queue>();
-		
 	}
 
+	
+	public static double GetWaitingTimeArbitraryCustomer()
+	{
+		// Check if there are any queueObjects, if not return 0.
+		if(CheckIfThereAreAnyQueueObjects() == false) {return 0.0;}
+		
+		Random r = new Random();
+		
+		// Get a random queue
+		boolean hasValidQueue = false;
+		Queue queue = null;
+		
+		// Could be that it picks an empty queue
+		while(!hasValidQueue)
+		{
+			queue = queues.get(r.nextInt(queues.size()));
+			
+			if(queue.HasNextQueueObject()) { hasValidQueue = true;}
+		}
+		
+		// Get a random queueobject
+		QueueObject queueObject = queue.GetQueueObjectList().get(r.nextInt(queue.GetQueueObjectList().size()));
+		
+		// Get waiting time
+		return queueObject.GetWaitingTime();
+	}
+	
+	public static double GetTotalQueueLength()
+	{
+		double totalNumberOfPeopleWaiting = 0;
+		
+		for(Queue queue : queues)
+		{
+			for(QueueObject queueObject : queue.GetQueueObjectList())
+			{
+				totalNumberOfPeopleWaiting = totalNumberOfPeopleWaiting + queueObject.GetGroupSize();
+			}
+		}
+		
+		return totalNumberOfPeopleWaiting;
+		
+	}
+	
+	private static boolean CheckIfThereAreAnyQueueObjects()
+	{
+		for(Queue queue : queues)
+		{
+			if(queue.HasNextQueueObject()) { return true;}
+		}
+		
+		// Default value
+		return false;
+		
+	}
 
 		
 }

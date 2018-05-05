@@ -83,7 +83,7 @@ public class Model implements Tick_Listener {
 		SetTimePassed(timePassed);	
 		
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
-		if(QueueManager.CheckIfAnyQueueObjectCanBeReleased()) {QueueManager.ReleaseQueueObjects();}
+	
 	}
 
 	public void Reset() {
@@ -97,9 +97,11 @@ public class Model implements Tick_Listener {
 	{
 		// Nothing of interest at timeUnit 0, so skip.
 		if(amountOfTimeUnitsPassed > 0)
-		ResultManager.AddResults(new Result(2,2,2.0));
-		
-		// QueueManager getWaitingTime etc in result
-		
+		{
+			double meanBoatOccupancy = ResourceManager.GetResourceOccupancy();
+			double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
+			double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
+			ResultManager.AddResults(new Result(waitingTimeArbitraryCustomer,meanBoatOccupancy,totalQueuelength));
+		}
 	}
 }

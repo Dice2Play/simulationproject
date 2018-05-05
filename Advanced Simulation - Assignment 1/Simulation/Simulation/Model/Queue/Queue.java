@@ -123,24 +123,10 @@ public class Queue implements Tick_Listener {
 		catch (Exception e) {e.printStackTrace();}
 	}
 	
-	void Release()
+
+	LinkedList<QueueObject> GetQueueObjectList()
 	{
-		for(QueueObject qo : groupsInQueue)
-		{
-			if(qo.CanRelease()) {qo.Release();}
-		}
-	}
-	
-	// Check if any queueObject can be released
-	boolean CanRelease()
-	{
-		for(QueueObject qo : groupsInQueue)
-		{
-			if(qo.CanRelease()) {return true;}
-		}
-		
-		// If no queueobject can be released
-		return false;
+		return groupsInQueue;
 	}
 	
 	

@@ -87,6 +87,17 @@ public class ResourceManager {
 		}
 	}
 	
+	public static double GetResourceOccupancy()
+	{
+		// For each resource, get occupancy
+		List<Double> resourceOccupancies = new ArrayList<Double>();
+		resources.forEach(x -> resourceOccupancies.add(x.GetOccupancy()));
+		
+		// Return mean
+		return Statistics.Statistics.GetMean(resourceOccupancies.toArray());
+		
+	}
+	
 	public static int GetCapacityOfResource(Resource_Type type)
 	{
 		return type.GetCapacity();
