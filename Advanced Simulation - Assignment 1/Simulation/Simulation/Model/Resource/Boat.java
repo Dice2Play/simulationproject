@@ -24,6 +24,12 @@ public class Boat extends Resource{
 				
 	}
 	
+	double GetOccupancy()
+	{
+		return (amountOfPlacesTaken/capacity);
+	}
+	
+	
 	// Seize spots
 	void SeizeSpots(int amountOfSpots)
 	{

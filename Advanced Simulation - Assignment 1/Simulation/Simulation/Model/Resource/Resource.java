@@ -38,8 +38,6 @@ class Resource {
 	
 	void Release()
 	{
-		// Update statistics
-		
 		// Reset all
 		SetAvailable(true);
 	}
@@ -57,6 +55,11 @@ class Resource {
 	void SetAvailable(Boolean available)
 	{
 		this.available = available;
+	}
+	
+	double GetOccupancy()
+	{
+		throw new NotImplementedException();
 	}
 	
 	String GetID()

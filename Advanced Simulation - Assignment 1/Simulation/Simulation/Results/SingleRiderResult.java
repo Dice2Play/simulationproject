@@ -5,7 +5,7 @@ public class SingleRiderResult extends Result
 	
 	
 	
-	public SingleRiderResult(int waitingTimeArbitraryCustomer, int totalQueueLength, double boatOccupancy) {
+	public SingleRiderResult(double waitingTimeArbitraryCustomer, double totalQueueLength, double boatOccupancy) {
 		super(waitingTimeArbitraryCustomer, totalQueueLength, boatOccupancy);
 
 		

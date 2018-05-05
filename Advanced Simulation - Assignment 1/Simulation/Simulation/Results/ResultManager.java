@@ -8,11 +8,17 @@ public class ResultManager {
 
 	private static List<Result> results = new ArrayList<Result>(); 	
 	private static int currentReplication;
+	//private static final String outputDirectory;
 	
 	
 	public static void SetCurrentReplication(int newCurrentReplication)
 	{
 		currentReplication = newCurrentReplication;
+	}
+	
+	public static void ClearResults()
+	{
+		results = new ArrayList<Result>(); 	
 	}
 	
 	public static void AddResults(Result result)
@@ -46,7 +52,10 @@ public class ResultManager {
 				
 					System.out.println("MEAN " + f.getName() + " " + CalculateMean(f.getName()));
 				} 
+			
 				
+				// Add empty line
+				System.out.println();
 			
 		}
 		catch (Exception e) {e.printStackTrace();}
@@ -82,7 +91,7 @@ public class ResultManager {
 		
 
 	
-		return Statistics.Statistics.GetMean((Double[]) valuesFromResultsList.toArray());
+		return Statistics.Statistics.GetMean(valuesFromResultsList.toArray());
 	}
 	
 	public static void ExportToCSV()

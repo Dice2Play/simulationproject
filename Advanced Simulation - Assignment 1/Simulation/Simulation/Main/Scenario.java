@@ -19,7 +19,7 @@ public class Scenario {
 	
 	public void Run()
 	{
-		for(int amountOfReplicationsRan = 0; amountOfReplicationsRan < amountOfSimulationsToRun; amountOfReplicationsRan++)
+		for(int amountOfReplicationsRan = 1; amountOfReplicationsRan <= amountOfSimulationsToRun; amountOfReplicationsRan++)
 		{
 			// Set ResultManager
 			ResultManager.SetCurrentReplication(amountOfReplicationsRan);
@@ -31,6 +31,9 @@ public class Scenario {
 			
 			// Show replication summary		
 			ResultManager.ShowSummary();
+			
+			// Clear results of ResultManager
+			ResultManager.ClearResults();
 		}
 	}
 	
