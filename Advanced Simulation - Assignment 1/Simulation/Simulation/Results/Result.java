@@ -1,5 +1,7 @@
 package Simulation.Results;
 
+
+
 public class Result {
 
 	// General
@@ -34,7 +36,7 @@ public class Result {
 		return boatOccupancy;
 	}
 	
-	
+
 }
 
 

@@ -2,7 +2,7 @@ package Simulation.Model.Resource;
 
 import Simulation.Enums.Resource_Type;
 import Simulation.Model.Time.TimeManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 class Resource {
 
@@ -11,6 +11,7 @@ class Resource {
 	private boolean available = true;
 	private String ID;
 	private Resource_Type type;
+	private int Occupancyrate;
 	
 	
 	Resource(String ID, Resource_Type type)
@@ -59,12 +60,20 @@ class Resource {
 	
 	double GetOccupancy()
 	{
-		throw new NotImplementedException();
+		return this.getOccupancyrate();
 	}
 	
 	String GetID()
 	{
 		return ID;
+	}
+
+	public int getOccupancyrate() {
+		return Occupancyrate;
+	}
+
+	public void setOccupancyrate(int occupancyrate) {
+		Occupancyrate = occupancyrate;
 	}
 	
 	
