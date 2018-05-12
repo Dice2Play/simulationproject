@@ -25,10 +25,11 @@ public class Queue implements Tick_Listener {
 		this.queueingPriority = queueingPriority;
 		this.queueID = queueID;
 		
-		
+		// Set listener
+		TimeManager.AddTickListener(this);
 	}
 	
-	public void SeizeFirstQueueObject(int amountOfTimeToSeize)
+	void SeizeFirstQueueObject(int amountOfTimeToSeize)
 	{
 		// Get first object
 		QueueObject firstQueueObject = FirstQueueObject();
@@ -40,30 +41,30 @@ public class Queue implements Tick_Listener {
 		groupsInQueue.remove(firstQueueObject);		
 	}
 	
-	public Queue_Priority GetQueuePriority()
+	Queue_Priority GetQueuePriority()
 	{
 		return queueingPriority;
 	}
 	
 	// Return size of NextQueueObject
-	public int GroupSizeNextQueueObject()
+	int GroupSizeNextQueueObject()
 	{
 		return groupsInQueue.getFirst().GetGroupSize();
 	}
 	
 	// Retrieve first QueueObject
-	public QueueObject FirstQueueObject()
+	QueueObject FirstQueueObject()
 	{
 		return groupsInQueue.getFirst();
 	}
 	
 	// Return if queue has another queuobject
-	public boolean HasNextQueueObject()
+	boolean HasNextQueueObject()
 	{
 		return !groupsInQueue.isEmpty();
 	}
 	
-	private void GenerateQueueObjects() throws Exception
+	void GenerateQueueObjects() throws Exception
 	{
 		// Check if group queue yes/no
 		if(maxGroupSize > 1)
@@ -110,7 +111,7 @@ public class Queue implements Tick_Listener {
 
 	}
 	
-	public String GetID()
+	String GetID()
 	{
 		return queueID;
 	}
@@ -122,24 +123,10 @@ public class Queue implements Tick_Listener {
 		catch (Exception e) {e.printStackTrace();}
 	}
 	
-	public void Release()
+
+	LinkedList<QueueObject> GetQueueObjectList()
 	{
-		for(QueueObject qo : groupsInQueue)
-		{
-			if(qo.CanRelease()) {qo.Release();}
-		}
-	}
-	
-	// Check if any queueObject can be released
-	public boolean CanRelease()
-	{
-		for(QueueObject qo : groupsInQueue)
-		{
-			if(qo.CanRelease()) {return true;}
-		}
-		
-		// If no queueobject can be released
-		return false;
+		return groupsInQueue;
 	}
 	
 	

@@ -12,13 +12,9 @@ public class ResourceManager {
 	private static List<Resource> resources = new ArrayList<Resource>();
 
 	
-	public static void AddResource(Resource[] resourcesToAdd)
+	public static void AddResource(Resource resource)
 	{
-		for(Resource resource: resourcesToAdd)
-		{
-			resources.add(resource);
-		}
-		
+		resources.add(resource); 
 	}
 	
 	public static boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)
@@ -89,6 +85,17 @@ public class ResourceManager {
 				System.out.println("RESOURCE MANAGER: resource ["+res.GetID()+"] has been released.");
 			}
 		}
+	}
+	
+	public static double GetResourceOccupancy()
+	{
+		// For each resource, get occupancy
+		List<Double> resourceOccupancies = new ArrayList<Double>();
+		resources.forEach(x -> resourceOccupancies.add(x.GetOccupancy()));
+		
+		// Return mean
+		return Statistics.Statistics.GetMean(resourceOccupancies.toArray());
+		
 	}
 	
 	public static int GetCapacityOfResource(Resource_Type type)

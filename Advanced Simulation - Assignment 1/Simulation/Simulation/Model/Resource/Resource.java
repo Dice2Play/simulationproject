@@ -2,66 +2,78 @@ package Simulation.Model.Resource;
 
 import Simulation.Enums.Resource_Type;
 import Simulation.Model.Time.TimeManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class Resource {
+class Resource {
 
 	private int startTimeOccupied;
 	private int endTimeOccupied;
 	private boolean available = true;
 	private String ID;
 	private Resource_Type type;
+	private int Occupancyrate;
 	
 	
-	public Resource(String ID, Resource_Type type)
+	Resource(String ID, Resource_Type type)
 	{
 		this.ID = ID;
 		this.type = type;
 	}
 	
-	public void Seize(int timeUnitsRequired, int capacityNeeded)
+	void Seize(int timeUnitsRequired, int capacityNeeded)
 	{
 		startTimeOccupied = TimeManager.GetTimeUnitsPassed();
 		endTimeOccupied = startTimeOccupied + timeUnitsRequired; 
 		SetAvailable(false);
 	}
 	
-	public boolean CanSeize()
+	boolean CanSeize()
 	{
 		return IsAvailable();
 	}
 	
-	public boolean CanRelease()
+	boolean CanRelease()
 	{
 		return TimeManager.GetTimeUnitsPassed() > endTimeOccupied;
 	}
 	
-	public void Release()
+	void Release()
 	{
-		// Update statistics
-		
 		// Reset all
 		SetAvailable(true);
 	}
 	
-	public Resource_Type GetResourceType()
+	Resource_Type GetResourceType()
 	{
 		return type;
 	}
 	
-	protected boolean IsAvailable()
+	boolean IsAvailable()
 	{
 		return available;
 	}
 	
-	private void SetAvailable(Boolean available)
+	void SetAvailable(Boolean available)
 	{
 		this.available = available;
 	}
 	
-	public String GetID()
+	double GetOccupancy()
+	{
+		return this.getOccupancyrate();
+	}
+	
+	String GetID()
 	{
 		return ID;
+	}
+
+	public int getOccupancyrate() {
+		return Occupancyrate;
+	}
+
+	public void setOccupancyrate(int occupancyrate) {
+		Occupancyrate = occupancyrate;
 	}
 	
 	

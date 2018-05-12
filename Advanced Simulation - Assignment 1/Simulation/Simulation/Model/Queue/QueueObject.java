@@ -4,7 +4,7 @@ package Simulation.Model.Queue;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
-public class QueueObject{
+class QueueObject{
 
 	private int groupSize;
 	private int arrivalTime;
@@ -15,39 +15,39 @@ public class QueueObject{
 	private boolean isSeized;
 	 
 	
-	public QueueObject(int groupSize, String queueID)
+	QueueObject(int groupSize, String queueID)
 	{
 		this.groupSize = groupSize;
 		this.queueID = queueID;
 		this.arrivalTime = TimeManager.GetTimeUnitsPassed();
 	}
 	
-	public int GetGroupSize()
+	int GetGroupSize()
 	{
 		return groupSize;
 	}
 	
-	public void SetBoardingTime(int boardingTime)
+	void SetBoardingTime(int boardingTime)
 	{
 		this.boardingTime =  boardingTime;
 	}
 	
-	public String GetQueueID()
+	String GetQueueID()
 	{
 		return queueID;
 	}
 	
-	private void SetIsSeized(boolean newValue)
+	void SetIsSeized(boolean newValue)
 	{
 		isSeized = newValue;
 	}
 	
-	private void SetLeaveTime(int leaveTime)
+	void SetLeaveTime(int leaveTime)
 	{
 		this.leaveTime = leaveTime;
 	}
 	
-	public void SeizeQueueObject(int amountOfTimeToSeize)
+	void SeizeQueueObject(int amountOfTimeToSeize)
 	{
 		// Set isSeized to true
 		SetIsSeized(true);
@@ -59,16 +59,9 @@ public class QueueObject{
 		SetLeaveTime(TimeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
 	}
 	
-	public boolean CanRelease()
+	double GetWaitingTime()
 	{
-		return TimeManager.GetTimeUnitsPassed() > leaveTime;
-	}
-	
-	public void Release()
-	{
-		// Update statistics
-		
-
+		return  TimeManager.GetTimeUnitsPassed() - arrivalTime;
 	}
 
 		

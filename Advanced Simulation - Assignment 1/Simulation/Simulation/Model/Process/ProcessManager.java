@@ -3,6 +3,8 @@ package Simulation.Model.Process;
 import java.util.ArrayList;
 import java.util.List;
 
+import Simulation.Enums.Resource_Type;
+
 public class ProcessManager {
 
 	private static List<Process> processes = new ArrayList<Process>();
@@ -33,12 +35,9 @@ public class ProcessManager {
 		}
 	}
 	
-	public static void AddProcess(Process[] processesToAdd)
+	public static void AddProcess(Process process)
 	{
-		for(Process proc : processesToAdd)
-		{
-			processes.add(proc);
-		}
+			processes.add(process);
 	}
 	
 	public static void Reset()

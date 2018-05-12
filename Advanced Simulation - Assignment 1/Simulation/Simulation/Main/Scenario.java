@@ -2,6 +2,7 @@ package Simulation.Main;
 
 
 import Simulation.Model.*;
+import Simulation.Results.ResultManager;
 
 public class Scenario {
 	
@@ -18,20 +19,21 @@ public class Scenario {
 	
 	public void Run()
 	{
-		for(int amountOfReplicationsRan = 0; amountOfReplicationsRan < amountOfSimulationsToRun; amountOfReplicationsRan++)
+		for(int amountOfReplicationsRan = 1; amountOfReplicationsRan <= amountOfSimulationsToRun; amountOfReplicationsRan++)
 		{
 			// Set ResultManager
-			
+			ResultManager.SetCurrentReplication(amountOfReplicationsRan);
 			
 			// Create/Run/Reset Model
 			Model model = new Model(timeUnitsToRun);
 			model.Run();
 			model.Reset();
 			
-			// Print current replication
-			System.out.println("End of simulation ["+amountOfReplicationsRan+"]");
+			// Show replication summary		
+			ResultManager.ShowSummary();
 			
-			
+			// Clear results of ResultManager
+			ResultManager.ClearResults();
 		}
 	}
 	

@@ -3,14 +3,14 @@ package Simulation.Model;
 import Simulation.Enums.Queue_Priority;
 import Simulation.Enums.Resource_Type;
 import  Simulation.Interfaces.*;
-import Simulation.Model.Process.ProcessManager;
-import Simulation.Model.Queue.Queue;
 import Simulation.Model.Queue.QueueManager;
-import Simulation.Model.Resource.Boat;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
 import Simulation.Results.Result;
 import Simulation.Results.ResultManager;
+import Simulation.Model.Process.*;
+import Simulation.Model.Process.Process;
+import Simulation.Model.Queue.*;
 import Simulation.Interfaces.*;
 import Simulation.Model.Resource.*;
 
@@ -37,24 +37,18 @@ public class Model implements Tick_Listener {
 	{
 		
 		// Create Resources/Queue/Processes
-		ResourceManager.AddResource(new Boat[] {new Boat("BOAT_1"),
-												new Boat("BOAT_2"),
-												new Boat("BOAT_3"),
-												new Boat("BOAT_4"),
-												new Boat("BOAT_5"),
-												new Boat("BOAT_6"),
-												new Boat("BOAT_7"),
-												new Boat("BOAT_8"),
-												new Boat("BOAT_9"),
-												new Boat("BOAT_10")});
+		// Resources
+		ResourceManager.AddResource(new Boat("BOAT_1"));
+		ResourceManager.AddResource(new Boat("BOAT_2"));
 		
+		// Queue's
+		QueueManager.AddQueue(new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"));
+		QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));
 		
-		QueueManager.AddQueue(new Queue[] {		new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"),
-												new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE") });
-		
-		
-		ProcessManager.AddProcess(new Simulation.Model.Process.Process[] { new Simulation.Model.Process.Process("Boattrip", 4 , Resource_Type.BOAT)});
-		
+		// Processes
+		ProcessManager.AddProcess(new Process("Boattrip", 4 , Resource_Type.BOAT));
+	
+
 	}
 	
 	public void Run()
@@ -89,7 +83,7 @@ public class Model implements Tick_Listener {
 		SetTimePassed(timePassed);	
 		
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
-		if(QueueManager.CheckIfAnyQueueObjectCanBeReleased()) {QueueManager.ReleaseQueueObjects();}
+	
 	}
 
 	public void Reset() {
@@ -101,8 +95,13 @@ public class Model implements Tick_Listener {
 	
 	private void Report()
 	{
-		// Nothing of interest at timeUnit 0
+		// Nothing of interest at timeUnit 0, so skip.
 		if(amountOfTimeUnitsPassed > 0)
-		ResultManager.AddResults(new Result);
+		{
+			double meanBoatOccupancy = ResourceManager.GetResourceOccupancy();
+			double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
+			double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
+			ResultManager.AddResults(new Result(waitingTimeArbitraryCustomer,meanBoatOccupancy,totalQueuelength));
+		}
 	}
 }
