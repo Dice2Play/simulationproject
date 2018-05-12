@@ -28,7 +28,7 @@ public class QueueManager {
 		try
 		{
 			
-			while(amountOfSpotsTaken < capacity)
+			while(amountOfSpotsTaken <= capacity)
 			{
 				// Get group-queue queue
 				Queue groupQueue = GetQueueByPriority(Queue_Priority.High);
@@ -40,7 +40,7 @@ public class QueueManager {
 				while(groupQueue.HasNextQueueObject())
 				{
 					//Check if fits, otherwise break loop
-					if((amountOfSpotsTaken + groupQueue.GroupSizeNextQueueObject() < capacity))
+					if((amountOfSpotsTaken + groupQueue.GroupSizeNextQueueObject() <= capacity))
 					{
 						int queueObjectSpots = groupQueue.GroupSizeNextQueueObject();
 						
@@ -56,7 +56,7 @@ public class QueueManager {
 				while(singleQueue.HasNextQueueObject())
 				{
 					//Check if fits, otherwise break loop
-					if((amountOfSpotsTaken + singleQueue.GroupSizeNextQueueObject() < capacity))
+					if((amountOfSpotsTaken + singleQueue.GroupSizeNextQueueObject() <= capacity))
 					{
 						int queueObjectSpots = singleQueue.GroupSizeNextQueueObject();
 						

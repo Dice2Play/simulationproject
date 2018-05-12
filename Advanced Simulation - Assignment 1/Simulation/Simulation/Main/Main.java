@@ -7,7 +7,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Scenario scenario_1 = new Scenario(60,10);
+		Scenario scenario_1 = new Scenario(10000,3);
 		scenario_1.Run();
 		
 		
