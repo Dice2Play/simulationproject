@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Simulation.Enums.Resource_Type;
-import Simulation.Interfaces.Tick_Listener;
+import Simulation.Interfaces.ITick_Listener;
 import Simulation.Model.Time.TimeManager;
 
 public class ResourceManager {

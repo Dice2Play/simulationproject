@@ -7,10 +7,10 @@ import java.util.Random;
 
 
 import Simulation.Enums.Queue_Priority;
-import Simulation.Interfaces.Tick_Listener;
+import Simulation.Interfaces.ITick_Listener;
 import Simulation.Model.Time.TimeManager;
 
-public class Queue implements Tick_Listener {
+public class Queue implements ITick_Listener {
 
 	private final Queue_Priority queueingPriority;
 	private final int maxGroupSize;

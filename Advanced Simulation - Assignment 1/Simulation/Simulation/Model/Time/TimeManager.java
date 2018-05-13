@@ -10,7 +10,7 @@ import Simulation.Interfaces.*;
 public class TimeManager  {
 
 	
-	private static List<Tick_Listener> tickListeners = new ArrayList<Tick_Listener>();
+	private static List<ITick_Listener> tickListeners = new ArrayList<ITick_Listener>();
 	private static int timeUnitsPassed = 0;
 	
 	
@@ -25,19 +25,19 @@ public class TimeManager  {
 	
 	public static void Reset()
 	{
-		tickListeners = new ArrayList<Tick_Listener>();
+		tickListeners = new ArrayList<ITick_Listener>();
 		timeUnitsPassed = 0;
 	}
 	
 	
 	// Add subscriber to tick event
-	public static void AddTickListener(Tick_Listener listener)
+	public static void AddTickListener(ITick_Listener listener)
 	{
 		tickListeners.add(listener);
 	}
 	
 	// Remove subscriber to tick event
-	public static void RemoveTickListener(Tick_Listener listener)
+	public static void RemoveTickListener(ITick_Listener listener)
 	{
 		tickListeners.remove(listener);
 	}
@@ -45,7 +45,7 @@ public class TimeManager  {
 	// Notify subscribers
 	private static void FireTickListeners()
 	{
-		for(Tick_Listener listener : tickListeners)
+		for(ITick_Listener listener : tickListeners)
 		{
 			listener.Event_Tick(timeUnitsPassed);
 		}

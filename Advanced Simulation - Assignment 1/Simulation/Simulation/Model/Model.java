@@ -14,7 +14,7 @@ import Simulation.Model.Queue.*;
 import Simulation.Interfaces.*;
 import Simulation.Model.Resource.*;
 
-public class Model implements Tick_Listener {
+public class Model implements ITick_Listener {
 
 	private final int amountOfTimeUnitsToRun;
 	
