@@ -21,7 +21,7 @@ public class Result {
 	
 	public void Print()
 	{
-		
+		//System.out.println("totalQueueLength ["+totalQueueLength);
 	}
 
 	public double GetWaitingTimeArbitraryCustomer() {

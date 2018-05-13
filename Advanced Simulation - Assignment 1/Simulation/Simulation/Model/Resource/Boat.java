@@ -23,7 +23,7 @@ public class Boat extends Resource{
 		SeizeSpots(capacityNeeded);
 				
 	}
-	
+		
 	double GetOccupancy()
 	{
 		return (amountOfPlacesTaken/capacity);
@@ -34,6 +34,17 @@ public class Boat extends Resource{
 	void SeizeSpots(int amountOfSpots)
 	{
 		amountOfPlacesTaken = amountOfPlacesTaken + amountOfSpots;
+	}
+	
+	void Release()
+	{
+		super.Release();
+		Reset();
+	}
+	
+	void Reset()
+	{
+		amountOfPlacesTaken = 0;
 	}
 	
 
