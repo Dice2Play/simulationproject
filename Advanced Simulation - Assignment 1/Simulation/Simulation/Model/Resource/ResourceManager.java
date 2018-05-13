@@ -5,21 +5,22 @@ import java.util.List;
 
 import Simulation.Enums.Resource_Type;
 import Simulation.Interfaces.ITick_Listener;
+import Simulation.Model.Resource.Behavior.ISeizable;
 import Simulation.Model.Time.TimeManager;
 
 public class ResourceManager {
 
-	private static List<Resource> resources = new ArrayList<Resource>();
+	private static List<ISeizable> resources = new ArrayList<ISeizable>();
 
 	
-	public static void AddResource(Resource resource)
+	public static void AddResource(ISeizable resource)
 	{
 		resources.add(resource); 
 	}
 	
 	public static boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)
 	{
-		for(Resource res : resources)
+		for(ISeizable res : resources)
 		{
 			if(res.GetResourceType() == typeOfResourceNeeded)
 			{

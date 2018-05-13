@@ -1,29 +1,24 @@
-package Simulation.Model.Resource;
+package Simulation.Model.Resource.Behavior;
 
 import Simulation.Enums.Resource_Type;
 import Simulation.Model.Time.TimeManager;
 
-public class SeizableResource extends Resource{
+class SeizableResource implements ISeizable{
 
-	SeizableResource(String ID, Resource_Type type) {
-		super(ID, type);
-		// TODO Auto-generated constructor stub
-	}
 
 
 	private int startTimeOccupied;
 	private int endTimeOccupied;
-	private double occupancyRate;
 	private boolean available;
 	
-	void Seize(int timeUnitsRequired, int capacityNeeded)
+	public void Seize(int timeUnitsRequired)
 	{
 		startTimeOccupied = TimeManager.GetTimeUnitsPassed();
 		endTimeOccupied = startTimeOccupied + timeUnitsRequired; 
 		SetAvailable(false);
 	}
 	
-	boolean CanSeize()
+	public boolean CanSeize()
 	{
 		return IsAvailable();
 	}
@@ -33,13 +28,13 @@ public class SeizableResource extends Resource{
 		return TimeManager.GetTimeUnitsPassed() > endTimeOccupied;
 	}
 	
-	void Release()
+	public void Release()
 	{
 		// Reset all
 		SetAvailable(true);
 	}
 	
-	boolean IsAvailable()
+	public boolean IsAvailable()
 	{
 		return available;
 	}
@@ -49,14 +44,6 @@ public class SeizableResource extends Resource{
 		this.available = available;
 	}
 	
-	double GetOccupancy()
-	{
-		return this.GetOccupancyrate();
-	}
-	
-	public double GetOccupancyrate() {
-		return occupancyRate;
-	}
 
 	
 
