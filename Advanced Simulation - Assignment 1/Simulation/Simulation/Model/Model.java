@@ -101,7 +101,7 @@ public class Model implements Tick_Listener {
 			double meanBoatOccupancy = ResourceManager.GetResourceOccupancy();
 			double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
 			double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
-			ResultManager.AddResults(new Result(waitingTimeArbitraryCustomer,meanBoatOccupancy,totalQueuelength));
+			ResultManager.AddResults(new Result(waitingTimeArbitraryCustomer,totalQueuelength,meanBoatOccupancy));
 		}
 	}
 }

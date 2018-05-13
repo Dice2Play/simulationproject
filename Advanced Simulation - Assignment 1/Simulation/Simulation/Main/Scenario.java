@@ -31,6 +31,8 @@ public class Scenario {
 			
 			// Show replication summary		
 			ResultManager.ShowSummary();
+			//ResultManager.ShowAllResults();
+			
 			
 			// Clear results of ResultManager
 			ResultManager.ClearResults();
