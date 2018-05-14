@@ -7,7 +7,8 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Scenario scenario_1 = new Scenario(10000,3);
+		boolean useSingleQueue = true;
+		Scenario scenario_1 = new Scenario(10000, 3, useSingleQueue);
 		scenario_1.Run();
 		
 		

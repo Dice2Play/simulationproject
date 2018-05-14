@@ -22,11 +22,14 @@ public class Model implements Tick_Listener {
 	private Queue queue_group;
 	private Queue queue_single;
 
-	public Model(int amountOfTimeUnitsToRun)
+	private boolean useSingleQueue = false;
+
+	public Model(int amountOfTimeUnitsToRun, boolean useSingleQueue)
 	{
 		// Set fields
 		this.amountOfTimeUnitsToRun = amountOfTimeUnitsToRun;
-		
+		this.useSingleQueue = useSingleQueue;
+
 		// Create model objects
 		Create();
 		
@@ -51,8 +54,6 @@ public class Model implements Tick_Listener {
 		
 		// Processes
 		ProcessManager.AddProcess(new Process("Boattrip", 4 , Resource_Type.BOAT));
-	
-
 	}
 	
 	public void Run()
@@ -89,17 +90,17 @@ public class Model implements Tick_Listener {
 		double propabilities_k_groups_in_time_slot[] = new double[] {0.2, 0.6, 0.2}; /* 0, 1, 2 GROUPS */
 		double propabilities_m_persons_in_group[] = new double[] {0.2, 0.2, 0.2, 0.2, 0.2}; /* 1, 2, 3, 4, 5 PERSONS */
 
-		int nofGroups = Probability.Probability.generate_random_event(
+		int nofGroups = Probability.Probability.get_random_index_using_probabilities(
 				propabilities_k_groups_in_time_slot);
 
 		for(int i = 0; i < nofGroups; i++) {
 			int nofPersons;
 			Queue queue;
 
-			nofPersons = Probability.Probability.generate_random_event(
+			nofPersons = Probability.Probability.get_random_index_using_probabilities(
 				propabilities_m_persons_in_group) + 1;  /* index 0, means 1 person */
 
-			if (nofPersons == 1) {
+			if (nofPersons == 1 && useSingleQueue) {
 				queue = queue_single;
 			} else {
 				queue = queue_group;
