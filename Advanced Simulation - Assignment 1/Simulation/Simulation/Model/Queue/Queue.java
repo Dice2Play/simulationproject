@@ -37,6 +37,8 @@ public class Queue implements Tick_Listener {
 		// Seize
 		firstQueueObject.SeizeQueueObject(amountOfTimeToSeize);
 		
+		System.out.println("SEIZE " + firstQueueObject.toString());
+
 		// Remove from list
 		groupsInQueue.remove(firstQueueObject);		
 	}
@@ -64,28 +66,7 @@ public class Queue implements Tick_Listener {
 		return !groupsInQueue.isEmpty();
 	}
 
-	void GenerateQueueObjects() throws Exception
-	{
-		double propabilities_k_groups_in_time_slot[] = new double[] {0.2, 0.6, 0.2}; /* 0, 1, 2 GROUPS */
-		double propabilities_m_persons_in_group[] = new double[] {0.2, 0.2, 0.2, 0.2, 0.2}; /* 1, 2, 3, 4, 5 PERSONS */
-				
-		int nofGroups = Probability.Probability.generate_random_event(
-				propabilities_k_groups_in_time_slot);
-
-		for(int i = 0; i < nofGroups; i++) {
-			int nofPersons;
-
-			if(maxGroupSize > 1) {
-				nofPersons = Probability.Probability.generate_random_event(
-						propabilities_m_persons_in_group) + 1;  /* index 0, means 1 person */
-			} else {
-				nofPersons = 1;
-			}
-			groupsInQueue.add(new QueueObject(nofPersons, queueID));
-		}
-	}
-	
-	String GetID()
+	public String GetID()
 	{
 		return queueID;
 	}
@@ -93,10 +74,13 @@ public class Queue implements Tick_Listener {
 	@Override
 	public void Event_Tick(int timePassed)
 	{
-		try {GenerateQueueObjects();}
-		catch (Exception e) {e.printStackTrace();}
 	}
 	
+	public void Add(QueueObject object)
+	{
+		System.out.println("ADD " + object.toString());
+		groupsInQueue.addLast(object);
+	}
 
 	LinkedList<QueueObject> GetQueueObjectList()
 	{
