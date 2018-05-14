@@ -63,52 +63,26 @@ public class Queue implements Tick_Listener {
 	{
 		return !groupsInQueue.isEmpty();
 	}
-	
+
 	void GenerateQueueObjects() throws Exception
 	{
-		// Check if group queue yes/no
-		if(maxGroupSize > 1)
-		{
-			int amountOfGroups = 0; 
-			
-			
-			boolean[] addGroups = {	Probability.Probability.GetProbability(0.2),
-									Probability.Probability.GetProbability(0.6),
-									Probability.Probability.GetProbability(0.2)};
-			int amountOfGroupsCounter = 0;
-			for(boolean addGroup : addGroups)
-			{
-				if(addGroup) { amountOfGroups = amountOfGroupsCounter; break;}
-				else amountOfGroupsCounter = amountOfGroupsCounter + 1;
-			}
-			
-			
-			// For each group 	
-			for(int i = 0; i < amountOfGroups; i++)
-			{
-				boolean[] addPersons = {	Probability.Probability.GetProbability(0.2),
-											Probability.Probability.GetProbability(0.2),
-											Probability.Probability.GetProbability(0.2),
-											Probability.Probability.GetProbability(0.2),
-											Probability.Probability.GetProbability(0.2)};
+		double propabilities_k_groups_in_time_slot[] = new double[] {0.2, 0.6, 0.2}; /* 0, 1, 2 GROUPS */
+		double propabilities_m_persons_in_group[] = new double[] {0.2, 0.2, 0.2, 0.2, 0.2}; /* 1, 2, 3, 4, 5 PERSONS */
 				
-				int amountOfPersonsCounter = 1;
-				
-				for(boolean addPerson : addPersons)
-				{
-						if(addPerson) { groupsInQueue.add(new QueueObject(amountOfPersonsCounter,queueID)); break;}
-						else amountOfPersonsCounter = amountOfPersonsCounter + 1;
-				}
+		int nofGroups = Probability.Probability.generate_random_event(
+				propabilities_k_groups_in_time_slot);
 
+		for(int i = 0; i < nofGroups; i++) {
+			int nofPersons;
+
+			if(maxGroupSize > 1) {
+				nofPersons = Probability.Probability.generate_random_event(
+						propabilities_m_persons_in_group) + 1;  /* index 0, means 1 person */
+			} else {
+				nofPersons = 1;
 			}
+			groupsInQueue.add(new QueueObject(nofPersons, queueID));
 		}
-		
-		else
-		{
-			groupsInQueue.add(new QueueObject(1, queueID));
-		}
-		
-
 	}
 	
 	String GetID()
