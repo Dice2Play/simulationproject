@@ -1,7 +1,6 @@
 package Simulation.Model.Queue;
 
 
-import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
 class QueueObject{

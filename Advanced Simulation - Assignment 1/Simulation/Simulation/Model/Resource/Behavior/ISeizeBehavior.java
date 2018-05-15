@@ -1,4 +1,4 @@
-package Simulation.Model.Resource;
+package Simulation.Model.Resource.Behavior;
 
 public interface ISeizeBehavior {
 

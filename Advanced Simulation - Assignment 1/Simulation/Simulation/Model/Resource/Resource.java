@@ -1,6 +1,7 @@
 package Simulation.Model.Resource;
 
 import Simulation.Enums.Resource_Type;
+import Simulation.Model.Resource.Behavior.ISeizeBehavior;
 import Simulation.Model.Time.TimeManager;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

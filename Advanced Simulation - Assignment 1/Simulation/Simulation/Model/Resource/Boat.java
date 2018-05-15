@@ -2,6 +2,7 @@ package Simulation.Model.Resource;
 
 import Simulation.Enums.Resource_Type;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import Simulation.Model.Resource.Behavior.CapacitySeizeBehavior;
 
 public class Boat extends Resource{
 
