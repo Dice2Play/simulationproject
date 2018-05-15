@@ -91,7 +91,17 @@ public class ResourceManager {
 	{
 		// For each resource, get occupancy
 		List<Double> resourceOccupancies = new ArrayList<Double>();
-		resources.forEach(x -> resourceOccupancies.add(x.GetOccupancy()));
+		for(Resource resource : resources)
+		{
+			// Check if resource is being used
+			if(!resource.IsAvailable())
+			{
+				resourceOccupancies.add(resource.GetOccupancy());	
+			}
+			
+		}
+		
+		
 		
 		// Return mean
 		return Statistics.Statistics.GetMean(resourceOccupancies.toArray());

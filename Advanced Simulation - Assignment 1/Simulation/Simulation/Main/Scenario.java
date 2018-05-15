@@ -30,8 +30,9 @@ public class Scenario {
 			model.Reset();
 			
 			// Show replication summary		
+			ResultManager.ShowAllResults();
 			ResultManager.ShowSummary();
-			//ResultManager.ShowAllResults();
+			
 			
 			
 			// Clear results of ResultManager

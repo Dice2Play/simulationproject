@@ -19,9 +19,11 @@ public class Result {
 		this.boatOccupancy = boatOccupancy;
 	}
 	
-	public void Print()
+	public String GetFields()
 	{
-		//System.out.println("totalQueueLength ["+totalQueueLength);
+		return  "waitingTimeArbitraryCustomer ["+waitingTimeArbitraryCustomer+"] " + 
+				"totalQueueLength ["+totalQueueLength+"] " +
+				"boatOccupancy ["+boatOccupancy+"] ";
 	}
 
 	public double GetWaitingTimeArbitraryCustomer() {

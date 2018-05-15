@@ -34,7 +34,7 @@ public class ResultManager {
 	
 	public static void ShowAllResults()
 	{
-		results.forEach(x -> x.Print());
+		results.forEach(x -> System.out.println("TimeUnit [" + (results.indexOf(x) + 1) +"] " + x.GetFields())); // Timeunit = index + 1, since there are no results recorded at time unit 0.
 	}
 	
 	public static void ShowSummary()
@@ -127,7 +127,6 @@ public class ResultManager {
 
 		csvOutput.write(String.valueOf(currentReplication));
 		
-		System.out.println("Lenth of filling data " + fillingdata.size());
 		
 	    for (Double data : fillingdata)
 	    {

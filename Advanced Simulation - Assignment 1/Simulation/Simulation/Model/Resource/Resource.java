@@ -11,7 +11,8 @@ class Resource {
 	private boolean available = true;
 	private String ID;
 	private Resource_Type type;
-	private int Occupancyrate;
+	protected ISeizeBehavior seizeBehavior;
+	
 	
 	
 	Resource(String ID, Resource_Type type)
@@ -25,6 +26,8 @@ class Resource {
 		startTimeOccupied = TimeManager.GetTimeUnitsPassed();
 		endTimeOccupied = startTimeOccupied + timeUnitsRequired; 
 		SetAvailable(false);
+		seizeBehavior.Seize(capacityNeeded);
+		
 	}
 	
 	boolean CanSeize()
@@ -40,6 +43,7 @@ class Resource {
 	void Release()
 	{
 		// Reset all
+		seizeBehavior.Release();
 		SetAvailable(true);
 	}
 	
@@ -60,7 +64,7 @@ class Resource {
 	
 	double GetOccupancy()
 	{
-		return this.getOccupancyrate();
+		return seizeBehavior.GetOccupancy();
 	}
 	
 	String GetID()
@@ -68,13 +72,6 @@ class Resource {
 		return ID;
 	}
 
-	public int getOccupancyrate() {
-		return Occupancyrate;
-	}
 
-	public void setOccupancyrate(int occupancyrate) {
-		Occupancyrate = occupancyrate;
-	}
-	
 	
 }
