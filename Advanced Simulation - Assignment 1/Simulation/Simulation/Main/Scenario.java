@@ -8,14 +8,12 @@ public class Scenario {
 	
 	private int timeUnitsToRun;
 	private int amountOfSimulationsToRun;
-	private boolean useSingleQueue;
-
-	public Scenario(int timeUnitsToRun, int amountOfSimulationsToRun, boolean useSingleQueue)
+	
+	public Scenario(int timeUnitsToRun, int amountOfSimulationsToRun)
 	{
 		// Set fields
 		this.timeUnitsToRun = timeUnitsToRun;
 		this.amountOfSimulationsToRun = amountOfSimulationsToRun;
-		this.useSingleQueue = useSingleQueue;
 
 	}
 	
@@ -27,7 +25,7 @@ public class Scenario {
 			ResultManager.SetCurrentReplication(amountOfReplicationsRan);
 			
 			// Create/Run/Reset Model
-			Model model = new Model(timeUnitsToRun, useSingleQueue);
+			Model model = new Model(timeUnitsToRun);
 			model.Run();
 			model.Reset();
 			

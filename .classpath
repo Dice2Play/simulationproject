@@ -8,10 +8,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="External Libraries/javacsv2.1/javacsv.jar">
+	<classpathentry kind="lib" path="C:/Users/iamxi/Documents/Master/Advance simulation/simulationproject/javacsv2.1/javacsv.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/iamxi/Documents/Master/Advance simulation/simulationproject/javacsv2.1"/>
 	<classpathentry kind="output" path="Advanced Simulation - Assignment 1/bin"/>
 </classpath>

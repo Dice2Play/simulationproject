@@ -37,8 +37,6 @@ public class Queue implements Tick_Listener {
 		// Seize
 		firstQueueObject.SeizeQueueObject(amountOfTimeToSeize);
 		
-		System.out.println("SEIZE " + firstQueueObject.toString());
-
 		// Remove from list
 		groupsInQueue.remove(firstQueueObject);		
 	}
@@ -65,8 +63,55 @@ public class Queue implements Tick_Listener {
 	{
 		return !groupsInQueue.isEmpty();
 	}
+	
+	void GenerateQueueObjects() throws Exception
+	{
+		// Check if group queue yes/no
+		if(maxGroupSize > 1)
+		{
+			int amountOfGroups = 0; 
+			
+			
+			boolean[] addGroups = {	Probability.Probability.GetProbability(0.2),
+									Probability.Probability.GetProbability(0.6),
+									Probability.Probability.GetProbability(0.2)};
+			int amountOfGroupsCounter = 0;
+			for(boolean addGroup : addGroups)
+			{
+				if(addGroup) { amountOfGroups = amountOfGroupsCounter; break;}
+				else amountOfGroupsCounter = amountOfGroupsCounter + 1;
+			}
+			
+			
+			// For each group 	
+			for(int i = 0; i < amountOfGroups; i++)
+			{
+				boolean[] addPersons = {	Probability.Probability.GetProbability(0.2),
+											Probability.Probability.GetProbability(0.2),
+											Probability.Probability.GetProbability(0.2),
+											Probability.Probability.GetProbability(0.2),
+											Probability.Probability.GetProbability(0.2)};
+				
+				int amountOfPersonsCounter = 1;
+				
+				for(boolean addPerson : addPersons)
+				{
+						if(addPerson) { groupsInQueue.add(new QueueObject(amountOfPersonsCounter,queueID)); break;}
+						else amountOfPersonsCounter = amountOfPersonsCounter + 1;
+				}
 
-	public String GetID()
+			}
+		}
+		
+		else
+		{
+			groupsInQueue.add(new QueueObject(1, queueID));
+		}
+		
+
+	}
+	
+	String GetID()
 	{
 		return queueID;
 	}
@@ -74,13 +119,10 @@ public class Queue implements Tick_Listener {
 	@Override
 	public void Event_Tick(int timePassed)
 	{
+		try {GenerateQueueObjects();}
+		catch (Exception e) {e.printStackTrace();}
 	}
 	
-	public void Add(QueueObject object)
-	{
-		System.out.println("ADD " + object.toString());
-		groupsInQueue.addLast(object);
-	}
 
 	LinkedList<QueueObject> GetQueueObjectList()
 	{
