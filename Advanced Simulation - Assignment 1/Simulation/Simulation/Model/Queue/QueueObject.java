@@ -4,7 +4,7 @@ package Simulation.Model.Queue;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
-class QueueObject{
+public class QueueObject{
 
 	private int groupSize;
 	private int arrivalTime;
@@ -15,11 +15,23 @@ class QueueObject{
 	private boolean isSeized;
 	 
 	
-	QueueObject(int groupSize, String queueID)
+	public QueueObject(int groupSize, String queueID)
 	{
 		this.groupSize = groupSize;
 		this.queueID = queueID;
 		this.arrivalTime = TimeManager.GetTimeUnitsPassed();
+		this.boardingTime = -1;
+		this.leaveTime = -1;
+	}
+
+	public String toString()
+	{
+		String s = String.format("QUEUE_OBJECT { arrival_time: %d, queue_id: %s, group_size: %d",
+				arrivalTime, queueID, groupSize);
+		if (boardingTime != -1) s += ", boardingTime: " + boardingTime;
+		if (leaveTime != -1) s += ", leaveTime: " + leaveTime;
+		s += " }";
+		return s;
 	}
 	
 	int GetGroupSize()
