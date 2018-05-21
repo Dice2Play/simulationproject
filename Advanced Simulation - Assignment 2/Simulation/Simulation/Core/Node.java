@@ -112,6 +112,22 @@ public class Node {
 			return null;
 		}
 
+	// Returns a stub from the node, with the constraint that the returned stub is not equal to the input stub.
+		public Stub getStub(Stub stubNodeA)
+			{
+				for(Stub stub : stubs)
+				{
+					if((stubNodeA != stub))
+					{
+						return stub;
+					}
+				}
+				
+				// If no stub could be found, return null
+				return null;
+			}
+
+	
 	// Get stub index
 	public int getStubIndex(Stub stub)
 	{

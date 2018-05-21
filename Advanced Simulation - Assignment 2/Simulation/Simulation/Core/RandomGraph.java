@@ -35,9 +35,20 @@ public abstract class RandomGraph {
 		}
 	}
 	
-	public Node[] getNodes()
+	public Node[] getNodesWithNonConnectedStubs()
 	{
-		return (Node[]) nodes.toArray();
+		List<Node> nodesWithOpenStubs = new ArrayList<Node>();
+		
+		for(Node node : nodes)
+		{
+			if(node.HasNonConnectedStub())
+			{
+				nodesWithOpenStubs.add(node);
+			}
+		}
+		
+		
+		return (Node[]) nodesWithOpenStubs.toArray();
 	}
 	
 	

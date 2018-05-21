@@ -1,46 +1,48 @@
 package Simulation.Core;
 
+import java.util.Random;
+
+import Probability.Probability;
+import Statistics.BernoulliDistribution;
+
 public class RandomGraph_Erdos extends RandomGraph{
 
 	public RandomGraph_Erdos(int degree, double probability, int amountOfNodes) {
 		super(degree, probability, amountOfNodes);	
 	}
 	
-	
 
 	public void Calculate() {
 		
 		for(Node nodeA : nodes)
 		{
-			// Check for a free stub
-			while(nodeA.HasNonConnectedStub())
+			// Get stub from nodeA
+			Stub nodeAStub = nodeA.getStub(null);
+			
+			// Loop through all other nodes
+			for(Node nodeB : nodes)
 			{
-				Stub nodeANonConnectedStub = nodeA.getNonConnectedStub();
+				// If nodes are equal, continue to next node.
+				if(nodeA == nodeB) {continue;}
+				
+				// Get stub from node b
+				Stub nodeBStub = nodeB.getStub(null);
 				
 				
-				// Loop through all other nodes
-				for(Node nodeB : nodes)
+				// Use bernoulli distribution to determine whether stubs should be connected
+				// If 0, continue, if 1, connect
+				if(Probability.GetDistributionResult(new BernoulliDistribution(0.5, new Random())) == 1)
 				{
-							
-					// Check if nodeB has any free stubs not equal to <nodeANonConnectedStub>
-					if(nodeB.HasNonConnectedStub(nodeANonConnectedStub))
-					{
-						Stub nodeBNonConnectedStub = nodeB.getNonConnectedStub(nodeANonConnectedStub);
-						
-						// Connect stubs with each other
-						nodeANonConnectedStub.setNode(nodeB);
-						nodeBNonConnectedStub.setNode(nodeA);
-						
-						System.out.println(String.format("Connected node %s, with stub index %s, to node %s with stub index %s", 
-								nodeA.getID(), nodeA.getStubIndex(nodeANonConnectedStub), nodeB.getID(), nodeB.getStubIndex(nodeBNonConnectedStub)));
-						
-						// Continue to next node
-						break;
-						
-					}
+					// Connect stubs with each other
+					nodeAStub.setNode(nodeB);
+					nodeBStub.setNode(nodeA);
+					
+					System.out.println(String.format("Connected node %s, with stub index %s, to node %s with stub index %s", 
+							nodeA.getID(), nodeA.getStubIndex(nodeAStub), nodeB.getID(), nodeB.getStubIndex(nodeBStub)));
 				}
+			
 			}
-
+			
 		}
 	}
 
