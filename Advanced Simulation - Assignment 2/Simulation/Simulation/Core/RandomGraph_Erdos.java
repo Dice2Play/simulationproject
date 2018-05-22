@@ -30,8 +30,8 @@ public class RandomGraph_Erdos extends RandomGraph{
 				
 				
 				// Use bernoulli distribution to determine whether stubs should be connected
-				// If 0, continue, if 1, connect
-				if(Probability.GetDistributionResult(new BernoulliDistribution(0.5, new Random())) == 1)
+				// If 0, continue to next node, if 1, connect
+				if(Probability.GetDistributionResult(new BernoulliDistribution(probability, new Random())) == 1)
 				{
 					// Connect stubs with each other
 					nodeAStub.setNode(nodeB);

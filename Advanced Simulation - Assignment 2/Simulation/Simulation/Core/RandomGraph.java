@@ -7,7 +7,7 @@ public abstract class RandomGraph {
 
 	protected List<Node> nodes = new ArrayList<Node>();
 	private final int degree;
-	private final double probability;
+	protected  double probability;
 	private final int amountOfNodes;
 	
 	
@@ -15,6 +15,16 @@ public abstract class RandomGraph {
 	{
 		this.degree = degree;
 		this.probability = probability;
+		this.amountOfNodes = amountOfNodes;
+		
+		// Create nodes
+		CreateNodes();
+		
+	}
+	
+	public RandomGraph(int degree, int amountOfNodes )
+	{
+		this.degree = degree;
 		this.amountOfNodes = amountOfNodes;
 		
 		// Create nodes
@@ -35,7 +45,7 @@ public abstract class RandomGraph {
 		}
 	}
 	
-	public Node[] getNodesWithNonConnectedStubs()
+	public ArrayList<Node> getNodesWithNonConnectedStubs()
 	{
 		List<Node> nodesWithOpenStubs = new ArrayList<Node>();
 		
@@ -48,7 +58,7 @@ public abstract class RandomGraph {
 		}
 		
 		
-		return (Node[]) nodesWithOpenStubs.toArray();
+		return (ArrayList<Node>) nodesWithOpenStubs;
 	}
 	
 	
