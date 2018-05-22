@@ -1,8 +1,9 @@
 package Simulation.Model.Resource;
 
 import Simulation.Enums.Resource_Type;
+import Simulation.Model.Resource.Behavior.ISeizeBehavior;
 import Simulation.Model.Time.TimeManager;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 class Resource {
 
@@ -11,6 +12,8 @@ class Resource {
 	private boolean available = true;
 	private String ID;
 	private Resource_Type type;
+	protected ISeizeBehavior seizeBehavior;
+	
 	
 	
 	Resource(String ID, Resource_Type type)
@@ -24,6 +27,8 @@ class Resource {
 		startTimeOccupied = TimeManager.GetTimeUnitsPassed();
 		endTimeOccupied = startTimeOccupied + timeUnitsRequired; 
 		SetAvailable(false);
+		seizeBehavior.Seize(capacityNeeded);
+		
 	}
 	
 	boolean CanSeize()
@@ -38,9 +43,8 @@ class Resource {
 	
 	void Release()
 	{
-		// Update statistics
-		
 		// Reset all
+		seizeBehavior.Release();
 		SetAvailable(true);
 	}
 	
@@ -59,10 +63,16 @@ class Resource {
 		this.available = available;
 	}
 	
+	double GetOccupancy()
+	{
+		return seizeBehavior.GetOccupancy();
+	}
+	
 	String GetID()
 	{
 		return ID;
 	}
-	
+
+
 	
 }

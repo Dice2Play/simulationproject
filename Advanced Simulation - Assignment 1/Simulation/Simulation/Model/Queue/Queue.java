@@ -9,8 +9,9 @@ import java.util.Random;
 import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
+import Statistics.ArtificialDistribution;
 
-class Queue implements Tick_Listener {
+public class Queue implements Tick_Listener {
 
 	private final Queue_Priority queueingPriority;
 	private final int maxGroupSize;
@@ -19,7 +20,7 @@ class Queue implements Tick_Listener {
 	
 	private LinkedList<QueueObject> groupsInQueue = new LinkedList<QueueObject>();
 	
-	Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
+	public Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
 	{
 		this.maxGroupSize = maxGroupSize;
 		this.queueingPriority = queueingPriority;
@@ -64,51 +65,40 @@ class Queue implements Tick_Listener {
 		return !groupsInQueue.isEmpty();
 	}
 	
-	private void GenerateQueueObjects() throws Exception
+	void GenerateQueueObjects() 
 	{
 		// Check if group queue yes/no
 		if(maxGroupSize > 1)
 		{
-			int amountOfGroups = 0; 
+			double[] amountOfPossibleGroups = {0,1,2};
+			double[] probabilityAmountOfPossibleGroups = {0.2,0.6,0.2};
 			
-			
-			boolean[] addGroups = {	Probability.Probability.GetProbability(0.2),
-									Probability.Probability.GetProbability(0.6),
-									Probability.Probability.GetProbability(0.2)};
-			int amountOfGroupsCounter = 0;
-			for(boolean addGroup : addGroups)
-			{
-				if(addGroup) { amountOfGroups = amountOfGroupsCounter; break;}
-				else amountOfGroupsCounter = amountOfGroupsCounter + 1;
-			}
-			
-			
+			int amountOfGroups = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(amountOfPossibleGroups, probabilityAmountOfPossibleGroups)); 
+						
 			// For each group 	
+			double[] possibleSizeOfGroups = {1,2,3,4,5};
+			double[] probabilityPossibleSizeOfGroups = {0.2,0.2,0.2,0.2,0.2};
+			
 			for(int i = 0; i < amountOfGroups; i++)
 			{
-				boolean[] addPersons = {	Probability.Probability.GetProbability(0.2),
-											Probability.Probability.GetProbability(0.2),
-											Probability.Probability.GetProbability(0.2),
-											Probability.Probability.GetProbability(0.2),
-											Probability.Probability.GetProbability(0.2)};
-				
-				int amountOfPersonsCounter = 1;
-				
-				for(boolean addPerson : addPersons)
-				{
-						if(addPerson) { groupsInQueue.add(new QueueObject(amountOfPersonsCounter,queueID)); break;}
-						else amountOfPersonsCounter = amountOfPersonsCounter + 1;
-				}
-
+				int groupSize = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(possibleSizeOfGroups, probabilityPossibleSizeOfGroups)); 
+				groupsInQueue.add(new QueueObject(groupSize, queueID));
+				ShowQueueObjectsAdded(groupSize);
 			}
 		}
 		
-		else
+		else // Single rider queue
 		{
 			groupsInQueue.add(new QueueObject(1, queueID));
+			ShowQueueObjectsAdded(1);
 		}
 		
 
+	}
+	
+	void ShowQueueObjectsAdded(int amountOfPeopleAdded)
+	{
+		System.out.println(queueID + ": Added " + amountOfPeopleAdded + " People");
 	}
 	
 	String GetID()
@@ -123,24 +113,10 @@ class Queue implements Tick_Listener {
 		catch (Exception e) {e.printStackTrace();}
 	}
 	
-	void Release()
+
+	LinkedList<QueueObject> GetQueueObjectList()
 	{
-		for(QueueObject qo : groupsInQueue)
-		{
-			if(qo.CanRelease()) {qo.Release();}
-		}
-	}
-	
-	// Check if any queueObject can be released
-	boolean CanRelease()
-	{
-		for(QueueObject qo : groupsInQueue)
-		{
-			if(qo.CanRelease()) {return true;}
-		}
-		
-		// If no queueobject can be released
-		return false;
+		return groupsInQueue;
 	}
 	
 	

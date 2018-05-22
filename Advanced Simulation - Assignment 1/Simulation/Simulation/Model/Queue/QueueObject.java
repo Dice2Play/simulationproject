@@ -1,7 +1,6 @@
 package Simulation.Model.Queue;
 
 
-import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 
 class QueueObject{
@@ -59,16 +58,9 @@ class QueueObject{
 		SetLeaveTime(TimeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
 	}
 	
-	boolean CanRelease()
+	double GetWaitingTime()
 	{
-		return TimeManager.GetTimeUnitsPassed() > leaveTime;
-	}
-	
-	void Release()
-	{
-		// Update statistics
-		
-
+		return  TimeManager.GetTimeUnitsPassed() - arrivalTime;
 	}
 
 		

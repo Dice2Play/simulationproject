@@ -1,15 +1,17 @@
 package Simulation.Results;
 
-class Result {
+
+
+public class Result {
 
 	// General
-	private final int waitingTimeArbitraryCustomer;
-	private final int totalQueueLength;
+	private final double waitingTimeArbitraryCustomer;
+	private final double totalQueueLength;
 	private final double boatOccupancy;
 	
 	
-	public Result(	int waitingTimeArbitraryCustomer, 
-					int totalQueueLength,
+	public Result(	double waitingTimeArbitraryCustomer, 
+					double totalQueueLength,
 					double boatOccupancy)
 	{
 		this.waitingTimeArbitraryCustomer = waitingTimeArbitraryCustomer;
@@ -17,16 +19,18 @@ class Result {
 		this.boatOccupancy = boatOccupancy;
 	}
 	
-	public void Print()
+	public String GetFields()
 	{
-		
+		return  "waitingTimeArbitraryCustomer ["+waitingTimeArbitraryCustomer+"] " + 
+				"totalQueueLength ["+totalQueueLength+"] " +
+				"boatOccupancy ["+boatOccupancy+"] ";
 	}
 
-	public int GetWaitingTimeArbitraryCustomer() {
+	public double GetWaitingTimeArbitraryCustomer() {
 		return waitingTimeArbitraryCustomer;
 	}
 
-	public int GetTotalQueueLength() {
+	public double GetTotalQueueLength() {
 		return totalQueueLength;
 	}
 
@@ -34,7 +38,7 @@ class Result {
 		return boatOccupancy;
 	}
 	
-	
+
 }
 
 

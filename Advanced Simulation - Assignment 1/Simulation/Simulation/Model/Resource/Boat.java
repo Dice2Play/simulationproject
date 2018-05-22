@@ -1,34 +1,14 @@
 package Simulation.Model.Resource;
 
 import Simulation.Enums.Resource_Type;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import Simulation.Model.Resource.Behavior.CapacitySeizeBehavior;
 
-class Boat extends Resource{
+public class Boat extends Resource{
 
-	final int capacity = 8;
-	int amountOfPlacesTaken = 0;
-	
-	
 	public Boat(String ID)
 	{
-		super(ID, Resource_Type.BOAT);	
+		super(ID, Resource_Type.BOAT);
+		seizeBehavior = new CapacitySeizeBehavior(8);
 	}
-	
-	public void Seize(int timeUnitsRequired, int capacityNeeded)
-	{
-		// Call parent method
-		super.Seize(timeUnitsRequired, capacityNeeded);
-		
-		// Seize spots
-		SeizeSpots(capacityNeeded);
-				
-	}
-	
-	// Seize spots
-	public void SeizeSpots(int amountOfSpots)
-	{
-		amountOfPlacesTaken = amountOfPlacesTaken + amountOfSpots;
-	}
-	
-
 }
