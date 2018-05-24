@@ -1,6 +1,11 @@
 package Simulation.Model;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import Simulation.Core.MeasureDistance;
 import Simulation.Core.Node;
@@ -20,6 +25,8 @@ public class SimulationModel {
 	private void DistanceDistribution(int amountOfReplications)
 	{
 		
+		HashMap distributionValues =  new HashMap();
+		
 		for(int index = 0; index < amountOfReplications; index++)
 		{
 			// Create RandomGraph
@@ -30,11 +37,36 @@ public class SimulationModel {
 			// Calculate
 			randomGraph.Calculate();
 					
-			// Get distribution graph
-			randomGraph.getDistanceBetweenTwoRandomNodes();		
-
+			// Get distanceBetweenTwoRandomNodes
+			int distanceBetweenTwoRandomNodes = randomGraph.getDistanceBetweenTwoRandomNodes(); 
+			
+			// Add to hashmap
+			if(distributionValues.containsKey(distanceBetweenTwoRandomNodes)) // Check if key already exists
+			{
+				distributionValues.put(distanceBetweenTwoRandomNodes, (int)distributionValues.get(distanceBetweenTwoRandomNodes) + 1);
+			}
+			
+			else
+			{
+				distributionValues.put(distanceBetweenTwoRandomNodes, 1);
+			}
+			
 		}
+		
+		// Print distance distribution 
+		System.out.println("\n==== DISTANCE DISTRIBUTION ====");
+		
+		// Display values
+	    Iterator it = distributionValues.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        System.out.println(pair.getKey() + " = " + pair.getValue());
+	    }
+		
+		
 
 	}
+	
+	
 	
 }

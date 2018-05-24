@@ -12,7 +12,7 @@ public class Main {
 		SimulationModel simModel = new SimulationModel();
 		//SimulationController simController = new SimulationController(simModel, simView);
 
-		//simView.setVisible(true);
+		//simView.setVisible(false);
 		
 	}
 

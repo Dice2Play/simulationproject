@@ -27,7 +27,7 @@ public class MeasureDistance {
 		System.out.println(String.format("Smallest distance between %s and %s is %d", sourceNode.getID(), targetNode.getID(), DistanceToSourceObject(dnoHoldingTargetNode)));
 		
 		// Return shortest distance to source node
-		return dnoHoldingTargetNode.getDistanceToSourceNode();
+		return  DistanceToSourceObject(dnoHoldingTargetNode);
 	}
 	
 	private static ArrayList<DijkstraNodeObject> CreateSmallestDistanceGraph(Node source,  ArrayList<Node> allNodes)
