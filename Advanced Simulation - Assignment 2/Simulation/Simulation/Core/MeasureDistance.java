@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 // Dijkstra's algorithm and such
 
 public class MeasureDistance {
-
+ 
 	
 	public static int getDistanceBetweenNodes(Node sourceNode, Node targetNode, ArrayList<Node> allNodes) throws Exception
 	{
@@ -22,7 +22,10 @@ public class MeasureDistance {
 		
 		// Get dijkstra node
 		DijkstraNodeObject dnoHoldingTargetNode = getDNOFromList(visitedNodes, targetNode, sourceNode);
-		
+		if (dnoHoldingTargetNode == null) {
+			System.out.println(String.format("No path found between %s and %s", sourceNode.getID(), targetNode.getID()));
+			return -1;
+		}
 		
 		System.out.println(String.format("Smallest distance between %s and %s is %d", sourceNode.getID(), targetNode.getID(), DistanceToSourceObject(dnoHoldingTargetNode)));
 		
@@ -81,9 +84,7 @@ public class MeasureDistance {
 			visitedNodes.add(currentVisitingNode);
 			unvisitedNodes.remove(currentVisitingNode);
 			nodesToVisit.remove(currentVisitingNode);
-			
-						
-						
+									
 		}
 		
 		
@@ -123,24 +124,13 @@ public class MeasureDistance {
 		return dijkstraObjects;
 	}
 	
-	private static DijkstraNodeObject getDNOFromList(List<DijkstraNodeObject> listToSearchIn, Node nodeToFind, Node sourceNode) throws Exception
+	private static DijkstraNodeObject getDNOFromList(List<DijkstraNodeObject> listToSearchIn, Node nodeToFind, Node sourceNode)
 	{
-		DijkstraNodeObject dnoHoldingNodeToFind = null;
-		
 		for(DijkstraNodeObject dno : listToSearchIn)
 		{
 			if(dno.HasSameNode(nodeToFind)) {return dno;}
 		}
-		
-		// If the probability of two nodes connecting is very low, it could be that the source/target node doesnt exist
-		if(dnoHoldingNodeToFind == null)
-		{
-			throw new Exception(String.format("There could no path be established between the source node: %s and node: %s.", sourceNode.getID(),nodeToFind.getID()));
-		}
-		
-		
-		
-		return dnoHoldingNodeToFind;
+		return null;
 	}
 	
 	private static int DistanceToSourceObject(DijkstraNodeObject target)
@@ -150,9 +140,10 @@ public class MeasureDistance {
 		if(target.hasPreviousNode())
 		{
 			distanceToSource = 1 + DistanceToSourceObject(target.getPreviousNode()); 
+			return distanceToSource;
 		}
 		
-		return distanceToSource;
+		return 0;		
 	}
 	
 	static class DijkstraNodeObject

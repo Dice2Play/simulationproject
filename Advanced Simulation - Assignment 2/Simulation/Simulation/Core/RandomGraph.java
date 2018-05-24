@@ -7,6 +7,7 @@ import java.util.Random;
 public abstract class RandomGraph {
 
 	protected ArrayList<Node> nodes = new ArrayList<Node>();
+	protected ArrayList<Integer> distanceDistribution = new ArrayList<Integer>();
 	private final int degree;
 	protected  double probability;
 	private final int amountOfNodes;
@@ -84,12 +85,40 @@ public abstract class RandomGraph {
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
+			// if no path could be found
+			return Integer.MAX_VALUE;
 		}
-		
-		// if no path could be found
-		return Integer.MAX_VALUE;
-			
 	}
+	/**
+	**Checking all the notes distance one to the rest and record all the distance
+	* Adding all the distance to a distance array
+	**/
+	public ArrayList<Integer> getDistanceBetweenEachNode()
+	{
+		ArrayList<Node> myNode = this.getAllNodes();
+        for(int i = 0; i < myNode.size(); i++)
+        {
+        	Node sourceNode = myNode.get(i);
+        		for(int j = i+1; j < myNode.size(); j++)
+        		{
+        			Node targetNode = myNode.get(j);
+					int distance;
+					try {
+						distance = MeasureDistance.getDistanceBetweenNodes(sourceNode, targetNode, getAllNodes());
+						if(distance >= 0) {
+							/* negative distance means no path between two nodes; so we only add positive distances */
+							distanceDistribution.add(distance);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}	
+        		}
+
+        }
+        return distanceDistribution;
+	}
+
 				
 	
 	

@@ -1,5 +1,6 @@
 package Simulation.Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -19,7 +20,8 @@ public class SimulationModel {
 	
 	public SimulationModel()
 	{
-		DistanceDistribution(30);
+		DistanceDistribution(10);
+		
 	}
 	
 	private void DistanceDistribution(int amountOfReplications)
@@ -31,15 +33,25 @@ public class SimulationModel {
 		{
 			// Create RandomGraph
 			// Note: for the 'RandomGraph_Erdos' the amount of stubs at least needs to be as large as the amount of nodes * amount of possible connections
-			//RandomGraph randomGraph = new RandomGraph_Configuration(5,10);
-			RandomGraph randomGraph = new RandomGraph_Erdos(100,.51,10);
-					
+			RandomGraph randomGraph = new RandomGraph_Configuration(4,50);
+			//RandomGraph randomGraph = new RandomGraph_Erdos(100,.51,10);
+			System.out.println("---------Random graph created ---------Round " + index);		
 			// Calculate
 			randomGraph.Calculate();
-					
+			
+			System.out.println("---------distance distribution Record START ---------Round " + index);
+			
+			ArrayList<Integer> distance = randomGraph.getDistanceBetweenEachNode();
+			for( Integer dis : distance ){
+			    System.out.println(dis);
+			}
+			
+			System.out.println("---------distance distribution Record END--------- Round " + index);
+			
 			// Get distanceBetweenTwoRandomNodes
 			int distanceBetweenTwoRandomNodes = randomGraph.getDistanceBetweenTwoRandomNodes(); 
-			
+			if (distanceBetweenTwoRandomNodes < 0) continue; /* no path between the two random nodes */
+
 			// Add to hashmap
 			if(distributionValues.containsKey(distanceBetweenTwoRandomNodes)) // Check if key already exists
 			{
