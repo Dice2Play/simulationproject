@@ -33,6 +33,22 @@ public class Node {
 		}
 	}
 	
+	public Node[] getConnectedNodes()
+	{
+		ArrayList<Node> connectedNodes = new ArrayList<Node>();
+		
+		for(Stub stub : stubs)
+		{
+			if(stub.connectedNode != null)
+			{
+				connectedNodes.add(stub.connectedNode);
+			}
+		}
+		
+		
+		return connectedNodes.toArray(new Node[connectedNodes.size()]);
+	}
+	
 	public Point getCoordinates()
 	{
 		return coordinates;
