@@ -2,10 +2,11 @@ package Simulation.Core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public abstract class RandomGraph {
 
-	protected List<Node> nodes = new ArrayList<Node>();
+	protected ArrayList<Node> nodes = new ArrayList<Node>();
 	private final int degree;
 	protected  double probability;
 	private final int amountOfNodes;
@@ -61,6 +62,35 @@ public abstract class RandomGraph {
 		return (ArrayList<Node>) nodesWithOpenStubs;
 	}
 	
+	public ArrayList<Node> getAllNodes()
+	{
+		return nodes;
+	}
+	
+	public int getDistanceBetweenTwoRandomNodes()
+	{
+		// Get two random nodes
+		Random rand = new Random();
+
+		Node sourceNode = getAllNodes().get(rand.nextInt(getAllNodes().size()));
+		Node targetNode = getAllNodes().get(rand.nextInt(getAllNodes().size()));
+		while(sourceNode == targetNode) { targetNode = getAllNodes().get(rand.nextInt(getAllNodes().size()));} // Keep running till we have two unique nodes
+			
+		try 
+		{
+			return MeasureDistance.getDistanceBetweenNodes(sourceNode, targetNode, getAllNodes());
+		}
+			
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		// if no path could be found
+		return Integer.MAX_VALUE;
+			
+	}
+				
 	
 	
 }
