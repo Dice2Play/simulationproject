@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 import Simulation.Enums.Queue_Priority;
@@ -19,84 +20,55 @@ public class QueueManager {
 	{
 		queues.add(queue);
 	}
+	
+	private static PriorityQueue<Queue> OrderQueuesByPriority()
+	{
+		Comparator<Queue> comparator = new QueuePriorityComparator();
+	    PriorityQueue<Queue> queue = new PriorityQueue<Queue>(comparator);
+	    queue.addAll(queues);
+		
+		return queue;
+	}
 
 	// Returns amount of spots seized
-	public static int SeizeQueueObject(int seizeTime, int capacity ) 
+	public static int SeizeQueueObject(int seizeTime, int capacity) 
 	{
 		int amountOfSpotsTaken = 0;
+		PriorityQueue<Queue> queuesByPriority = OrderQueuesByPriority();
 		
-		try
+		while(amountOfSpotsTaken <= capacity)
 		{
-			
-			while(amountOfSpotsTaken <= capacity)
+	
+			for(Queue queue : queuesByPriority)
 			{
-				// Get group-queue queue
-				Queue groupQueue = GetQueueByPriority(Queue_Priority.High);
-				
-				// Get single rider queue
-				Queue singleQueue = GetQueueByPriority(Queue_Priority.Low);
-				
-				// Check if group-queue can be fit
-				while(groupQueue.HasNextQueueObject())
+			
+				while(queue.HasNextQueueObject())
 				{
-					//Check if fits, otherwise break loop
-					if((amountOfSpotsTaken + groupQueue.GroupSizeNextQueueObject() <= capacity))
-					{
-						int queueObjectSpots = groupQueue.GroupSizeNextQueueObject();
 						
-						groupQueue.SeizeFirstQueueObject(seizeTime);
+					//Check if fits, otherwise break loop
+					if((amountOfSpotsTaken + queue.GroupSizeNextQueueObject() <= capacity))
+					{
+						int queueObjectSpots = queue.GroupSizeNextQueueObject();
+							
+						queue.SeizeFirstQueueObject(seizeTime);
 						amountOfSpotsTaken = amountOfSpotsTaken + queueObjectSpots; 
 					}
-					
-					else break;
-				}
-				
-				
-				// Check if single rider can be fit
-				while(singleQueue.HasNextQueueObject())
-				{
-					//Check if fits, otherwise break loop
-					if((amountOfSpotsTaken + singleQueue.GroupSizeNextQueueObject() <= capacity))
-					{
-						int queueObjectSpots = singleQueue.GroupSizeNextQueueObject();
 						
-						singleQueue.SeizeFirstQueueObject(seizeTime);
-						amountOfSpotsTaken = amountOfSpotsTaken + queueObjectSpots; 
-					}
-					
 					else break;
+								
 				}
-				
+			}	
 				
 								
-				// Finally return amount of spots taken
-				return amountOfSpotsTaken;
-			}
-		
+			// Finally return amount of spots taken
+			return amountOfSpotsTaken;
 		}
-		
-		catch(Exception ex) { System.out.println(ex.getMessage()); }
-	
 		
 		// if no spots could be filled
 		return 0;
 			
 	}
-	
-	private static Queue GetQueueByPriority(Queue_Priority priority) throws Exception
-	{
-		for(Queue queue : queues)
-		{
-			if(queue.GetQueuePriority() == priority)
-			{
-				return queue;
-			}
-		}
 		
-		// If no 
-		throw new Exception("No queue with given criteria could be found.");
-	}
-	
 
 	public static void Reset() {
 		queues = new ArrayList<Queue>();
@@ -154,6 +126,22 @@ public class QueueManager {
 		
 		// Default value
 		return false;
+		
+	}
+	
+	private static class QueuePriorityComparator implements Comparator<Queue>
+	{
+
+		@Override
+		public int compare(Queue queue1, Queue queue2) {
+			
+			int queueOnePriorityCode = queue1.GetQueuePriority().getLevelCode();
+			int queueTwoPriorityCode = queue2.GetQueuePriority().getLevelCode();
+			
+			
+			
+			return  queueTwoPriorityCode - queueOnePriorityCode;
+		}
 		
 	}
 
