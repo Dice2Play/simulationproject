@@ -42,10 +42,10 @@ public class RandomGraph_Configuration extends RandomGraph{
 				nodeANonConnectedStub.setNode(nodeB);
 				nodeBNonConnectedStub.setNode(nodeA);
 				
-				System.out.println(String.format("Connected node %s, with stub index %s, to node %s with stub index %s", 
+				/*System.out.println(String.format("Connected node %s, with stub index %s, to node %s with stub index %s", 
 						nodeA.getID(), nodeA.getStubIndex(nodeANonConnectedStub), nodeB.getID(), nodeB.getStubIndex(nodeBNonConnectedStub)));
 
-				
+				*/
 				
 				
 				
