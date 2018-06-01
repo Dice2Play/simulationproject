@@ -34,7 +34,7 @@ public class QueueManager {
 				Queue groupQueue = GetQueueByPriority(Queue_Priority.High);
 				
 				// Get single rider queue
-				//Queue singleQueue = GetQueueByPriority(Queue_Priority.Low);
+				Queue singleQueue = GetQueueByPriority(Queue_Priority.Low);
 				
 				// Check if group-queue can be fit
 				while(groupQueue.HasNextQueueObject())
@@ -53,7 +53,7 @@ public class QueueManager {
 				
 				
 				// Check if single rider can be fit
-		/*		while(singleQueue.HasNextQueueObject())
+				while(singleQueue.HasNextQueueObject())
 				{
 					//Check if fits, otherwise break loop
 					if((amountOfSpotsTaken + singleQueue.GroupSizeNextQueueObject() <= capacity))
@@ -65,7 +65,7 @@ public class QueueManager {
 					}
 					
 					else break;
-				}*/
+				}
 				
 				
 								

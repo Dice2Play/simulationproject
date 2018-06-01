@@ -46,7 +46,7 @@ public class Model implements Tick_Listener {
 		QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));
 		
 		// Processes
-		ProcessManager.AddProcess(new Process("Boattrip", 1 , Resource_Type.BOAT));
+		ProcessManager.AddProcess(new Process("Boattrip", 4 , Resource_Type.BOAT));
 	
 
 	}
