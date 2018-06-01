@@ -9,6 +9,6 @@ public class Boat extends Resource{
 	public Boat(String ID)
 	{
 		super(ID, Resource_Type.BOAT);
-		seizeBehavior = new CapacitySeizeBehavior(8);
+		seizeBehavior = new CapacitySeizeBehavior(Resource_Type.BOAT.GetCapacity());
 	}
 }

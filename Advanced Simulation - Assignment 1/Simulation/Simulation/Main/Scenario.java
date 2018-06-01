@@ -33,7 +33,8 @@ public class Scenario {
 			ResultManager.ShowAllResults();
 			ResultManager.ShowSummary();
 			
-			
+			// Export replication summary to csv
+			ResultManager.ExportSummaryToCSV();
 			
 			// Clear results of ResultManager
 			ResultManager.ClearResults();

@@ -6,6 +6,7 @@ import  Simulation.Interfaces.*;
 import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
+import Simulation.Results.DoubleResultAttribute;
 import Simulation.Results.Result;
 import Simulation.Results.ResultManager;
 import Simulation.Model.Process.*;
@@ -39,11 +40,11 @@ public class Model implements Tick_Listener {
 		// Create Resources/Queue/Processes
 		// Resources
 		ResourceManager.AddResource(new Boat("BOAT_1"));
-		ResourceManager.AddResource(new Boat("BOAT_2"));
+
 		
 		// Queue's
 		QueueManager.AddQueue(new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"));
-		QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));
+		//QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));
 		
 		// Processes
 		ProcessManager.AddProcess(new Process("Boattrip", 1 , Resource_Type.BOAT));
@@ -58,14 +59,18 @@ public class Model implements Tick_Listener {
 			// Print amount of time units passed
 			TimeManager.PrintAmountOfTimePassed();
 			
-			// Save results from previous timeUnit
-			Report();
+
 			
 			// Check if ProcessManager can fire any process
 			// If so, fire processes
 			if(ProcessManager.CanFire()){ ProcessManager.Fire();}
 			
-			// increment timeUnit, such that subscribed resourceManager can release resources.
+			// Save results from previous timeUnit
+			Report();
+			
+			// increment timeUnit, such that:
+			// - subscribed resourceManager can release resources.
+			// - subscribed queueManager can generate new customers.
 			TimeManager.Tick();
 			
 		}
@@ -95,13 +100,22 @@ public class Model implements Tick_Listener {
 	
 	private void Report()
 	{
-		// Nothing of interest at timeUnit 0, so skip.
-		if(amountOfTimeUnitsPassed > 0)
-		{
-			double meanBoatOccupancy = ResourceManager.GetResourceOccupancy();
-			double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
-			double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
-			ResultManager.AddResults(new Result(waitingTimeArbitraryCustomer,totalQueuelength,meanBoatOccupancy));
-		}
+
+		// Retrieve values
+		double meanBoatOccupancy = ResourceManager.GetResourceOccupancy();
+		double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
+		double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
+			
+		// Add values to result
+		Result result = new Result();
+		result.AddAttribute(new DoubleResultAttribute(meanBoatOccupancy, "Mean boat occupancy"));
+		result.AddAttribute(new DoubleResultAttribute(waitingTimeArbitraryCustomer, "Waiting Time arbitrary customer"));
+		result.AddAttribute(new DoubleResultAttribute(totalQueuelength, "Total Queue Length"));
+			
+			
+			
+		// Add result to resultManager
+		ResultManager.AddResults(result);
+		
 	}
 }
