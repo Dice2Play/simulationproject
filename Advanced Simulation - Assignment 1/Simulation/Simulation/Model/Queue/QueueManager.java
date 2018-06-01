@@ -3,6 +3,7 @@ package Simulation.Model.Queue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -74,6 +75,37 @@ public class QueueManager {
 		queues = new ArrayList<Queue>();
 	}
 
+	public static HashMap<String,Double> GetWaitingTimeArbitraryCustomerPerQueue()
+	{
+		
+		HashMap<String,Double> waitingTimePerQueue = new HashMap<String,Double>();
+		
+		for(Queue queue : queues)
+		{
+			// Check if there are any queueObjects, if not return 0.
+			if(!queue.HasNextQueueObject()) {waitingTimePerQueue.put(queue.GetID(), 0.0);} // Return 0 if queue has no queueObject
+			
+			// If it does have any queueObjects, pick a random one
+			else
+			{
+				
+				// Get random queueobject
+				Random r = new Random();
+				QueueObject queueObject = queue.GetQueueObjectList().get(r.nextInt(queue.GetQueueObjectList().size()));
+				
+				// Add to list
+				waitingTimePerQueue.put(queue.GetID(), queueObject.GetWaitingTime());
+				
+			}
+			
+			
+		}
+		
+		return waitingTimePerQueue;
+		
+		
+	}
+	
 	
 	public static double GetWaitingTimeArbitraryCustomer()
 	{
@@ -100,6 +132,28 @@ public class QueueManager {
 		// Get waiting time
 		return queueObject.GetWaitingTime();
 	}
+	
+	public static HashMap<String,Double> GetTotalQueueLengthPerQueue()
+	{
+		HashMap<String,Double> totalQueueLengthPerQueue = new HashMap<String,Double>();
+		
+		for(Queue queue : queues)
+		{
+			
+			double totalNumberOfPeopleWaiting = 0;
+			
+			for(QueueObject queueObject : queue.GetQueueObjectList())
+			{
+				totalNumberOfPeopleWaiting = totalNumberOfPeopleWaiting + queueObject.GetGroupSize();
+			}
+			
+			// Add to list
+			totalQueueLengthPerQueue.put(queue.GetID(), totalNumberOfPeopleWaiting);
+		}
+		
+		return totalQueueLengthPerQueue;
+	}
+	
 	
 	public static double GetTotalQueueLength()
 	{
