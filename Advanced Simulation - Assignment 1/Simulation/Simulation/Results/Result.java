@@ -1,41 +1,35 @@
 package Simulation.Results;
 
+import java.util.ArrayList;
+import java.util.List;
 
+import Simulation.Interfaces.IResultAttribute;
 
 public class Result {
 
-	// General
-	private final double waitingTimeArbitraryCustomer;
-	private final double totalQueueLength;
-	private final double boatOccupancy;
+	List<IResultAttribute> attributes = new ArrayList<IResultAttribute>();
 	
 	
-	public Result(	double waitingTimeArbitraryCustomer, 
-					double totalQueueLength,
-					double boatOccupancy)
+	public void AddAttribute(IResultAttribute attribute)
 	{
-		this.waitingTimeArbitraryCustomer = waitingTimeArbitraryCustomer;
-		this.totalQueueLength = totalQueueLength;
-		this.boatOccupancy = boatOccupancy;
+		attributes.add(attribute);
 	}
 	
-	public String GetFields()
+	public List<IResultAttribute> getAttributes()
 	{
-		return  "waitingTimeArbitraryCustomer ["+waitingTimeArbitraryCustomer+"] " + 
-				"totalQueueLength ["+totalQueueLength+"] " +
-				"boatOccupancy ["+boatOccupancy+"] ";
+		return attributes;
 	}
-
-	public double GetWaitingTimeArbitraryCustomer() {
-		return waitingTimeArbitraryCustomer;
-	}
-
-	public double GetTotalQueueLength() {
-		return totalQueueLength;
-	}
-
-	public double GetBoatOccupancy() {
-		return boatOccupancy;
+	
+	String getAttributeValues()
+	{
+		StringBuilder stringToPrint =  new StringBuilder();
+		
+		for(IResultAttribute attribute : attributes)
+		{
+			stringToPrint.append(String.format(" %s : %.4f " , attribute.getID(), attribute.getValue()));
+		}
+		
+		return stringToPrint.toString();
 	}
 	
 

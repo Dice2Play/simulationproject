@@ -38,7 +38,7 @@ class Resource {
 	
 	boolean CanRelease()
 	{
-		return TimeManager.GetTimeUnitsPassed() > endTimeOccupied;
+		return TimeManager.GetTimeUnitsPassed() >= endTimeOccupied;
 	}
 	
 	void Release()
