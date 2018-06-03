@@ -25,7 +25,7 @@ public class Model implements Tick_Listener {
 
 	private final int amountOfTimeUnitsToRun;
 	
-	private int amountOfTimeUnitsPassed;
+	private double amountOfTimeUnitsPassed;
 	
 	public Model(int amountOfTimeUnitsToRun)
 	{
@@ -49,7 +49,7 @@ public class Model implements Tick_Listener {
 
 		
 		// Queue's
-
+		QueueManager.AddQueue(new ContinuousQueue(Queue_Priority.High, 1,10, "Temp"));
 		
 		// Processes
 	
@@ -82,14 +82,14 @@ public class Model implements Tick_Listener {
 		
 	}
 	
-	private void SetTimePassed(int timeValue)
+	private void SetTimePassed(double timeValue)
 	{
 		amountOfTimeUnitsPassed = timeValue;	
 	}
 	
 
 	@Override
-	public void Event_Tick(int timePassed) {
+	public void Event_Tick(double timePassed) {
 		SetTimePassed(timePassed);	
 		
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}

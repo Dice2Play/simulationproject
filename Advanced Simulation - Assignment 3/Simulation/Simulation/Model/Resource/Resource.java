@@ -7,8 +7,8 @@ import Simulation.Model.Time.TimeManager;
 
 class Resource {
 
-	private int startTimeOccupied;
-	private int endTimeOccupied;
+	private double startTimeOccupied;
+	private double endTimeOccupied;
 	private boolean available = true;
 	private String ID;
 	private Resource_Type type;

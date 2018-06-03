@@ -7,6 +7,7 @@ import java.util.Random;
 
 
 import Simulation.Enums.Queue_Priority;
+import Simulation.Interfaces.IQueueGenerateBehavior;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 import Statistics.ArtificialDistribution;
@@ -14,12 +15,12 @@ import Statistics.ArtificialDistribution;
 public abstract class Queue implements Tick_Listener {
 
 	private final Queue_Priority queueingPriority;
-	private final String queueID;
+	protected final String queueID;
+	protected IQueueGenerateBehavior generateQueueBehavior;
+	protected LinkedList<QueueObject> queueObjects = new LinkedList<QueueObject>();
 	
 	
-	private LinkedList<QueueObject> groupsInQueue = new LinkedList<QueueObject>();
-	
-	public Queue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID)
+	public Queue(Queue_Priority queueingPriority, String queueID)
 	{
 		this.queueingPriority = queueingPriority;
 		this.queueID = queueID;
@@ -37,7 +38,7 @@ public abstract class Queue implements Tick_Listener {
 		firstQueueObject.SeizeQueueObject(amountOfTimeToSeize);
 		
 		// Remove from list
-		groupsInQueue.remove(firstQueueObject);		
+		queueObjects.remove(firstQueueObject);		
 	}
 	
 	Queue_Priority GetQueuePriority()
@@ -48,27 +49,26 @@ public abstract class Queue implements Tick_Listener {
 	// Return size of NextQueueObject
 	int GroupSizeNextQueueObject()
 	{
-		return groupsInQueue.getFirst().GetGroupSize();
+		return queueObjects.getFirst().GetGroupSize();
 	}
 	
 	// Retrieve first QueueObject
 	QueueObject FirstQueueObject()
 	{
-		return groupsInQueue.getFirst();
+		return queueObjects.getFirst();
 	}
 	
-	// Return if queue has another queuobject
+	// Return if queue has another queueobject
 	boolean HasNextQueueObject()
 	{
-		return !groupsInQueue.isEmpty();
+		return !queueObjects.isEmpty();
 	}
 	
-	abstract void GenerateQueueObjects(); 
-	
-	void ShowQueueObjectsAdded(int amountOfPeopleAdded)
+	void GenerateQueueObjects()
 	{
-		System.out.println(queueID + ": Added " + amountOfPeopleAdded + " People");
+		generateQueueBehavior.GenerateQueueObjects();
 	}
+	
 	
 	String GetID()
 	{
@@ -76,16 +76,16 @@ public abstract class Queue implements Tick_Listener {
 	}
 
 	@Override
-	public void Event_Tick(int timePassed)
+	public void Event_Tick(double timePassed)
 	{
-		try {GenerateQueueObjects();}
-		catch (Exception e) {e.printStackTrace();}
+		// Generate queue objects according to their behavior
+		GenerateQueueObjects();	
 	}
 	
 
 	LinkedList<QueueObject> GetQueueObjectList()
 	{
-		return groupsInQueue;
+		return queueObjects;
 	}
 	
 	
