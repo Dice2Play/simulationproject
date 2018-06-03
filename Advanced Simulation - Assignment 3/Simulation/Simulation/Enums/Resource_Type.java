@@ -1,7 +1,8 @@
 package Simulation.Enums;
 
 public enum Resource_Type {
-	BOAT(8);
+	BOAT(8),
+	NONE(0);
 	
 	private final int capacity;
 	

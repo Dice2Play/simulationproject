@@ -1,6 +1,6 @@
 package Simulation.Model.Resource.Behavior;
 
-public interface ISeizeBehavior {
+public interface IResourceSeizeBehavior {
 
 	
 	double GetOccupancy();

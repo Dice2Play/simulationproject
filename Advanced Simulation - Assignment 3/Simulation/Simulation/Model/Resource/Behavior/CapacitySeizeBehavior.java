@@ -1,6 +1,6 @@
 package Simulation.Model.Resource.Behavior;
 
-public class CapacitySeizeBehavior implements ISeizeBehavior {
+public class CapacitySeizeBehavior implements IResourceSeizeBehavior {
 
 	final double CAPACITY;
 	double amountOfCapacityTaken;

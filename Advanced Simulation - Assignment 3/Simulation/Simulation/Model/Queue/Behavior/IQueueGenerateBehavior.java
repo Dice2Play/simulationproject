@@ -1,4 +1,4 @@
-package Simulation.Interfaces;
+package Simulation.Model.Queue.Behavior;
 
 public interface IQueueGenerateBehavior {
 

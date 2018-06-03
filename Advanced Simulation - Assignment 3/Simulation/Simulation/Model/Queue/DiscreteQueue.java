@@ -7,9 +7,9 @@ import Simulation.Model.Queue.Behavior.DiscreteGenerateBehavior;
 
 public class DiscreteQueue extends Queue{
 
-	public DiscreteQueue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID) {
+	public DiscreteQueue(Queue_Priority queueingPriority, int minGroupSize, int maxGroupSize, String queueID, String queueObjectName) {
 		super(queueingPriority,  queueID);
-		generateQueueBehavior = new DiscreteGenerateBehavior(this.queueID, maxGroupSize,  queueObjects);
+		generateQueueBehavior = new DiscreteGenerateBehavior(this.queueID,queueObjectName,maxGroupSize,  queueObjects);
 	}
 
 

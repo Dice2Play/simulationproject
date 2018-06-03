@@ -49,7 +49,7 @@ public class Model implements Tick_Listener {
 
 		
 		// Queue's
-		QueueManager.AddQueue(new ContinuousQueue(Queue_Priority.High, 1,10, "Temp"));
+		QueueManager.AddQueue(new ContinuousQueue(Queue_Priority.High, 1,10, "Temp", "Car"));
 		
 		// Processes
 	

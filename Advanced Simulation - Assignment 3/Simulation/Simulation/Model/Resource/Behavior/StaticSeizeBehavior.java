@@ -1,6 +1,6 @@
 package Simulation.Model.Resource.Behavior;
 
-public class StaticSeizeBehavior implements ISeizeBehavior{
+public class StaticSeizeBehavior implements IResourceSeizeBehavior{
 
 
 	public double GetOccupancy() {return 1;}

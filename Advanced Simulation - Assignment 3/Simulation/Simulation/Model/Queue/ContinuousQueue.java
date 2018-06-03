@@ -5,9 +5,9 @@ import Simulation.Model.Queue.Behavior.ContinuousGenerateBehavior;
 
 public class ContinuousQueue extends Queue{
 
-	public ContinuousQueue(Queue_Priority queueingPriority, int minGroupSize, int rate, String queueID) {
+	public ContinuousQueue(Queue_Priority queueingPriority, int minGroupSize, int rate, String queueID, String queueObjectName) {
 		super(queueingPriority,  queueID);
-		generateQueueBehavior = new ContinuousGenerateBehavior(this.queueID, rate,  queueObjects);
+		generateQueueBehavior = new ContinuousGenerateBehavior(this.queueID, queueObjectName, rate,  queueObjects);
 	}
 
 }

@@ -3,14 +3,16 @@ package Simulation.Model.Process;
 import java.util.ArrayList;
 
 import Simulation.Enums.Resource_Type;
+import Simulation.Model.Process.Behavior.IProcessFireBehavior;
 import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.ResourceManager;
 
-public class Process {
+public abstract class Process {
 
-	private final String ID;
-	private final int processTime; // Amount of time-units needed for completing process. 
-	private final Resource_Type type; 
+	protected final String ID;
+	protected final int processTime; // Amount of time-units needed for completing process. 
+	protected final Resource_Type type; 
+	protected IProcessFireBehavior fireBehavior;
 	
 	
 	public Process(String ID, int processTime, Resource_Type type)
@@ -20,17 +22,16 @@ public class Process {
 		this.type = type;
 	}
 	
-	boolean CanFire()
+	public boolean CanFire()
 	{
-		return ResourceManager.CheckForAvailableResource(type);
+		return fireBehavior.CanFire();
 	}
 	
-	void Fire()
+	public void Fire()
 	{
-		// Fire process
-		int resourceCapacityFilled = QueueManager.SeizeQueueObject(processTime, ResourceManager.GetCapacityOfResource(type));
-		ResourceManager.SeizeResource(type, resourceCapacityFilled, processTime, ID);
+		fireBehavior.Fire();
 	}
+
 	
 	
 	

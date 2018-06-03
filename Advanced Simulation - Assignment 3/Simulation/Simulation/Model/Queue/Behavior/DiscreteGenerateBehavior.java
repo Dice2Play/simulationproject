@@ -2,7 +2,6 @@ package Simulation.Model.Queue.Behavior;
 
 import java.util.LinkedList;
 
-import Simulation.Interfaces.IQueueGenerateBehavior;
 import Simulation.Model.Queue.QueueObject;
 import Statistics.ArtificialDistribution;
 
@@ -10,8 +9,8 @@ public class DiscreteGenerateBehavior extends  QueueGenerateBehavior{
 
 	private final int maxGroupSize;
 	
-	public DiscreteGenerateBehavior(String queueID, int maxGroupSize, LinkedList<QueueObject> queueObjects ) {
-		super(queueID, queueObjects);
+	public DiscreteGenerateBehavior(String queueID, String queueObjectName, int maxGroupSize, LinkedList<QueueObject> queueObjects ) {
+		super(queueID, queueObjects, queueObjectName);
 		this.maxGroupSize = maxGroupSize;
 	}
 

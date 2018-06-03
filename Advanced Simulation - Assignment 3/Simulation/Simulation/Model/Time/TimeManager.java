@@ -66,7 +66,6 @@ public class TimeManager  {
 		timeUnitsPassed = 0;
 	}
 	
-	
 	// Add subscriber to tick event
 	public static void AddTickListener(Tick_Listener listener)
 	{

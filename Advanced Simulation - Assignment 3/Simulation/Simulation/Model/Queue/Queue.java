@@ -7,8 +7,8 @@ import java.util.Random;
 
 
 import Simulation.Enums.Queue_Priority;
-import Simulation.Interfaces.IQueueGenerateBehavior;
 import Simulation.Interfaces.Tick_Listener;
+import Simulation.Model.Queue.Behavior.IQueueGenerateBehavior;
 import Simulation.Model.Time.TimeManager;
 import Statistics.ArtificialDistribution;
 

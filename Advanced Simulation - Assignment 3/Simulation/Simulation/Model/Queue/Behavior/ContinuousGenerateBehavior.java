@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import Simulation.Enums.Queue_Priority;
-import Simulation.Interfaces.IQueueGenerateBehavior;
 import Simulation.Model.Queue.QueueObject;
 import Simulation.Model.Time.TimeEvent;
 import Simulation.Model.Time.TimeManager;
@@ -14,9 +13,9 @@ public class ContinuousGenerateBehavior extends  QueueGenerateBehavior{
 
 	private final int rate;
 	
-	public ContinuousGenerateBehavior(String queueID, int rate, LinkedList<QueueObject> queueObjects)
+	public ContinuousGenerateBehavior(String queueID, String queueObjectName, int rate, LinkedList<QueueObject> queueObjects)
 	{
-		super(queueID, queueObjects);
+		super(queueID, queueObjects, queueObjectName);
 		this.rate = rate;
 	}
 
@@ -25,8 +24,8 @@ public class ContinuousGenerateBehavior extends  QueueGenerateBehavior{
 		
 		double timeTillThisEventMustOccur = Probability.Probability.GetDistributionResult(new ExponentialDistribution(rate,new Random()));
 		double timeOnWhichThisObjectMustArrive = TimeManager.GetTimeUnitsPassed() + timeTillThisEventMustOccur;
-
-		TimeManager.AddEvent(new TimeEvent("Added new Queue-Object", timeOnWhichThisObjectMustArrive));
+		ShowQueueObjectsAdded(1);
+		TimeManager.AddEvent(new TimeEvent("Arrival of " + queueObjectName, timeOnWhichThisObjectMustArrive));
 	}
 
 }

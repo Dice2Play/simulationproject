@@ -19,6 +19,7 @@ public class ResourceManager {
 	
 	public static boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)
 	{
+		
 		for(Resource res : resources)
 		{
 			if(res.GetResourceType() == typeOfResourceNeeded)

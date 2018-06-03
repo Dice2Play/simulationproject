@@ -1,7 +1,7 @@
 package Simulation.Model.Resource;
 
 import Simulation.Enums.Resource_Type;
-import Simulation.Model.Resource.Behavior.ISeizeBehavior;
+import Simulation.Model.Resource.Behavior.IResourceSeizeBehavior;
 import Simulation.Model.Time.TimeManager;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -12,7 +12,7 @@ class Resource {
 	private boolean available = true;
 	private String ID;
 	private Resource_Type type;
-	protected ISeizeBehavior seizeBehavior;
+	protected IResourceSeizeBehavior seizeBehavior;
 	
 	
 	
