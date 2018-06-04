@@ -25,7 +25,6 @@ public class Model implements Tick_Listener {
 
 	private final int amountOfTimeUnitsToRun;
 	
-	private double amountOfTimeUnitsPassed;
 	
 	public Model(int amountOfTimeUnitsToRun)
 	{
@@ -40,60 +39,55 @@ public class Model implements Tick_Listener {
 
 	}
 	
+	// Create Resources/Queue/Processes
 	private void Create()
 	{
-		
-		// Create Resources/Queue/Processes
 		// Resources
 		
-
-		
 		// Queue's
-		QueueManager.AddQueue(new ContinuousQueue(Queue_Priority.High, 1,10, "Temp", "Car"));
+		QueueManager.AddQueue(new ContinuousQueue(Queue_Priority.High, 1,10, "Traffic light queue", "Car"));
 		
 		// Processes
-	
+		Process greenLightProcess = new DelayAbleProcess("Green light process", 8, Resource_Type.NONE, 1);
+		Process redLightProcess = new NonFireAbleProcess("Red light process", 12, Resource_Type.NONE);
+		
+		ProcessManager.AddProcess(greenLightProcess);
+		ProcessManager.AddProcess(redLightProcess);
+		
 	
 
 	}
 	
 	public void Run()
 	{
-		while(amountOfTimeUnitsPassed < amountOfTimeUnitsToRun)
+		while(TimeManager.GetTimeUnitsPassed() <= amountOfTimeUnitsToRun)
 		{
 			// Print amount of time units passed
 			TimeManager.PrintAmountOfTimePassed();
 			
 
-			
 			// Check if ProcessManager can fire any process
 			// If so, fire processes
-			if(ProcessManager.CanFire()){ ProcessManager.Fire();}
+			try {if(ProcessManager.CanFire()){ ProcessManager.Fire();}}
+			catch (Exception e) {e.printStackTrace();}
 			
-			// Save results from previous timeUnit
+			// Save results from current timeUnit
 			Report();
 			
 			// increment timeUnit, such that:
-			// - subscribed resourceManager can release resources.
-			// - subscribed queueManager can generate new customers.
+			// - subscribed resources can release resources.
+			// - subscribed queue's can generate new customers.
 			TimeManager.Tick();
 			
 		}
 		
 	}
 	
-	private void SetTimePassed(double timeValue)
-	{
-		amountOfTimeUnitsPassed = timeValue;	
-	}
-	
 
 	@Override
-	public void Event_Tick(double timePassed) {
-		SetTimePassed(timePassed);	
-		
+	public void Event_Tick(double timePassed) 
+	{
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
-	
 	}
 
 	public void Reset() {
@@ -105,7 +99,7 @@ public class Model implements Tick_Listener {
 	
 	private void Report()
 	{
-
+		// timeManager.getAmountOfEventsInTimePeriod<int>
 		
 		
 	}

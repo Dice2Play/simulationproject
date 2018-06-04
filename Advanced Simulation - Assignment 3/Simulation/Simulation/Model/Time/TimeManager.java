@@ -19,12 +19,37 @@ public class TimeManager  {
 	
 	public static void Tick()
 	{
-		// Check if there are any continuous events planned between this and the next tick
-		if(HasNextEvent()){RunTillNextEvent();}
-		else {IncrementToNextDiscreteNumber();}
+		// Check whether discrete event occurs before continuous event,
+		// if so, first increment to discrete event.
+		if(HasNextEvent())
+		{
+			double timeOfNextContinuousEvent = events.getFirst().getTimeWhichEventOccursOn();
+			double roundToNextNearestIntegerGreaterThanInput = getNextWholeNumber();
+			
+			if(roundToNextNearestIntegerGreaterThanInput < timeOfNextContinuousEvent)
+			{
+				IncrementToNextDiscreteNumber();
+
+				// Since this is an artificial increment (not through a (continuous) random variable), revert the latest input for events, since an increment will generate a new time event.
+				events.removeLast();
+			}
+			
+			else
+			{
+				IncrementToNextEvent();
+			}
+			
+		}
+		
+		// if there are no continuous events planned
+		else
+		{
+			IncrementToNextDiscreteNumber();
+		}
+		
 	}
 	
-	private static void IncrementToNextDiscreteNumber()
+	private static double getNextWholeNumber()
 	{
 		double roundToNextNearestIntegerGreaterThanInput = Math.ceil(timeUnitsPassed); // Wont work if time is exactly 'x.0'
 		double nextDiscreteNumber = 0.0 ;
@@ -32,8 +57,14 @@ public class TimeManager  {
 		if(roundToNextNearestIntegerGreaterThanInput == timeUnitsPassed) { nextDiscreteNumber = timeUnitsPassed + 1;}
 		else {nextDiscreteNumber = roundToNextNearestIntegerGreaterThanInput;}
 		
+		//System.out.println(String.format("Input %s, output %s", timeUnitsPassed, nextDiscreteNumber));
+		
+		return nextDiscreteNumber;
+	}
 	
-		setTimeUnitsPassed(nextDiscreteNumber);
+	private static void IncrementToNextDiscreteNumber()
+	{	
+		setTimeUnitsPassed(getNextWholeNumber());
 	}
 	
 	private static void setTimeUnitsPassed(double newValue)
@@ -52,7 +83,7 @@ public class TimeManager  {
 		return !events.isEmpty();
 	}
 	
-	private static void RunTillNextEvent()
+	private static void IncrementToNextEvent()
 	{
 		TimeEvent event = events.getFirst();
 		setTimeUnitsPassed(event.getTimeWhichEventOccursOn()); // Set time on moment when event occurs

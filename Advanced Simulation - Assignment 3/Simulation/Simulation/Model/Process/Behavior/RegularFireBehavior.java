@@ -4,13 +4,13 @@ import Simulation.Enums.Resource_Type;
 import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.ResourceManager;
 
-public class SingleFireBehavior implements IProcessFireBehavior{
+public class RegularFireBehavior implements IProcessFireBehavior{
 
 	private Resource_Type resourceTypeNeeded;
 	private final int processTime;
 	private final String ID;
 	
-	public SingleFireBehavior(int processTime, String ID,Resource_Type resourceTypeNeeded)
+	public RegularFireBehavior(int processTime, String ID,Resource_Type resourceTypeNeeded)
 	{
 		this.resourceTypeNeeded = resourceTypeNeeded;
 		this.ID = ID;
