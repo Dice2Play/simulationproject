@@ -17,13 +17,14 @@ public abstract class Process implements Tick_Listener{
 	protected IProcessFireBehavior fireBehavior;
 	protected boolean isFinished;
 	protected double startTime;
+	protected boolean isRunning;
 	
 	public Process(String ID, int processTime, Resource_Type type)
 	{
 		this.ID = ID;
 		this.processTime = processTime;
 		this.type = type;
-		startTime = TimeManager.GetTimeUnitsPassed();
+		
 		
 		// Set listener
 		TimeManager.AddTickListener(this);
@@ -32,6 +33,14 @@ public abstract class Process implements Tick_Listener{
 	public void Reset()
 	{
 		isFinished = false;
+		startTime = 0;
+		isRunning = false;
+	}
+	
+	public void Start()
+	{
+		startTime = TimeManager.GetTimeUnitsPassed();
+		isRunning = true;
 	}
 	
 	public boolean CanFire()
@@ -42,6 +51,7 @@ public abstract class Process implements Tick_Listener{
 	public void Fire()
 	{
 		fireBehavior.Fire();
+
 	}
 		
 	public boolean isFinished()
@@ -66,7 +76,8 @@ public abstract class Process implements Tick_Listener{
 	@Override
 	public void Event_Tick(double timePassed)
 	{
-		canFinish(timePassed);
+		if(isRunning) {canFinish(timePassed);}
+		
 	}
 	
 	

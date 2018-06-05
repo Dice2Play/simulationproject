@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Simulation.Enums.Resource_Type;
+import Simulation.Model.Time.TimeManager;
 
 public class ProcessManager {
 
@@ -33,15 +34,28 @@ public class ProcessManager {
 		// If so, get the next process
 		if(getCurrentRunningProcess().isFinished()) 
 		{ 
+			// Notify that current process is finished
+			System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", getCurrentRunningProcess().ID, TimeManager.GetTimeUnitsPassed()));
+			
 			// Reset process
 			getCurrentRunningProcess().Reset();
 			
 			// Get next process
 			getNextProcessToRun();
+			
+			// Start next process
+			getCurrentRunningProcess().Start();
 		}
 		
 		// Fire current process
-		getCurrentRunningProcess().Fire();
+		if(getCurrentRunningProcess().CanFire())
+		{	
+			getCurrentRunningProcess().Fire();
+			System.out.println(String.format("PROCESS MANAGER: Process %s fired at %s", getCurrentRunningProcess().ID, TimeManager.GetTimeUnitsPassed()));	
+		}
+
+		
+		
 	}
 	
 	private static void getNextProcessToRun() throws Exception
@@ -50,7 +64,7 @@ public class ProcessManager {
 		if(processes.isEmpty()) { throw new Exception("Their are no processes stored...");}
 		
 		// If there isn't any process currently running, get the first occurrence from list 'Processes'
-		if(currentRunningProcess == null) { currentRunningProcess = processes.getFirst();}
+		if(currentRunningProcess == null) { currentRunningProcess = processes.getFirst(); return;}
 		
 		// If there is a process currently running then,
 		// get index of last element in 'processes' list,

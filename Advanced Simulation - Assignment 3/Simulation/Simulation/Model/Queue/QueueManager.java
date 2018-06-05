@@ -30,8 +30,25 @@ public class QueueManager {
 		
 		return queue;
 	}
+	
+	private static void SeizeQueueObject(int seizeTime)
+	{
+		PriorityQueue<Queue> queuesByPriority = OrderQueuesByPriority();
+		
+	
+		for(Queue queue : queuesByPriority)
+		{
+			if(queue.HasNextQueueObject())
+			{
+				queue.SeizeFirstQueueObject(seizeTime);
+				break;
+			}
+		}
+	}
+	
 
 	// Returns amount of spots seized
+	// Only use 
 	public static int SeizeQueueObject(int seizeTime, int capacity) 
 	{
 		int amountOfSpotsTaken = 0;

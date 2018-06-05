@@ -10,7 +10,7 @@ public class NonFireAbleBehavior implements IProcessFireBehavior {
 
 	@Override
 	public boolean CanFire() {
-		return true;
+		return false;
 	}
 
 }
