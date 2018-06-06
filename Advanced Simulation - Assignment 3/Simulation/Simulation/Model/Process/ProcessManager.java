@@ -36,7 +36,7 @@ public class ProcessManager {
 	{
 		// If no currentRunningProcess is defined yet, get first
 		// If no process is running, get next process
-		if(currentRunningProcess == null || !currentRunningProcess.IsRunning())
+		if(currentRunningProcess == null)
 		{
 			currentRunningProcess = getNextProcessToRun();
 			StartProcess(currentRunningProcess);
@@ -55,12 +55,29 @@ public class ProcessManager {
 	
 	public static void FinishCurrentProcess()
 	{
+		
+		if(currentRunningProcess.IsFinished()) {return;}
+		
+		
 		System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", currentRunningProcess.GetID(), TimeManager.GetTimeUnitsPassed()));
 		
 		//Stop and Reset process
 		currentRunningProcess.SetFinished();
 		currentRunningProcess.Stop();
 		currentRunningProcess.Reset();
+		
+		// Get next process
+		try
+		{
+			currentRunningProcess = getNextProcessToRun();
+			StartProcess(currentRunningProcess);
+		}
+		
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
 	}
 	
 	// Returns the next process to run

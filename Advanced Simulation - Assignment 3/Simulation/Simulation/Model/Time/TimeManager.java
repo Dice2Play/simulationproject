@@ -120,7 +120,7 @@ public class TimeManager  {
 	{
 		for(Tick_Listener listener : tickListeners)
 		{
-			if(!CanTickListenerFire(listener)) {break;}
+			if(!CanTickListenerFire(listener)) {continue;}
 			
 			listener.Event_Tick(timeUnitsPassed);
 		}
