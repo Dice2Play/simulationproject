@@ -23,6 +23,9 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 		this.delayTime = delayTime;
 		this.processTime = processTime;
 		this.resourceTypeNeeded = resourceTypeNeeded;
+		
+		// Add listener
+		TimeManager.AddTickListener(this);
 	}
 	
 
@@ -30,7 +33,7 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 	public void Fire() {
 		
 		// Fire process
-		QueueManager.SeizeQueueObject(processTime, ResourceManager.GetCapacityOfResource(resourceTypeNeeded));
+		QueueManager.SeizeQueueObject(processTime);
 		Delay();
 		
 	}

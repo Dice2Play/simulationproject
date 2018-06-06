@@ -103,10 +103,12 @@ public class Model implements Tick_Listener {
 	
 	private void Report()
 	{
+		// Add values to result
+		Result result = new Result();
+		result.AddAttribute(new DoubleResultAttribute(QueueManager.GetTotalQueueLength(), "Total amount of people in Queue"));	
 		
-		// timeManager.getAmountOfEventsInTimePeriod<int>
-		
-		
+		// Add result to resultManager
+		ResultManager.AddResults(result);
 	}
 
 	@Override

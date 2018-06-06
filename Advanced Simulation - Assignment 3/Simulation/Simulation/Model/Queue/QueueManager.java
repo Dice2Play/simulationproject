@@ -31,7 +31,7 @@ public class QueueManager {
 		return queue;
 	}
 	
-	private static void SeizeQueueObject(int seizeTime)
+	public static void SeizeQueueObject(int seizeTime)
 	{
 		PriorityQueue<Queue> queuesByPriority = OrderQueuesByPriority();
 		
@@ -180,7 +180,11 @@ public class QueueManager {
 		{
 			for(QueueObject queueObject : queue.GetQueueObjectList())
 			{
-				totalNumberOfPeopleWaiting = totalNumberOfPeopleWaiting + queueObject.GetGroupSize();
+				if(queueObject.IsAvailable())
+				{
+					totalNumberOfPeopleWaiting = totalNumberOfPeopleWaiting + queueObject.GetGroupSize();
+				}
+				
 			}
 		}
 		

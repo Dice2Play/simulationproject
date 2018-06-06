@@ -13,6 +13,7 @@ import java.util.Set;
 import com.csvreader.CsvWriter;
 
 import Simulation.Interfaces.IResultAttribute;
+import Simulation.Model.Time.TimeManager;
 
 public class ResultManager {
 
@@ -42,7 +43,7 @@ public class ResultManager {
 	{
 		for(Result result : results)
 		{
-			System.out.println("TimeUnit [" + results.indexOf(result) +"] " + result.getAttributeValues()); 
+			System.out.println("TimeUnit [" + TimeManager.GetTimeUnitsPassed() +"] " + result.getAttributeValues()); 
 		}
 	}
 	

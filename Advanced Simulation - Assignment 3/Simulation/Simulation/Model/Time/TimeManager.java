@@ -53,7 +53,7 @@ public class TimeManager  {
 		}
 		
 	}
-	
+		
 	private static double getNextWholeNumber()
 	{
 		double roundToNextNearestIntegerGreaterThanInput = Math.ceil(timeUnitsPassed); // Wont work if time is exactly 'x.0'
