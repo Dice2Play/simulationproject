@@ -5,7 +5,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import Simulation.Enums.TimeManager_State;
+import Simulation.Enums.TimeManager_Subscriber;
 import Simulation.Interfaces.*;
+import Simulation.Model.Queue.Queue;
 
 
 public class TimeManager  {
@@ -14,6 +17,7 @@ public class TimeManager  {
 	private static List<Tick_Listener> tickListeners = new ArrayList<Tick_Listener>();
 	private static double timeUnitsPassed = 0;
 	private static LinkedList<TimeEvent> events = new LinkedList<TimeEvent>();
+	private static TimeManager_State state = TimeManager_State.FIRE_ALL;
 
 	
 	
@@ -28,10 +32,11 @@ public class TimeManager  {
 			
 			if(roundToNextNearestIntegerGreaterThanInput < timeOfNextContinuousEvent)
 			{
+				// Since this is an artificial increment (not through a (continuous) random variable), suppress the tick event for Queue
+				// Temp remove - tick - add again
+				state = TimeManager_State.DONT_FIRE_QUEUE;
 				IncrementToNextDiscreteNumber();
-
-				// Since this is an artificial increment (not through a (continuous) random variable), revert the latest input for events, since an increment will generate a new time event.
-				events.removeLast();
+				state = TimeManager_State.FIRE_ALL;
 			}
 			
 			else
@@ -70,6 +75,7 @@ public class TimeManager  {
 	private static void setTimeUnitsPassed(double newValue)
 	{
 		timeUnitsPassed = newValue;
+		PrintAmountOfTimePassed();
 		FireTickListeners(); 
 	}
 	
@@ -114,6 +120,8 @@ public class TimeManager  {
 	{
 		for(Tick_Listener listener : tickListeners)
 		{
+			if(!CanTickListenerFire(listener)) {break;}
+			
 			listener.Event_Tick(timeUnitsPassed);
 		}
 	}
@@ -130,5 +138,23 @@ public class TimeManager  {
 		System.out.println("TIME MANAGER: Amount of time units passed ["+ timeUnitsPassed + "]");
 	}
 	
+	private static boolean CanTickListenerFire(Tick_Listener listener)
+	{
+		switch(state)
+		{
+		case FIRE_ALL:
+			return true;
+		
+		case DONT_FIRE_QUEUE:
+			
+			
+			if(listener.GetSubscriberType() == TimeManager_Subscriber.QUEUE){return false;}
+			else return true;
+				
+		
+			default:
+				return true;
+		}
+	}
 	
 }

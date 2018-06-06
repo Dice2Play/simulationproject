@@ -7,6 +7,7 @@ import java.util.Random;
 
 
 import Simulation.Enums.Queue_Priority;
+import Simulation.Enums.TimeManager_Subscriber;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Queue.Behavior.IQueueGenerateBehavior;
 import Simulation.Model.Time.TimeManager;
@@ -18,6 +19,7 @@ public abstract class Queue implements Tick_Listener {
 	protected final String queueID;
 	protected IQueueGenerateBehavior generateQueueBehavior;
 	protected LinkedList<QueueObject> queueObjects = new LinkedList<QueueObject>();
+	protected TimeManager_Subscriber timeManagerSubscriberType = TimeManager_Subscriber.QUEUE;
 	
 	
 	public Queue(Queue_Priority queueingPriority, String queueID)
@@ -73,6 +75,11 @@ public abstract class Queue implements Tick_Listener {
 	String GetID()
 	{
 		return queueID;
+	}
+	
+	public TimeManager_Subscriber GetSubscriberType()
+	{
+		return timeManagerSubscriberType;
 	}
 
 	@Override

@@ -24,7 +24,8 @@ public class ContinuousGenerateBehavior extends  QueueGenerateBehavior{
 		
 		double timeTillThisEventMustOccur = Probability.Probability.GetDistributionResult(new ExponentialDistribution(rate,new Random()));
 		double timeOnWhichThisObjectMustArrive = TimeManager.GetTimeUnitsPassed() + timeTillThisEventMustOccur;
-		ShowQueueObjectsAdded(1);
+		queueObjects.add(new QueueObject(1, queueID, timeOnWhichThisObjectMustArrive));
+		ShowQueueObjectsAdded(1, timeOnWhichThisObjectMustArrive);
 		TimeManager.AddEvent(new TimeEvent("Arrival of " + queueObjectName, timeOnWhichThisObjectMustArrive));
 	}
 

@@ -3,6 +3,7 @@ package Simulation.Model.Process;
 import java.util.ArrayList;
 
 import Simulation.Enums.Resource_Type;
+import Simulation.Enums.TimeManager_Subscriber;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Process.Behavior.IProcessFireBehavior;
 import Simulation.Model.Queue.QueueManager;
@@ -18,6 +19,7 @@ public abstract class Process implements Tick_Listener{
 	protected boolean isFinished;
 	protected double startTime;
 	protected boolean isRunning;
+	protected TimeManager_Subscriber timeManagerSubscriberType = TimeManager_Subscriber.MODEL;
 	
 	public Process(String ID, int processTime, Resource_Type type)
 	{
@@ -34,6 +36,10 @@ public abstract class Process implements Tick_Listener{
 	{
 		isFinished = false;
 		startTime = 0;
+	}
+	
+	public void Stop()
+	{
 		isRunning = false;
 	}
 	
@@ -51,7 +57,6 @@ public abstract class Process implements Tick_Listener{
 	public void Fire()
 	{
 		fireBehavior.Fire();
-
 	}
 		
 	public boolean isFinished()
@@ -62,7 +67,16 @@ public abstract class Process implements Tick_Listener{
 	private void setFinished()
 	{
 		isFinished = true;
-		System.out.println(String.format("Proces %s has finished a cycle", ID));
+	}
+	
+	public boolean isRunning()
+	{
+		return isRunning;
+	}
+	
+	public String getID()
+	{
+		return ID;
 	}
 	
 	private void canFinish(double timePassed)
@@ -78,6 +92,11 @@ public abstract class Process implements Tick_Listener{
 	{
 		if(isRunning) {canFinish(timePassed);}
 		
+	}
+	
+	public TimeManager_Subscriber GetSubscriberType()
+	{
+		return timeManagerSubscriberType;
 	}
 	
 	

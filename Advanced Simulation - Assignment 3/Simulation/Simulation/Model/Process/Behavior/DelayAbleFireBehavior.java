@@ -1,6 +1,7 @@
 package Simulation.Model.Process.Behavior;
 
 import Simulation.Enums.Resource_Type;
+import Simulation.Enums.TimeManager_Subscriber;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.ResourceManager;
@@ -15,6 +16,7 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 	private boolean isDelayed; // if delayed, process can't fire
 	private int processTime;
 	private Resource_Type resourceTypeNeeded;
+	protected TimeManager_Subscriber timeManagerSubscriberType = TimeManager_Subscriber.PROCESS;
 	
 	public DelayAbleFireBehavior(double delayTime, int processTime, Resource_Type resourceTypeNeeded)
 	{
@@ -39,8 +41,9 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 	@Override
 	public boolean CanFire() {
 		if(isDelayed()) { return false;}
-		if(resourceTypeNeeded == Resource_Type.NONE) {return true;}
-		else return ResourceManager.CheckForAvailableResource(resourceTypeNeeded);
+		
+		return QueueManager.CheckIfThereAreAnyQueueObjectsAvailable();
+
 		
 	}
 
@@ -73,6 +76,12 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 		}
 		
 		
+	}
+
+
+	@Override
+	public TimeManager_Subscriber GetSubscriberType() {
+		return timeManagerSubscriberType;
 	}
 	
 

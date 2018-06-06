@@ -12,11 +12,11 @@ public class QueueObject{
 	private boolean isSeized;
 	 
 	
-	public QueueObject(int groupSize, String queueID)
+	public QueueObject(int groupSize, String queueID, double arrivalTime)
 	{
 		this.groupSize = groupSize;
 		this.queueID = queueID;
-		this.arrivalTime = TimeManager.GetTimeUnitsPassed();
+		this.arrivalTime = arrivalTime;
 	}
 	
 	int GetGroupSize()
@@ -61,6 +61,10 @@ public class QueueObject{
 		return  TimeManager.GetTimeUnitsPassed() - arrivalTime;
 	}
 
-		
+	public boolean IsAvailable()
+	{
+		// check if arrivalTime of object has passed
+		return (arrivalTime <= TimeManager.GetTimeUnitsPassed());
+	}
 	
 }

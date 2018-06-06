@@ -17,9 +17,9 @@ public abstract class QueueGenerateBehavior implements IQueueGenerateBehavior{
 		this.queueObjectName = queueObjectName;
 	}
 	
-	void ShowQueueObjectsAdded(int amountOfQueueObjectsAdded)
+	void ShowQueueObjectsAdded(int amountOfQueueObjectsAdded, double arrivalTime)
 	{
-		System.out.println(queueID + ": Added " + amountOfQueueObjectsAdded + " " + queueObjectName);
+		System.out.println(queueID + ": Added " + amountOfQueueObjectsAdded + " " + queueObjectName + " which will be available on " + arrivalTime);
 	}
 	
 }

@@ -3,6 +3,7 @@ package Simulation.Model.Queue.Behavior;
 import java.util.LinkedList;
 
 import Simulation.Model.Queue.QueueObject;
+import Simulation.Model.Time.TimeManager;
 import Statistics.ArtificialDistribution;
 
 public class DiscreteGenerateBehavior extends  QueueGenerateBehavior{
@@ -31,8 +32,8 @@ public class DiscreteGenerateBehavior extends  QueueGenerateBehavior{
 					for(int i = 0; i < amountOfGroups; i++)
 					{
 						int groupSize = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(possibleSizeOfGroups, probabilityPossibleSizeOfGroups)); 
-						queueObjects.add(new QueueObject(groupSize, queueID));
-						ShowQueueObjectsAdded(groupSize);
+						queueObjects.add(new QueueObject(groupSize, queueID, TimeManager.GetTimeUnitsPassed()));
+						ShowQueueObjectsAdded(groupSize,TimeManager.GetTimeUnitsPassed());
 						
 						
 					}
@@ -40,8 +41,8 @@ public class DiscreteGenerateBehavior extends  QueueGenerateBehavior{
 				
 				else // Single rider queue
 				{
-					queueObjects.add(new QueueObject(1, queueID));
-					ShowQueueObjectsAdded(1);
+					queueObjects.add(new QueueObject(1, queueID, TimeManager.GetTimeUnitsPassed()));
+					ShowQueueObjectsAdded(1,TimeManager.GetTimeUnitsPassed());
 				}
 		
 	}

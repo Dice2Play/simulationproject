@@ -11,68 +11,93 @@ public class ProcessManager {
 
 	private static LinkedList<Process> processes = new LinkedList<Process>();
 	private static Process currentRunningProcess;
+
 	
-	private static Process getCurrentRunningProcess() throws Exception
-	{
-		if(currentRunningProcess == null)
-		{
-			getNextProcessToRun();
-		}
-		
-		return currentRunningProcess;
-	}
 	
 	public static boolean CanFire() throws Exception
 	{
-		return getCurrentRunningProcess().CanFire();
+		// If no currentRunningProcess is defined yet, get first
+		if(currentRunningProcess == null)
+		{
+			currentRunningProcess = getNextProcessToRun();
+			StartProcess(currentRunningProcess);
+		}
+		
+		return currentRunningProcess.CanFire();
+	}
+	
+	private static void StartProcess(Process processToStart)
+	{
+		System.out.println(String.format("PROCESS MANAGER: Process %s started at %s", processToStart.getID(), TimeManager.GetTimeUnitsPassed()));
+		processToStart.Start();
 	}
 	
 	public static void Fire() throws Exception
 	{
+		// If no currentRunningProcess is defined yet, get first
+		if(currentRunningProcess == null)
+		{
+			currentRunningProcess = getNextProcessToRun();
+			StartProcess(currentRunningProcess);
+		}
+		
 		
 		// Check if current process is finished
 		// If so, get the next process
-		if(getCurrentRunningProcess().isFinished()) 
+		if(currentRunningProcess.isFinished()) 
 		{ 
 			// Notify that current process is finished
-			System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", getCurrentRunningProcess().ID, TimeManager.GetTimeUnitsPassed()));
+			System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", currentRunningProcess.getID(), TimeManager.GetTimeUnitsPassed()));
 			
-			// Reset process
-			getCurrentRunningProcess().Reset();
-			
-			// Get next process
-			getNextProcessToRun();
-			
-			// Start next process
-			getCurrentRunningProcess().Start();
+			// Stop and Reset process
+			currentRunningProcess.Stop();
+			currentRunningProcess.Reset();
 		}
 		
+		// If no process is running, get next process
+		if(!currentRunningProcess.isRunning())
+		{
+			currentRunningProcess = getNextProcessToRun();
+			
+			// Start new process
+			StartProcess(currentRunningProcess);
+		}
+		
+		
 		// Fire current process
-		if(getCurrentRunningProcess().CanFire())
+		if(!currentRunningProcess.isFinished() && currentRunningProcess.CanFire())
 		{	
-			getCurrentRunningProcess().Fire();
-			System.out.println(String.format("PROCESS MANAGER: Process %s fired at %s", getCurrentRunningProcess().ID, TimeManager.GetTimeUnitsPassed()));	
+			currentRunningProcess.Fire();
+			System.out.println(String.format("PROCESS MANAGER: Process %s fired at %s", currentRunningProcess.getID(), TimeManager.GetTimeUnitsPassed()));	
 		}
 
 		
 		
 	}
-	
-	private static void getNextProcessToRun() throws Exception
+	// Returns the next process to run
+	private static Process getNextProcessToRun() throws Exception
 	{
 		// Check if empty, if so throw exception
 		if(processes.isEmpty()) { throw new Exception("Their are no processes stored...");}
 		
+		
 		// If there isn't any process currently running, get the first occurrence from list 'Processes'
-		if(currentRunningProcess == null) { currentRunningProcess = processes.getFirst(); return;}
+		if(currentRunningProcess == null) { return processes.getFirst();}
 		
 		// If there is a process currently running then,
 		// get index of last element in 'processes' list,
 		// if this index is out of bounds, return the first occurrence from the list 'Processes'
 		int indexOfCurrentRunningProcess = processes.indexOf(currentRunningProcess);
 		
-		if((indexOfCurrentRunningProcess + 2) > processes.size()) { currentRunningProcess =  processes.getFirst();}
-		else currentRunningProcess =  processes.get(indexOfCurrentRunningProcess + 1);
+		if((indexOfCurrentRunningProcess + 2) > processes.size())
+		{ 
+			return processes.getFirst();
+		}
+		
+		else
+		{
+			return  processes.get(indexOfCurrentRunningProcess + 1);
+		}
 	}
 	
 	public static void AddProcess(Process process)

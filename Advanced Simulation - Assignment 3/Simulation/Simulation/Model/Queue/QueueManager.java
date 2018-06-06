@@ -127,7 +127,7 @@ public class QueueManager {
 	public static double GetWaitingTimeArbitraryCustomer()
 	{
 		// Check if there are any queueObjects, if not return 0.
-		if(CheckIfThereAreAnyQueueObjects() == false) {return 0.0;}
+		if(CheckIfThereAreAnyQueueObjectsAvailable() == false) {return 0.0;}
 		
 		Random r = new Random();
 		
@@ -188,17 +188,18 @@ public class QueueManager {
 		
 	}
 	
-	private static boolean CheckIfThereAreAnyQueueObjects()
+	public static boolean CheckIfThereAreAnyQueueObjectsAvailable()
 	{
 		for(Queue queue : queues)
 		{
-			if(queue.HasNextQueueObject()) { return true;}
+			if(queue.HasNextQueueObject() && queue.FirstQueueObject().IsAvailable()) { return true;}
 		}
 		
 		// Default value
 		return false;
 		
 	}
+
 	
 	private static class QueuePriorityComparator implements Comparator<Queue>
 	{

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import Simulation.Enums.Queue_Priority;
 import Simulation.Enums.Resource_Type;
+import Simulation.Enums.TimeManager_Subscriber;
 import  Simulation.Interfaces.*;
 import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.ResourceManager;
@@ -24,6 +25,7 @@ import Simulation.Model.Resource.*;
 public class Model implements Tick_Listener {
 
 	private final int amountOfTimeUnitsToRun;
+	private TimeManager_Subscriber timeManagerSubscriberType = TimeManager_Subscriber.MODEL;
 	
 	
 	public Model(int amountOfTimeUnitsToRun)
@@ -45,7 +47,7 @@ public class Model implements Tick_Listener {
 		// Resources
 		
 		// Queue's
-		QueueManager.AddQueue(new ContinuousQueue(Queue_Priority.High, 1,10, "Traffic light queue", "Car"));
+		QueueManager.AddQueue(new ContinuousQueue(Queue_Priority.High, 1,1, "Traffic light queue", "Car"));
 		
 		// Processes
 		Process greenLightProcess = new DelayAbleProcess("Green light process", 8, Resource_Type.NONE, 1);
@@ -53,19 +55,18 @@ public class Model implements Tick_Listener {
 		
 		ProcessManager.AddProcess(greenLightProcess);
 		ProcessManager.AddProcess(redLightProcess);
-		
+				
 	
 
 	}
 	
 	public void Run()
 	{
+		// Print initial amount of time units passed
+		TimeManager.PrintAmountOfTimePassed();
+		
 		while(TimeManager.GetTimeUnitsPassed() <= amountOfTimeUnitsToRun)
 		{
-			// Print amount of time units passed
-			TimeManager.PrintAmountOfTimePassed();
-			
-
 			// Check if ProcessManager can fire any process
 			// If so, fire processes
 			try {if(ProcessManager.CanFire()){ ProcessManager.Fire();}}
@@ -102,5 +103,10 @@ public class Model implements Tick_Listener {
 		// timeManager.getAmountOfEventsInTimePeriod<int>
 		
 		
+	}
+
+	@Override
+	public TimeManager_Subscriber GetSubscriberType() {
+		return timeManagerSubscriberType;
 	}
 }
