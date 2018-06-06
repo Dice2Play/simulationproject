@@ -23,9 +23,6 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 		this.delayTime = delayTime;
 		this.processTime = processTime;
 		this.resourceTypeNeeded = resourceTypeNeeded;
-
-		// Set listener
-		TimeManager.AddTickListener(this);
 	}
 	
 
@@ -40,7 +37,8 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 
 	@Override
 	public boolean CanFire() {
-		if(isDelayed()) { return false;}
+		// Check if process is currently delayed
+		if(IsDelayed()) { return false;}
 		
 		return QueueManager.CheckIfThereAreAnyQueueObjectsAvailable();
 
@@ -55,26 +53,31 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 		
 	}
 	
-	private boolean isDelayed()
+	private boolean IsDelayed()
 	{
 		return isDelayed;
 	}
 	
-	private void unDelay()
+	private void UnDelay()
 	{
 		isDelayed = false;
 	}
 	
-	
+	private boolean CanUnDelay()
+	{
+		return (endDelayTime <= TimeManager.GetTimeUnitsPassed());
+	}
+
 
 	@Override
 	public void Event_Tick(double timeUnitsPassed) {
-		
-		if(TimeManager.GetTimeUnitsPassed() >= endDelayTime)
+		if(IsDelayed()) 
 		{
-			unDelay();
+			if(CanUnDelay())
+			{
+				UnDelay();
+			}
 		}
-		
 		
 	}
 
@@ -83,6 +86,7 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 	public TimeManager_Subscriber GetSubscriberType() {
 		return timeManagerSubscriberType;
 	}
+	
 	
 
 	

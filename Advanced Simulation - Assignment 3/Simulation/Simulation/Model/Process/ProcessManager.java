@@ -28,52 +28,41 @@ public class ProcessManager {
 	
 	private static void StartProcess(Process processToStart)
 	{
-		System.out.println(String.format("PROCESS MANAGER: Process %s started at %s", processToStart.getID(), TimeManager.GetTimeUnitsPassed()));
+		System.out.println(String.format("PROCESS MANAGER: Process %s started at %s", processToStart.GetID(), TimeManager.GetTimeUnitsPassed()));
 		processToStart.Start();
 	}
 	
 	public static void Fire() throws Exception
 	{
 		// If no currentRunningProcess is defined yet, get first
-		if(currentRunningProcess == null)
-		{
-			currentRunningProcess = getNextProcessToRun();
-			StartProcess(currentRunningProcess);
-		}
-		
-		
-		// Check if current process is finished
-		// If so, get the next process
-		if(currentRunningProcess.isFinished()) 
-		{ 
-			// Notify that current process is finished
-			System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", currentRunningProcess.getID(), TimeManager.GetTimeUnitsPassed()));
-			
-			// Stop and Reset process
-			currentRunningProcess.Stop();
-			currentRunningProcess.Reset();
-		}
-		
 		// If no process is running, get next process
-		if(!currentRunningProcess.isRunning())
+		if(currentRunningProcess == null || !currentRunningProcess.IsRunning())
 		{
 			currentRunningProcess = getNextProcessToRun();
-			
-			// Start new process
 			StartProcess(currentRunningProcess);
 		}
 		
-		
-		// Fire current process
-		if(!currentRunningProcess.isFinished() && currentRunningProcess.CanFire())
-		{	
-			currentRunningProcess.Fire();
-			System.out.println(String.format("PROCESS MANAGER: Process %s fired at %s", currentRunningProcess.getID(), TimeManager.GetTimeUnitsPassed()));	
-		}
-
-		
-		
+		currentRunningProcess.Fire();
+		System.out.println(String.format("PROCESS MANAGER: Process %s fired at %s", currentRunningProcess.GetID(), TimeManager.GetTimeUnitsPassed()));	
 	}
+	
+	public static boolean CheckIfCurrentProcessCanFinish()
+	{
+		// Check if currentProcess can be finished
+		if(currentRunningProcess.CanFinish()) { return true;}
+		else return false;
+	}
+	
+	public static void FinishCurrentProcess()
+	{
+		System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", currentRunningProcess.GetID(), TimeManager.GetTimeUnitsPassed()));
+		
+		//Stop and Reset process
+		currentRunningProcess.SetFinished();
+		currentRunningProcess.Stop();
+		currentRunningProcess.Reset();
+	}
+	
 	// Returns the next process to run
 	private static Process getNextProcessToRun() throws Exception
 	{
@@ -99,6 +88,7 @@ public class ProcessManager {
 			return  processes.get(indexOfCurrentRunningProcess + 1);
 		}
 	}
+
 	
 	public static void AddProcess(Process process)
 	{

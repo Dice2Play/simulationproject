@@ -64,6 +64,7 @@ public class Model implements Tick_Listener {
 	{
 		// Print initial amount of time units passed
 		TimeManager.PrintAmountOfTimePassed();
+
 		
 		while(TimeManager.GetTimeUnitsPassed() <= amountOfTimeUnitsToRun)
 		{
@@ -89,6 +90,8 @@ public class Model implements Tick_Listener {
 	public void Event_Tick(double timePassed) 
 	{
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
+		if(ProcessManager.CheckIfCurrentProcessCanFinish()) {ProcessManager.FinishCurrentProcess();}
+		
 	}
 
 	public void Reset() {
@@ -100,6 +103,7 @@ public class Model implements Tick_Listener {
 	
 	private void Report()
 	{
+		
 		// timeManager.getAmountOfEventsInTimePeriod<int>
 		
 		

@@ -10,7 +10,7 @@ import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
 
-public abstract class Process implements Tick_Listener{
+public abstract class Process {
 
 	protected final String ID;
 	protected final int processTime; // Amount of time-units needed for completing process. 
@@ -26,10 +26,6 @@ public abstract class Process implements Tick_Listener{
 		this.ID = ID;
 		this.processTime = processTime;
 		this.type = type;
-		
-		
-		// Set listener
-		TimeManager.AddTickListener(this);
 	}
 	
 	public void Reset()
@@ -59,45 +55,36 @@ public abstract class Process implements Tick_Listener{
 		fireBehavior.Fire();
 	}
 		
-	public boolean isFinished()
+	public boolean IsFinished()
 	{
 		return isFinished;
 	}
 	
-	private void setFinished()
+	void SetFinished()
 	{
 		isFinished = true;
 	}
 	
-	public boolean isRunning()
+	public boolean IsRunning()
 	{
 		return isRunning;
 	}
 	
-	public String getID()
+	public String GetID()
 	{
 		return ID;
 	}
 	
-	private void canFinish(double timePassed)
+	public boolean CanFinish()
 	{
-		if((startTime + processTime) <= timePassed)
+		if((startTime + processTime) <= TimeManager.GetTimeUnitsPassed())
 		{
-			setFinished();
+			return true;
 		}
-	}
-	
-	@Override
-	public void Event_Tick(double timePassed)
-	{
-		if(isRunning) {canFinish(timePassed);}
 		
+		return false;
 	}
-	
-	public TimeManager_Subscriber GetSubscriberType()
-	{
-		return timeManagerSubscriberType;
-	}
+
 	
 	
 	

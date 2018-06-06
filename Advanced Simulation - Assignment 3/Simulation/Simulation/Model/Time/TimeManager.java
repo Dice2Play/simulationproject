@@ -93,7 +93,7 @@ public class TimeManager  {
 	{
 		TimeEvent event = events.getFirst();
 		setTimeUnitsPassed(event.getTimeWhichEventOccursOn()); // Set time on moment when event occurs
-		System.out.println("TIME MANAGER: " + event.getEventDescription());
+		System.out.println("TIME MANAGER: " + event.getEventDescription() + " at " + TimeManager.GetTimeUnitsPassed());
 		events.remove(event);
 	}
 	
