@@ -43,7 +43,7 @@ public class ResultManager {
 	{
 		for(Result result : results)
 		{
-			System.out.println("TimeUnit [" + TimeManager.GetTimeUnitsPassed() +"] " + result.getAttributeValues()); 
+			System.out.println("TimeUnit [" + result.GetTimeStamp() +"] " + result.GetAttributeValues()); 
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class ResultManager {
 		for(Result result :results)
 		{
 					
-			for(IResultAttribute attribute : result.getAttributes())
+			for(IResultAttribute attribute : result.GetAttributes())
 			{
 				// Check if key already exists
 				if(attributeValues.containsKey(attribute.getID()))

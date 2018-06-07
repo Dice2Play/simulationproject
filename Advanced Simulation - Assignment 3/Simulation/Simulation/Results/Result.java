@@ -4,23 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Simulation.Interfaces.IResultAttribute;
+import Simulation.Model.Time.TimeManager;
 
 public class Result {
 
 	List<IResultAttribute> attributes = new ArrayList<IResultAttribute>();
+	private double timeStamp;
 	
+	public Result()
+	{
+		timeStamp = TimeManager.GetTimeUnitsPassed();
+	}
 	
 	public void AddAttribute(IResultAttribute attribute)
 	{
 		attributes.add(attribute);
 	}
 	
-	public List<IResultAttribute> getAttributes()
+	public List<IResultAttribute> GetAttributes()
 	{
 		return attributes;
 	}
 	
-	String getAttributeValues()
+	String GetAttributeValues()
 	{
 		StringBuilder stringToPrint =  new StringBuilder();
 		
@@ -30,6 +36,11 @@ public class Result {
 		}
 		
 		return stringToPrint.toString();
+	}
+	
+	double GetTimeStamp()
+	{
+		return timeStamp;
 	}
 	
 
