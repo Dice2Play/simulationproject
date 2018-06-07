@@ -11,7 +11,7 @@ import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 import Statistics.ArtificialDistribution;
 
-public class Queue{
+public class Queue implements Tick_Listener {
 
 	private final Queue_Priority queueingPriority;
 	private final int maxGroupSize;
@@ -25,6 +25,9 @@ public class Queue{
 		this.maxGroupSize = maxGroupSize;
 		this.queueingPriority = queueingPriority;
 		this.queueID = queueID;
+		
+		// Set listener
+		TimeManager.AddTickListener(this);
 	}
 	
 	void SeizeFirstQueueObject(int amountOfTimeToSeize)
@@ -61,7 +64,37 @@ public class Queue{
 	{
 		return !groupsInQueue.isEmpty();
 	}
+	
+	void GenerateQueueObjects() 
+	{
+		// Check if group queue yes/no
+		if(maxGroupSize > 1)
+		{
+			double[] amountOfPossibleGroups = {0,1,2};
+			double[] probabilityAmountOfPossibleGroups = {0.2,0.6,0.2};
+			
+			int amountOfGroups = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(amountOfPossibleGroups, probabilityAmountOfPossibleGroups)); 
+						
+			// For each group 	
+			double[] possibleSizeOfGroups = {1,2,3,4,5};
+			double[] probabilityPossibleSizeOfGroups = {0.2,0.2,0.2,0.2,0.2};
+			
+			for(int i = 0; i < amountOfGroups; i++)
+			{
+				int groupSize = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(possibleSizeOfGroups, probabilityPossibleSizeOfGroups)); 
+				groupsInQueue.add(new QueueObject(groupSize, queueID));
+				ShowQueueObjectsAdded(groupSize);
+			}
+		}
+		
+		else // Single rider queue
+		{
+			groupsInQueue.add(new QueueObject(1, queueID));
+			ShowQueueObjectsAdded(1);
+		}
+		
 
+	}
 	
 	void ShowQueueObjectsAdded(int amountOfPeopleAdded)
 	{
@@ -72,13 +105,13 @@ public class Queue{
 	{
 		return queueID;
 	}
-	
-	void AddQueueObject(QueueObject queueObject, int amountOfPeopleAdded)
-	{
-		groupsInQueue.add(queueObject);
-		ShowQueueObjectsAdded(amountOfPeopleAdded);
-	}
 
+	@Override
+	public void Event_Tick(int timePassed)
+	{
+		try {GenerateQueueObjects();}
+		catch (Exception e) {e.printStackTrace();}
+	}
 	
 
 	LinkedList<QueueObject> GetQueueObjectList()

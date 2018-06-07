@@ -58,7 +58,6 @@ class QueueObject{
 		SetLeaveTime(TimeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
 	}
 	
-	
 	double GetWaitingTime()
 	{
 		return  TimeManager.GetTimeUnitsPassed() - arrivalTime;

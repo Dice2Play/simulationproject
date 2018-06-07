@@ -12,7 +12,6 @@ import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import Statistics.ArtificialDistribution;
 
 public class QueueManager {
 	
@@ -171,47 +170,6 @@ public class QueueManager {
 		return totalNumberOfPeopleWaiting;
 		
 	}
-	
-	public static void GenerateQueueObjects()
-	{
-		// Get queue's
-		Queue groupQueue = queues.get(0);
-		Queue singleQueue = queues.get(1);
-		
-		
-		// Generate amount 
-		double[] amountOfPossibleGroups = {0,1,2};
-		double[] probabilityAmountOfPossibleGroups = {0.2,0.6,0.2};
-			
-		int amountOfGroups = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(amountOfPossibleGroups, probabilityAmountOfPossibleGroups)); 
-						
-		// For each group 	
-		double[] possibleSizeOfGroups = {1,2,3,4,5};
-		double[] probabilityPossibleSizeOfGroups = {0.2,0.2,0.2,0.2,0.2};
-			
-		for(int i = 0; i < amountOfGroups; i++)
-		{
-			int groupSize = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(possibleSizeOfGroups, probabilityPossibleSizeOfGroups));
-			
-			// Add to group queue
-			if(groupSize > 1)
-			{
-				groupQueue.AddQueueObject(new QueueObject(groupSize, groupQueue.GetID()), groupSize);
-			}
-			
-			// Add to single queue
-			else
-			{
-				singleQueue.AddQueueObject(new QueueObject(groupSize, singleQueue.GetID()), groupSize);
-			}
-			
-			
-		}
-	}
-		
-		
-
-	
 	
 	private static boolean CheckIfThereAreAnyQueueObjects()
 	{

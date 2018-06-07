@@ -94,9 +94,6 @@ public class Model implements Tick_Listener {
 		SetTimePassed(timePassed);	
 		
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
-		
-		// Generate queue objects
-		QueueManager.GenerateQueueObjects();
 	
 	}
 
