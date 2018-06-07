@@ -12,7 +12,6 @@ import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
 //import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import Statistics.ArtificialDistribution;
 
 public class QueueManager {
 	
@@ -31,8 +30,25 @@ public class QueueManager {
 		
 		return queue;
 	}
+	
+	public static void SeizeQueueObject(int seizeTime)
+	{
+		PriorityQueue<Queue> queuesByPriority = OrderQueuesByPriority();
+		
+	
+		for(Queue queue : queuesByPriority)
+		{
+			if(queue.HasNextQueueObject())
+			{
+				queue.SeizeFirstQueueObject(seizeTime);
+				break;
+			}
+		}
+	}
+	
 
 	// Returns amount of spots seized
+	// Only use 
 	public static int SeizeQueueObject(int seizeTime, int capacity) 
 	{
 		int amountOfSpotsTaken = 0;
@@ -111,7 +127,7 @@ public class QueueManager {
 	public static double GetWaitingTimeArbitraryCustomer()
 	{
 		// Check if there are any queueObjects, if not return 0.
-		if(CheckIfThereAreAnyQueueObjects() == false) {return 0.0;}
+		if(CheckIfThereAreAnyQueueObjectsAvailable() == false) {return 0.0;}
 		
 		Random r = new Random();
 		
@@ -164,7 +180,11 @@ public class QueueManager {
 		{
 			for(QueueObject queueObject : queue.GetQueueObjectList())
 			{
-				totalNumberOfPeopleWaiting = totalNumberOfPeopleWaiting + queueObject.GetGroupSize();
+				if(queueObject.IsAvailable())
+				{
+					totalNumberOfPeopleWaiting = totalNumberOfPeopleWaiting + queueObject.GetGroupSize();
+				}
+				
 			}
 		}
 		
@@ -172,58 +192,18 @@ public class QueueManager {
 		
 	}
 	
-	public static void GenerateQueueObjects()
-	{
-		// Get queue's
-		Queue groupQueue = queues.get(0);
-		Queue singleQueue = queues.get(1);
-		
-		
-		// Generate amount 
-		double[] amountOfPossibleGroups = {0,1,2};
-		double[] probabilityAmountOfPossibleGroups = {0.2,0.6,0.2};
-			
-		int amountOfGroups = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(amountOfPossibleGroups, probabilityAmountOfPossibleGroups)); 
-						
-		// For each group 	
-		double[] possibleSizeOfGroups = {1,2,3,4,5};
-		double[] probabilityPossibleSizeOfGroups = {0.2,0.2,0.2,0.2,0.2};
-			
-		for(int i = 0; i < amountOfGroups; i++)
-		{
-			int groupSize = (int) Probability.Probability.GetDistributionResult(new ArtificialDistribution(possibleSizeOfGroups, probabilityPossibleSizeOfGroups));
-			
-			// Add to group queue
-			if(groupSize > 1)
-			{
-				groupQueue.AddQueueObject(new QueueObject(groupSize, groupQueue.GetID()), groupSize);
-			}
-			
-			// Add to single queue
-			else
-			{
-				singleQueue.AddQueueObject(new QueueObject(groupSize, singleQueue.GetID()), groupSize);
-			}
-			
-			
-		}
-	}
-		
-		
-
-	
-	
-	private static boolean CheckIfThereAreAnyQueueObjects()
+	public static boolean CheckIfThereAreAnyQueueObjectsAvailable()
 	{
 		for(Queue queue : queues)
 		{
-			if(queue.HasNextQueueObject()) { return true;}
+			if(queue.HasNextQueueObject() && queue.FirstQueueObject().IsAvailable()) { return true;}
 		}
 		
 		// Default value
 		return false;
 		
 	}
+
 	
 	private static class QueuePriorityComparator implements Comparator<Queue>
 	{

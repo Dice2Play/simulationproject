@@ -1,5 +1,11 @@
 package Simulation.Model;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import Simulation.Enums.Queue_Priority;
 import Simulation.Enums.Resource_Type;
 import  Simulation.Interfaces.*;
@@ -44,7 +50,7 @@ public class Model implements Tick_Listener {
 		
 		// Queue's
 		QueueManager.AddQueue(new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"));
-		//QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));
+		QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));
 		
 		// Processes
 		ProcessManager.AddProcess(new Process("Boattrip", 1 , Resource_Type.BOAT));
@@ -88,6 +94,9 @@ public class Model implements Tick_Listener {
 		SetTimePassed(timePassed);	
 		
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
+		
+		// Generate queue objects
+		QueueManager.GenerateQueueObjects();
 	
 	}
 
@@ -102,15 +111,44 @@ public class Model implements Tick_Listener {
 	{
 
 		// Retrieve values
+		//double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
+		//double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
 		double meanBoatOccupancy = ResourceManager.GetResourceOccupancy();
-		double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
-		double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
-			
+		
+		HashMap<String,Double> totalQueueLengthPerQueue = QueueManager.GetTotalQueueLengthPerQueue();
+		HashMap<String,Double> waitingTimesArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomerPerQueue();
+	
+		
 		// Add values to result
 		Result result = new Result();
+		
+		// waitingTimeArbitraryCustomr -- Hashmap for multiple queue's 
+	    Set waitingTimesArbitraryCustomerSet = waitingTimesArbitraryCustomer.entrySet();
+	    Iterator waitingTimesArbitraryCustomerSetIterator = waitingTimesArbitraryCustomerSet.iterator();
+	    
+	    
+		while(waitingTimesArbitraryCustomerSetIterator.hasNext())
+		{
+			Map.Entry me = (Map.Entry)waitingTimesArbitraryCustomerSetIterator.next();			
+			result.AddAttribute(new DoubleResultAttribute((Double) me.getValue(), String.format("%s: Waiting time arbitrary customer ", me.getKey())));
+		}
+		
+		// totalQueueLengthPerQueue -- Hashmap for multiple queue's 
+	    Set totalQueueLengthSet = totalQueueLengthPerQueue.entrySet();
+	    Iterator totalQueueLengthSetIterator = totalQueueLengthSet.iterator();
+	    
+	    
+		while(totalQueueLengthSetIterator.hasNext())
+		{
+			Map.Entry me = (Map.Entry)totalQueueLengthSetIterator.next();			
+			result.AddAttribute(new DoubleResultAttribute((Double) me.getValue(), String.format("%s: Total queue length", me.getKey())));
+		}
+		
+		
+		
+		
 		result.AddAttribute(new DoubleResultAttribute(meanBoatOccupancy, "Mean boat occupancy"));
-		result.AddAttribute(new DoubleResultAttribute(waitingTimeArbitraryCustomer, "Waiting Time arbitrary customer"));
-		result.AddAttribute(new DoubleResultAttribute(totalQueuelength, "Total Queue Length"));
+		
 			
 			
 			

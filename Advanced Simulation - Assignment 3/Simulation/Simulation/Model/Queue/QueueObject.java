@@ -1,24 +1,22 @@
 package Simulation.Model.Queue;
 
-
 import Simulation.Model.Time.TimeManager;
 
-class QueueObject{
+public class QueueObject{
 
 	private int groupSize;
-	private int arrivalTime;
-	private int boardingTime;
-	private int leaveTime;
+	private double arrivalTime;
+	private double beginSeizeTime;
+	private double leaveTime;
 	private final String queueID;
-
 	private boolean isSeized;
 	 
 	
-	QueueObject(int groupSize, String queueID)
+	public QueueObject(int groupSize, String queueID, double arrivalTime)
 	{
 		this.groupSize = groupSize;
 		this.queueID = queueID;
-		this.arrivalTime = TimeManager.GetTimeUnitsPassed();
+		this.arrivalTime = arrivalTime;
 	}
 	
 	int GetGroupSize()
@@ -26,9 +24,9 @@ class QueueObject{
 		return groupSize;
 	}
 	
-	void SetBoardingTime(int boardingTime)
+	void SetBoardingTime(double boardingTime)
 	{
-		this.boardingTime =  boardingTime;
+		this.beginSeizeTime =  boardingTime;
 	}
 	
 	String GetQueueID()
@@ -41,7 +39,7 @@ class QueueObject{
 		isSeized = newValue;
 	}
 	
-	void SetLeaveTime(int leaveTime)
+	void SetLeaveTime(double leaveTime)
 	{
 		this.leaveTime = leaveTime;
 	}
@@ -58,12 +56,15 @@ class QueueObject{
 		SetLeaveTime(TimeManager.GetTimeUnitsPassed() + amountOfTimeToSeize);
 	}
 	
-	
 	double GetWaitingTime()
 	{
 		return  TimeManager.GetTimeUnitsPassed() - arrivalTime;
 	}
 
-		
+	public boolean IsAvailable()
+	{
+		// check if arrivalTime of object has passed
+		return (arrivalTime <= TimeManager.GetTimeUnitsPassed());
+	}
 	
 }
