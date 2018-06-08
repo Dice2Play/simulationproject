@@ -8,7 +8,10 @@ public class Scenario {
 	
 	private int timeUnitsToRun;
 	private int amountOfSimulationsToRun;
-	
+	/** 
+	 * @param timeUnitsToRun set up how long per simulation will be 
+	 * @param amountOfSimulationsToRun set up how many times cases we would run
+	 */
 	public Scenario(int timeUnitsToRun, int amountOfSimulationsToRun)
 	{
 		// Set fields
@@ -16,7 +19,7 @@ public class Scenario {
 		this.amountOfSimulationsToRun = amountOfSimulationsToRun;
 
 	}
-	
+
 	public void Run()
 	{
 		for(int amountOfReplicationsRan = 1; amountOfReplicationsRan <= amountOfSimulationsToRun; amountOfReplicationsRan++)

@@ -115,6 +115,7 @@ public class ProcessManager {
 	public static void Reset()
 	{
 		processes = new LinkedList<Process>();
+		currentRunningProcess = null;
 	}
 	
 }
