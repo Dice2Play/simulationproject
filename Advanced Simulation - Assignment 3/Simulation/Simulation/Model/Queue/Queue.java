@@ -10,6 +10,7 @@ import java.util.Random;
 import Simulation.Enums.Queue_Priority;
 import Simulation.Enums.TimeManager_Subscriber;
 import Simulation.Interfaces.Tick_Listener;
+import Simulation.Model.Model;
 import Simulation.Model.Queue.Behavior.IQueueGenerateBehavior;
 import Simulation.Model.Time.TimeManager;
 import Statistics.ArtificialDistribution;
@@ -44,8 +45,10 @@ public abstract class Queue implements Tick_Listener {
 		//Calautlate the waiting time of first object and record.
 		double waitingTimeperCar = firstQueueObject.GetWaitingTime();
 		// Remove from list
-		System.out.print("waiting time recored:"+ waitingTimeperCar+ "\n");
+		//System.out.print("waiting time recored:"+ waitingTimeperCar+ "\n");
 		Queue.waitingTimeRecord.add(waitingTimeperCar);
+		//for varaince per run purpose:
+		Model.delayRecordPerRun.add(waitingTimeperCar);
 		queueObjects.remove(firstQueueObject);	
 		
 	}

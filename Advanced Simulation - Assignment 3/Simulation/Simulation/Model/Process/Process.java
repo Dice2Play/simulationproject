@@ -64,7 +64,7 @@ public abstract class Process {
 		return isFinished;
 	}
 	
-	void SetFinished()
+	public void SetFinished()
 	{
 		isFinished = true;
 	}
@@ -94,6 +94,21 @@ public abstract class Process {
 			return true;
 		}
 		
+		return false;
+	}
+	//Assignment 3 question 3
+	public boolean CanFinishBecauseQueueis0()
+	{
+		Process p = ProcessManager.getCurrentRunningProcess();
+		if(QueueManager.GetTotalQueueLength() == 0 && p.getGreenlight() == true) 
+		{
+			return true;
+		}
+ 	if((startTime + processTime) <= TimeManager.GetTimeUnitsPassed())
+		{
+			return true;
+		}
+				
 		return false;
 	}
 

@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Simulation.Enums.Resource_Type;
+import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Time.TimeManager;
+import Simulation.Results.ResultManager;
 
 public class ProcessManager {
 
@@ -30,12 +32,17 @@ public class ProcessManager {
 	{
 		System.out.println(String.format("PROCESS MANAGER: Process %s started at %s", processToStart.GetID(), TimeManager.GetTimeUnitsPassed()));
 		processToStart.Start();
+		// the condition added for quetsion 3, un sure start time unit
+		if(processToStart.isGreenLight == true)
+		{
+			ResultManager.x0Record2.add((int) QueueManager.GetTotalQueueLength());
+		}
 	}
 	public Process GetCurrentProcess()
 	{
 		return ProcessManager.getCurrentRunningProcess();
 	}
-	
+	// defualt fire method
 	public static void Fire() throws Exception
 	{
 		// If no currentRunningProcess is defined yet, get first
@@ -48,12 +55,17 @@ public class ProcessManager {
 		
 		getCurrentRunningProcess().Fire();
 		System.out.println(String.format("PROCESS MANAGER: Process %s fired at %s", getCurrentRunningProcess().GetID(), TimeManager.GetTimeUnitsPassed()));	
-	}
-	
+	}	
 	public static boolean CheckIfCurrentProcessCanFinish()
 	{
 		// Check if currentProcess can be finished
 		if(getCurrentRunningProcess().CanFinish()) { return true;}
+		else return false;
+	}
+	public static boolean CheckIfCurrentProcessCanFinish2()
+	{
+		// Check if currentProcess can be finished
+		if(getCurrentRunningProcess().CanFinish()||getCurrentRunningProcess().CanFinishBecauseQueueis0() ) { return true;}
 		else return false;
 	}
 	
@@ -64,7 +76,11 @@ public class ProcessManager {
 		
 		
 		System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", getCurrentRunningProcess().GetID(), TimeManager.GetTimeUnitsPassed()));
-		
+		//For assignment 3
+		if(getCurrentRunningProcess().isGreenLight == true)
+		{
+			ResultManager.xgRecord2.add((int) QueueManager.GetTotalQueueLength());
+		}
 		//Stop and Reset process
 		getCurrentRunningProcess().SetFinished();
 		getCurrentRunningProcess().Stop();
