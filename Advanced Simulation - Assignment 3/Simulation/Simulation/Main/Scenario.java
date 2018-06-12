@@ -1,6 +1,8 @@
 package Simulation.Main;
 
 
+import java.util.Arrays;
+
 import Simulation.Model.*;
 import Simulation.Results.ResultManager;
 
@@ -51,6 +53,23 @@ public class Scenario {
 		System.out.print("ExpectedDelay2nd: " + ResultManager.getExpectedDelay2nd()+"\n");
 		System.out.print("ProbabilityX0is0: " + ResultManager.getProbabilityX0is0()+"\n");
 		System.out.print("ProbabilityXgis0: " + ResultManager.getProbabilityXgis0()+"\n");
+		System.out.print("*********Variance******************* " +"\n");
+		System.out.print("Variance of Xg: " + ResultManager.getVarianceXg()+"\n");
+		System.out.print("Variance of X0: " + ResultManager.getVarianceX0()+"\n");
+		System.out.print("Variance of X: " + ResultManager.getVarianceX()+"\n");
+		System.out.print("Variance of Delay: " + ResultManager.getVarianceDelay()+"\n");
+		System.out.print("****** upper and lower bound of 95% confidence interval**** " +"\n");
+		System.out.print("*************Upper************Lower************** " +"\n");
+		//xg 95
+		System.out.println("Xg: "+Arrays.toString(ResultManager.get95ConfidenceXg()));
+		//x0 95
+		System.out.println("X0: "+Arrays.toString(ResultManager.get95ConfidenceX0()));
+		//X avg 95
+		System.out.println("X average: "+Arrays.toString(ResultManager.get95ConfidenceX()));
+		//Delay 95
+		System.out.println("Delay: "+Arrays.toString(ResultManager.get95ConfidenceDelay()));
+		
+		
 	}
 	
 }

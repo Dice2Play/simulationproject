@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.DoubleUnaryOperator;
 import java.util.function.Function;
 
 import com.csvreader.CsvWriter;
@@ -158,7 +159,7 @@ public class ResultManager {
 	{                       
 	  return Queue.waitingTimeRecord.stream().mapToDouble(val -> val).average().orElse(0);
 	}
-	/******************************Table*******************/
+	/******************************Table of expected values and probability*******************/
 	//Expected Xg
 	public static Double getExpectedValueXg()
 	{
@@ -202,6 +203,67 @@ public class ResultManager {
 		counter =  xgRecord.stream().filter(record ->record.equals(0)).count();		 
 		return counter/xgRecord.size();
 	}
+	/******************************Variance and half-width*******************/
+	public static double getVarianceXg()
+	{
+		Function<Integer, Double> differnce = x -> x- getExpectedValueXg();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = xgRecord.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(xgRecord.size()-1);
+	}
+	public static double getVarianceX0()
+	{
+		Function<Integer, Double> differnce = x -> x- getExpectedValueX0();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = x0Record.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(x0Record.size()-1);
+	}
+	public static double getVarianceX()
+	{
+		Function<Integer, Double> differnce = x -> x- getExpectedValueofAvgQueuelength();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = xfullRecord.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(xfullRecord.size()-1);
+	}
+	public static double getVarianceDelay()
+	{
+		Function<Double, Double> differnce = x -> x- getExpectedDelay();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = Queue.waitingTimeRecord.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(Queue.waitingTimeRecord.size()-1);
+	}
+	/**
+	 * Get half width formula
+	 * @param varaince of each value
+	 * @param N is the total smaple number
+	 * @return upper and lower bound 95% confidence 
+	 */
+	public static double[] getlowerHigherBond(double mean, double varaince, double N)
+	{
+		double c = 1.96;
+		double half_width = c*Math.sqrt(varaince/N);
+		double upper = mean+half_width;
+		double lower = mean-half_width;
+		double[] myList = {upper, lower};
+	  return myList;
+	}
+	public static double[] get95ConfidenceX0()
+	{
+		return getlowerHigherBond(getExpectedValueX0(),getVarianceX0(),x0Record.size());
+	}
+	public static double[] get95ConfidenceXg()
+	{
+		return getlowerHigherBond(getExpectedValueXg(),getVarianceXg(),xgRecord.size());
+	}
+	public static double[] get95ConfidenceX()
+	{
+		return getlowerHigherBond(getExpectedValueofAvgQueuelength(),getVarianceX(),xfullRecord.size());
+	}
+	public static double[] get95ConfidenceDelay()
+	{
+		return getlowerHigherBond(getExpectedDelay(),getVarianceDelay(),Queue.waitingTimeRecord.size());
+	}
+	
 	/*****Write results to csv******/
 	public static void ExportSummaryToCSV()
 	{
