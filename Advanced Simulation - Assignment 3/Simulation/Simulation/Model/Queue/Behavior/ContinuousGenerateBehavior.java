@@ -18,7 +18,9 @@ public class ContinuousGenerateBehavior extends  QueueGenerateBehavior{
 		super(queueID, queueObjects, queueObjectName);
 		this.rate = rate;
 	}
-
+    /**
+     * Cards arrival in the continous time, we generate cars object in a continues generation way.
+     */
 	@Override
 	public void GenerateQueueObjects() {
 		

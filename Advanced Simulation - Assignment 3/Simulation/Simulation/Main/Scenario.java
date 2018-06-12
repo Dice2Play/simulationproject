@@ -42,6 +42,15 @@ public class Scenario {
 			// Clear results of ResultManager
 			ResultManager.ClearResults();
 		}
+		System.out.print("****** Table statistics*************"+"\n");
+		System.out.print("ExpectedValueXg: " + ResultManager.getExpectedValueXg()+"\n");
+		System.out.print("ExpectedValueXg2nd: " + ResultManager.getExpectedValueXg2nd()+"\n");
+		System.out.print("getExpectedValueX0: " + ResultManager.getExpectedValueX0()+"\n");
+		System.out.print("ExpectedValueofAvgQueuelength: " + ResultManager.getExpectedValueofAvgQueuelength()+"\n");
+		System.out.print("ExpectedDelay: " + ResultManager.getExpectedDelay()+"\n");
+		System.out.print("ExpectedDelay2nd: " + ResultManager.getExpectedDelay2nd()+"\n");
+		System.out.print("ProbabilityX0is0: " + ResultManager.getProbabilityX0is0()+"\n");
+		System.out.print("ProbabilityXgis0: " + ResultManager.getProbabilityXgis0()+"\n");
 	}
 	
 }

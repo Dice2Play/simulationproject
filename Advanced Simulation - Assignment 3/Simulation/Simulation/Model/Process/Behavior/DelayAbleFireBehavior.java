@@ -35,7 +35,7 @@ public class DelayAbleFireBehavior implements IProcessFireBehavior, Tick_Listene
 		// Fire process
 		QueueManager.SeizeQueueObject(processTime);
 		Delay();
-		
+		// add departure time for each queue object
 	}
 
 	@Override

@@ -9,16 +9,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import com.csvreader.CsvWriter;
 
 import Simulation.Interfaces.IResultAttribute;
+import Simulation.Model.Queue.Queue;
 import Simulation.Model.Time.TimeManager;
 
 public class ResultManager {
 
 	private static List<Result> results = new ArrayList<Result>(); 	
 	private static List<Double> replicationSummary = new ArrayList<Double>(); // csv uses
+	//for table use:
+	public static final List<Integer> xgRecord = new ArrayList<Integer>();
+	public static final List<Integer> x0Record = new ArrayList<Integer>();
+	public static final List<Integer> xfullRecord = new ArrayList<Integer>();
+	private static int counter0;
+	private static int counterg;
 	
 	private static int currentReplication;
 	//private static final String outputDirectory;
@@ -120,14 +128,80 @@ public class ResultManager {
 	        
 		}
 		
-	
+	//	printCounterG(counterg);
+	//	printCounter0(counter0);
+		
 		
 		
 	}
+	public static void printCounterG(int counter)
+	{
+		System.out.print("counter Xg is "+ counter+"\n");
+	}
+	public static void printCounter0(int counter)
+	{
+		System.out.print("counter X0 is "+ counter +"\n");
+	}
 	
 	
+	public static void setCounter0(int c)
+	{
+		counter0 = c;
+	}
+	public static void setCounterg(int c)
+	{
+		counterg = c;
+	}
+   //get the average waiting time the whole simulation
+	//duplicated method, used for testing 
+	public static Double calculateAvgWaitingTime()
+	{                       
+	  return Queue.waitingTimeRecord.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	/******************************Table*******************/
+	//Expected Xg
+	public static Double getExpectedValueXg()
+	{
+		return xgRecord.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	//Expected Expected g ^2
+	public static Double getExpectedValueXg2nd()
+	{
+		Function<Integer, Integer> square = x -> x * x;
 
-	
+		return xgRecord.stream().map(square).mapToDouble(val -> val).average().orElse(0);
+	}
+	//Expected value of X0
+	public static Double getExpectedValueX0()
+	{
+		return x0Record.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	//E[x-]
+	public static Double getExpectedValueofAvgQueuelength()
+	{
+		return xfullRecord.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	public static Double getExpectedDelay() 
+	{
+		return Queue.waitingTimeRecord.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	public static Double getExpectedDelay2nd()
+	{
+		Function<Double, Double> square = x -> x * x;
+
+		return Queue.waitingTimeRecord.stream().map(square).mapToDouble(val -> val).average().orElse(0);
+	}
+	public static Double getProbabilityX0is0()
+	{    double counter = 0;
+		 counter =  x0Record.stream().filter(record ->record.equals(0)).count();		 
+		return counter/x0Record.size();
+	}
+	public static Double getProbabilityXgis0()
+	{
+		double counter = 0;
+		counter =  xgRecord.stream().filter(record ->record.equals(0)).count();		 
+		return counter/xgRecord.size();
+	}
 	/*****Write results to csv******/
 	public static void ExportSummaryToCSV()
 	{

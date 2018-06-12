@@ -18,7 +18,10 @@ public abstract class Process {
 	protected IProcessFireBehavior fireBehavior;
 	protected boolean isFinished;
 	protected double startTime;
+	protected double eindTime;
 	protected boolean isRunning;
+	protected boolean isStartMoment;
+	protected boolean isGreenLight;
 	protected TimeManager_Subscriber timeManagerSubscriberType = TimeManager_Subscriber.MODEL;
 	
 	public Process(String ID, int processTime, Resource_Type type)
@@ -26,8 +29,9 @@ public abstract class Process {
 		this.ID = ID;
 		this.processTime = processTime;
 		this.type = type;
+		this.startTime = 0; //the start 0 moment
 	}
-	
+
 	public void Reset()
 	{
 		isFinished = false;
@@ -74,6 +78,14 @@ public abstract class Process {
 	{
 		return ID;
 	}
+	public boolean getGreenlight()
+	{
+		return this.isGreenLight;
+	}
+	public void setGreenlight()
+	{
+	   this.isGreenLight = true;
+	}
 	
 	public boolean CanFinish()
 	{
@@ -84,6 +96,7 @@ public abstract class Process {
 		
 		return false;
 	}
+
 
 	
 	

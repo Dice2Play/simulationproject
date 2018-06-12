@@ -17,13 +17,13 @@ public class ProcessManager {
 	public static boolean CanFire() throws Exception
 	{
 		// If no currentRunningProcess is defined yet, get first
-		if(currentRunningProcess == null)
+		if(getCurrentRunningProcess() == null)
 		{
-			currentRunningProcess = getNextProcessToRun();
-			StartProcess(currentRunningProcess);
+			setCurrentRunningProcess(getNextProcessToRun());
+			StartProcess(getCurrentRunningProcess());
 		}
 		
-		return currentRunningProcess.CanFire();
+		return getCurrentRunningProcess().CanFire();
 	}
 	
 	private static void StartProcess(Process processToStart)
@@ -31,46 +31,50 @@ public class ProcessManager {
 		System.out.println(String.format("PROCESS MANAGER: Process %s started at %s", processToStart.GetID(), TimeManager.GetTimeUnitsPassed()));
 		processToStart.Start();
 	}
+	public Process GetCurrentProcess()
+	{
+		return ProcessManager.getCurrentRunningProcess();
+	}
 	
 	public static void Fire() throws Exception
 	{
 		// If no currentRunningProcess is defined yet, get first
 		// If no process is running, get next process
-		if(currentRunningProcess == null)
+		if(getCurrentRunningProcess() == null)
 		{
-			currentRunningProcess = getNextProcessToRun();
-			StartProcess(currentRunningProcess);
+			setCurrentRunningProcess(getNextProcessToRun());
+			StartProcess(getCurrentRunningProcess());
 		}
 		
-		currentRunningProcess.Fire();
-		System.out.println(String.format("PROCESS MANAGER: Process %s fired at %s", currentRunningProcess.GetID(), TimeManager.GetTimeUnitsPassed()));	
+		getCurrentRunningProcess().Fire();
+		System.out.println(String.format("PROCESS MANAGER: Process %s fired at %s", getCurrentRunningProcess().GetID(), TimeManager.GetTimeUnitsPassed()));	
 	}
 	
 	public static boolean CheckIfCurrentProcessCanFinish()
 	{
 		// Check if currentProcess can be finished
-		if(currentRunningProcess.CanFinish()) { return true;}
+		if(getCurrentRunningProcess().CanFinish()) { return true;}
 		else return false;
 	}
 	
 	public static void FinishCurrentProcess()
 	{
 		
-		if(currentRunningProcess.IsFinished()) {return;}
+		if(getCurrentRunningProcess().IsFinished()) {return;}
 		
 		
-		System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", currentRunningProcess.GetID(), TimeManager.GetTimeUnitsPassed()));
+		System.out.println(String.format("PROCESS MANAGER: Process %s finished at %s", getCurrentRunningProcess().GetID(), TimeManager.GetTimeUnitsPassed()));
 		
 		//Stop and Reset process
-		currentRunningProcess.SetFinished();
-		currentRunningProcess.Stop();
-		currentRunningProcess.Reset();
+		getCurrentRunningProcess().SetFinished();
+		getCurrentRunningProcess().Stop();
+		getCurrentRunningProcess().Reset();
 		
 		// Get next process
 		try
 		{
-			currentRunningProcess = getNextProcessToRun();
-			StartProcess(currentRunningProcess);
+			setCurrentRunningProcess(getNextProcessToRun());
+			StartProcess(getCurrentRunningProcess());
 		}
 		
 		catch(Exception ex)
@@ -88,12 +92,12 @@ public class ProcessManager {
 		
 		
 		// If there isn't any process currently running, get the first occurrence from list 'Processes'
-		if(currentRunningProcess == null) { return processes.getFirst();}
+		if(getCurrentRunningProcess() == null) { return processes.getFirst();}
 		
 		// If there is a process currently running then,
 		// get index of last element in 'processes' list,
 		// if this index is out of bounds, return the first occurrence from the list 'Processes'
-		int indexOfCurrentRunningProcess = processes.indexOf(currentRunningProcess);
+		int indexOfCurrentRunningProcess = processes.indexOf(getCurrentRunningProcess());
 		
 		if((indexOfCurrentRunningProcess + 2) > processes.size())
 		{ 
@@ -115,7 +119,15 @@ public class ProcessManager {
 	public static void Reset()
 	{
 		processes = new LinkedList<Process>();
-		currentRunningProcess = null;
+		setCurrentRunningProcess(null);
+	}
+
+	public static Process getCurrentRunningProcess() {
+		return currentRunningProcess;
+	}
+
+	public static void setCurrentRunningProcess(Process currentRunningProcess) {
+		ProcessManager.currentRunningProcess = currentRunningProcess;
 	}
 	
 }

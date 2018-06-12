@@ -1,5 +1,6 @@
 package Simulation.Model.Queue;
 
+//import java.awt.geom.Arc2D.Double;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +21,7 @@ public abstract class Queue implements Tick_Listener {
 	protected IQueueGenerateBehavior generateQueueBehavior;
 	protected LinkedList<QueueObject> queueObjects = new LinkedList<QueueObject>();
 	protected TimeManager_Subscriber timeManagerSubscriberType = TimeManager_Subscriber.QUEUE;
-	
+	public static final List<Double> waitingTimeRecord = new ArrayList<Double>(); 
 	
 	public Queue(Queue_Priority queueingPriority, String queueID)
 	{
@@ -38,9 +39,15 @@ public abstract class Queue implements Tick_Listener {
 		
 		// Seize
 		firstQueueObject.SeizeQueueObject(amountOfTimeToSeize);
-		
+		//assign the departure time of that object
+		firstQueueObject.SetLeaveTime(TimeManager.GetTimeUnitsPassed());
+		//Calautlate the waiting time of first object and record.
+		double waitingTimeperCar = firstQueueObject.GetWaitingTime();
 		// Remove from list
-		queueObjects.remove(firstQueueObject);		
+		System.out.print("waiting time recored:"+ waitingTimeperCar+ "\n");
+		Queue.waitingTimeRecord.add(waitingTimeperCar);
+		queueObjects.remove(firstQueueObject);	
+		
 	}
 	
 	Queue_Priority GetQueuePriority()
