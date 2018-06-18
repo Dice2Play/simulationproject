@@ -10,15 +10,8 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		double sum = 0;
-		
-		for(int index = 0; index < 15; index++)
-		{
-			sum = sum + Probability.Probability.GetDistributionResult(new ExponentialDistribution(15,new Random()));
-		}
-		
-		System.out.println(sum);
-		Scenario scenario_1 = new Scenario(100,1);
+
+		Scenario scenario_1 = new Scenario(10,10);
 		scenario_1.Run();
 		
 		

@@ -45,9 +45,9 @@ public class Scenario {
 			ResultManager.ClearResults();
 		}
 		//default setting r 5 g 5 
-		printResultByDefualtG5R5Setting();
+		//printResultByDefualtG5R5Setting();
 		//setting for question 3
-		//printResultByVehicleActuatedSetting();			
+		printResultByVehicleActuatedSetting();			
 	}
 	 void printResultByDefualtG5R5Setting()
 	 {

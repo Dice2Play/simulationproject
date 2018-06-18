@@ -9,7 +9,6 @@ import java.util.Set;
 import Simulation.Enums.Queue_Priority;
 import Simulation.Enums.Resource_Type;
 import  Simulation.Interfaces.*;
-import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
 import Simulation.Results.DoubleResultAttribute;
@@ -49,8 +48,9 @@ public class Model implements Tick_Listener {
 
 		
 		// Queue's
-		QueueManager.AddQueue(new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"));
-		QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));
+	//	QueueManager.AddQueue(new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE")); // multi group queue
+		
+		QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));// single queue
 		
 		// Processes
 		ProcessManager.AddProcess(new Process("Boattrip", 1 , Resource_Type.BOAT));
@@ -94,6 +94,9 @@ public class Model implements Tick_Listener {
 		SetTimePassed(timePassed);	
 		
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
+		
+		// Generate queue objects
+		QueueManager.GenerateQueueObjects();
 	
 	}
 
@@ -108,8 +111,9 @@ public class Model implements Tick_Listener {
 	{
 
 		// Retrieve values
-		//double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
-		//double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
+		double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
+		
+		double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
 		double meanBoatOccupancy = ResourceManager.GetResourceOccupancy();
 		
 		HashMap<String,Double> totalQueueLengthPerQueue = QueueManager.GetTotalQueueLengthPerQueue();
@@ -145,8 +149,8 @@ public class Model implements Tick_Listener {
 		
 		
 		result.AddAttribute(new DoubleResultAttribute(meanBoatOccupancy, "Mean boat occupancy"));
-		
-			
+		result.AddAttribute(new DoubleResultAttribute(totalQueuelength, "totalQueuelength"));
+		result.AddAttribute(new DoubleResultAttribute(waitingTimeArbitraryCustomer, "waitingTimeArbitraryCustomer"));	
 			
 			
 		// Add result to resultManager

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="Simulation"/>
+	<classpathentry kind="src" path="Statistics"/>
+	<classpathentry kind="src" path="Probability"/>
+	<classpathentry kind="src" path="Test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/s167702/Downloads/simulationproject-master(1)/simulationproject-master/External Libraries/javacsv2.1/javacsv.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

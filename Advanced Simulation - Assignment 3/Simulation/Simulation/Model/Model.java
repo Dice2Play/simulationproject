@@ -111,9 +111,9 @@ public class Model implements Tick_Listener {
 	{
 		if(ResourceManager.CheckIfAnyResourceCanBeReleased()) { ResourceManager.ReleaseResources();}
 		//defalut:
-		if(ProcessManager.CheckIfCurrentProcessCanFinish()) {ProcessManager.FinishCurrentProcess();}
+	//	if(ProcessManager.CheckIfCurrentProcessCanFinish()) {ProcessManager.FinishCurrentProcess();}
 		//test question 3 must enable the fellow line
-	//	if(ProcessManager.CheckIfCurrentProcessCanFinish2()) {ProcessManager.FinishCurrentProcess();}
+		if(ProcessManager.CheckIfCurrentProcessCanFinish2()) {ProcessManager.FinishCurrentProcess();}
 	}
 
 	public void Reset() {
