@@ -42,10 +42,6 @@ public class Scenario {
 			// Clear results of ResultManager
 			ResultManager.ClearResults();
 		}
-		//show the result of waiting time of one simulation with multi runs
-	List<Double> mylist = Queue.getWaitingTimeRecord();
-	  double avgWaitingtime = mylist.stream().mapToDouble(val -> val).average().orElse(0);
-	  System.out.println("final avg waiting time test (jennifer): "+ avgWaitingtime);
 	}
 	
 }

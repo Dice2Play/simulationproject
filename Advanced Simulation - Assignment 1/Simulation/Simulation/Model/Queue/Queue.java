@@ -9,6 +9,9 @@ import java.util.Random;
 import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
+import Simulation.Results.DoubleResultAttribute;
+import Simulation.Results.Result;
+import Simulation.Results.ResultManager;
 import Statistics.ArtificialDistribution;
 
 public class Queue{
@@ -35,14 +38,26 @@ public class Queue{
 		
 		// Seize
 		firstQueueObject.SeizeQueueObject(amountOfTimeToSeize);
-		int people = firstQueueObject.GetGroupSize();
-		//Jennifer test
-		double delay = firstQueueObject.GetWaitingTime();
-		for(int i=0; i<people; i++)
+		
+		// Add result to result manager
+		int amountOfPeople = firstQueueObject.GetGroupSize();
+		double waitingTime = firstQueueObject.GetWaitingTime();
+		Result result = new Result();
+		
+		for(int index = 0; index < amountOfPeople; index++)
 		{
-			waitingTime.add(delay);	
-			System.out.println("added");
+			
+			result.AddAttribute(new DoubleResultAttribute(waitingTime, "Waiting Time"));
+			result.AddAttribute(new DoubleResultAttribute(waitingTime, queueID + " Waiting Time"));
+			
+			
 		}
+		
+		
+		// Add result to resultManager
+		ResultManager.AddResults(result);
+		
+		
 		// Remove from list
 		groupsInQueue.remove(firstQueueObject);		
 	}
