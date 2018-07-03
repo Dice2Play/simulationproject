@@ -7,7 +7,7 @@ public class ResourceManager {
 	
 	static List<Resource> resources = new ArrayList<Resource>();
 	
-	public static void addResource(Resource resourceToAdd)
+	public static void AddResource(Resource resourceToAdd)
 	{
 		resources.add(resourceToAdd);
 	}
@@ -18,7 +18,7 @@ public class ResourceManager {
 		
 		for(Resource resource : resources)
 		{
-			if((resource.getResourceType() == typeOfResourceNeeded) && resource.isAvailable())
+			if((resource.getResourceType() == typeOfResourceNeeded) && resource.IsAvailable())
 			{
 				isResourceTypeAvailable = true;
 				break;
@@ -33,7 +33,7 @@ public class ResourceManager {
 	{
 		for(Resource resource : resources)
 		{
-			if((resource.getResourceType() == typeOfResourceNeeded) && resource.isAvailable())
+			if((resource.getResourceType() == typeOfResourceNeeded) && resource.IsAvailable())
 			{
 				resource.Seize();
 			}

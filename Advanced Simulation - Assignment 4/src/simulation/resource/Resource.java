@@ -5,14 +5,14 @@ public abstract class Resource {
 	int ID;
 	Resource_Type type;
 	boolean occupied;
-	double cost;
+	double cost = 0;
+	double amountOfHoursOccupied;
 	
-	Resource(int ID, Resource_Type type, double cost)
+	Resource(int ID, Resource_Type type)
 	{
 		this.ID = ID;
 		this.type = type;
 		this.occupied = false;
-		this.cost = cost;
 	}
 	
 	public void Seize()
@@ -20,7 +20,7 @@ public abstract class Resource {
 		occupied = true;
 	}
 	
-	public boolean isAvailable()
+	public boolean IsAvailable()
 	{
 		return !occupied;
 	}
@@ -28,6 +28,16 @@ public abstract class Resource {
 	public Resource_Type getResourceType()
 	{
 		return type;
+	}
+	
+	public void AddAmountOfHoursOccupied(double amountOfHoursToAdd)
+	{
+		amountOfHoursOccupied =+ amountOfHoursToAdd;
+	}
+	
+	public void AddCost(double amountOfCostToAdd)
+	{
+		cost += amountOfCostToAdd;
 	}
 	
 	
