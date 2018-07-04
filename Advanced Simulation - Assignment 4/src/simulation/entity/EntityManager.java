@@ -8,6 +8,7 @@ import Statistics.ArtificialDistribution;
 import Statistics.Distribution;
 import Statistics.NormalDistribution;
 import Statistics.Statistics;
+import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
 
 public class EntityManager implements Tick_Listener{
@@ -51,19 +52,24 @@ public class EntityManager implements Tick_Listener{
 		
 		if(outcomeToChoose == 0)
 		{
-			Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
+			timeOnWhichNextCarArrives = Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
 		}
 		
 		if(outcomeToChoose == 1)
 		{
-			Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
+			timeOnWhichNextCarArrives = Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
 		}
 		
-		// Generate Car
-		
-		
-		
-		
+		// Add time event which will generate an entity when its being executed
+		Entity newEntity = new Entity(String.format("CAR_%d", entities.size() + 1));
+		entities.add(newEntity);
+		GenerateEntity generateEntity = new GenerateEntity(newEntity, )
+			
+	}
+	
+	public static void AddEntity(Entity entityToAdd)
+	{
+		entities.add(entityToAdd);
 	}
 	
 	
@@ -80,5 +86,25 @@ public class EntityManager implements Tick_Listener{
 		GenerateEntity();
 	}
 	
-	
+	private class GenerateEntityCommand implements Command
+	{
+
+		Entity entityToAdd;
+		simulation.process.Process processWhereEntityNeedsToBeAddedTo;		
+		
+		public GenerateEntityCommand(Entity entityToAdd, simulation.process.Process processWhereEntityNeedsToBeAddedTo)
+		{
+			this.entityToAdd = entityToAdd;
+			this.processWhereEntityNeedsToBeAddedTo = processWhereEntityNeedsToBeAddedTo;
+		}
+		
+		@Override
+		public void Execute() {
+			// QUEUE , PROCESS, ENTITYMANAGER
+			
+			processWhereEntityNeedsToBeAddedTo.AddEntityToQueue(entityToAdd);
+			
+		}
+		
+	}
 }

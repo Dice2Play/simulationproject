@@ -7,11 +7,12 @@ import simulation.entity.Entity;
 
 public class Queue {
 
-	List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities = new ArrayList<Entity>();
+	private String ID;
 	
 	public Queue(String ID)
 	{
-		
+		this.ID = ID;
 	}
 	
 	public void AddEntity(Entity entityToAdd)
@@ -20,4 +21,8 @@ public class Queue {
 		System.out.println(String.format("Added entity %s to queue %s", entityToAdd.GetID()));
 	}
 	
+	public String GetID()
+	{
+		return ID;
+	}
 }

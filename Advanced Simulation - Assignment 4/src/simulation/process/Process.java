@@ -3,6 +3,7 @@ package simulation.process;
 import java.util.ArrayList;
 import java.util.List;
 
+import simulation.entity.Entity;
 import simulation.queue.Queue;
 import simulation.resource.Resource_Type;
 
@@ -28,6 +29,10 @@ public class Process {
 		typeOfResourcesNeeded.add(typeOfResourceNeeded);
 	}
 	
+	public void AddEntityToQueue(Entity entityToAdd)
+	{
+		this.queue.AddEntity(entityToAdd);
+	}
 	
 	
 }
