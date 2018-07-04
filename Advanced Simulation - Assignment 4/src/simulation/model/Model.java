@@ -44,16 +44,20 @@ public class Model {
 	public void GenerateProcesses()
 	{
 		// Create queue's
-		Queue queue1 = new Queue();
+		Queue queue1 = new Queue("Queue_1");
 		
+	
 		
 		// Create processes
-		Process process1 = new Process("PROCESS_1");
-		process1.AddRequiredResource(Resource_Type.EMPLOYEE_CLEANER);
+		Process process1 = new Process("SEIZE ASSISTANT AND CLEANING SPOT");
+		process1.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
+		process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
+		
 		process1.SetQueue(queue1);
 		
 		// Entity manager
 		// Register starting process
+		
 		
 		
 		// QueueManager
