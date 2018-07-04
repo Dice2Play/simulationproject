@@ -8,8 +8,10 @@ public class QueueManager {
 	static List<Queue> queues = new ArrayList<Queue>();
 	
 	
-	public static void RegisterQueue()
+	public static void RegisterQueue(Queue queueToRegister)
 	{
+		queues.add(queueToRegister);
 		
+		System.out.println(String.format("QUEUE MANAGER: Registered %s",));
 	}
 }

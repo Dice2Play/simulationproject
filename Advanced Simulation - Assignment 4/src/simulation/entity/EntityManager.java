@@ -6,7 +6,11 @@ import java.util.List;
 public class EntityManager {
 
 	List<Entity> entities = new ArrayList<Entity>();
-	
+
+	private void GenerateEntity()
+	{
+		
+	}
 	
 	
 }

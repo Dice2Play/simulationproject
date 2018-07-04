@@ -1,14 +1,16 @@
 package simulation.model;
 
-import simulation.process.ProcessManager;
+import simulation.queue.Queue;
+import simulation.queue.QueueManager;
 import simulation.resource.Assistant;
 import simulation.resource.CashRegister;
 import simulation.resource.Cleaner;
 import simulation.resource.CleaningSpot;
 import simulation.resource.ParkingSpot;
 import simulation.resource.ResourceManager;
+import simulation.resource.Resource_Type;
 import simulation.time.TimeManager;
-
+import simulation.process.Process;
 public class Model {
 
 	int amountOfDaysToRun;
@@ -20,9 +22,6 @@ public class Model {
 		// Generate model objects
 		GenerateResources();
 		GenerateProcesses();
-		
-		// Run model
-		Run();
 	}
 	
 	public void GenerateResources()
@@ -31,10 +30,10 @@ public class Model {
 		for(int index = 1; index < 4; index++) {ResourceManager.AddResource(new CashRegister(String.format("CASH_REGISTER_%d", index)));}
 				
 		// Add cleaning spots
-		for(int index = 1; index < 4; index++) {ResourceManager.AddResource(new CleaningSpot(String.format("CLEANING_SPOT_%d", index)));}
+		for(int index = 1; index < 11; index++) {ResourceManager.AddResource(new CleaningSpot(String.format("CLEANING_SPOT_%d", index)));}
 						
 		// Add parking spots
-		for(int index = 1; index < 4; index++) {ResourceManager.AddResource(new ParkingSpot(String.format("PARKING_SPOT_%d", index)));}
+		for(int index = 1; index < 26; index++) {ResourceManager.AddResource(new ParkingSpot(String.format("PARKING_SPOT_%d", index)));}
 
 		// Add employees
 		for(int index = 1; index < 4; index++) {ResourceManager.AddResource(new Assistant(String.format("ASSISTANT_%d", index)));}
@@ -44,6 +43,22 @@ public class Model {
 	
 	public void GenerateProcesses()
 	{
+		// Create queue's
+		Queue queue1 = new Queue();
+		
+		
+		// Create processes
+		Process process1 = new Process("PROCESS_1");
+		process1.AddRequiredResource(Resource_Type.EMPLOYEE_CLEANER);
+		process1.SetQueue(queue1);
+		
+		// Entity manager
+		// Register starting process
+		
+		
+		// QueueManager
+		// Register queue's
+		QueueManager.RegisterQueue(queue1);
 		
 	}
 	
@@ -51,7 +66,8 @@ public class Model {
 	
 	public void Run()
 	{
-	
+		System.out.print("MODEL: Start run");
+		
 		while(TimeManager.GetCurrentDay() < amountOfDaysToRun)
 		{
 			while(ProcessManager.CanFire())
