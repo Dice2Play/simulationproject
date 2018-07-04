@@ -5,8 +5,8 @@ public class CleaningSpot extends Resource{
 	int usageCounter;
 	boolean hasMaintenance;
 	
-	CleaningSpot(int ID, Resource_Type type) {
-		super(ID, type);
+	public CleaningSpot(String ID) {
+		super(ID, Resource_Type.CLEANING_SPOT);
 	}
 	
 	public void Seize()

@@ -2,7 +2,7 @@ package simulation.resource;
 
 public class CashRegister extends Resource {
 
-	CashRegister(int ID) {
+	public CashRegister(String ID) {
 		super(ID, Resource_Type.CASH_REGISTER);
 	}
 

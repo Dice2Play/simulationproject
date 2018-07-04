@@ -10,6 +10,8 @@ public class ResourceManager {
 	public static void AddResource(Resource resourceToAdd)
 	{
 		resources.add(resourceToAdd);
+		
+		System.out.println(String.format("RESOURCE MANAGER: Added %s with ID %s", resourceToAdd.getResourceType(), resourceToAdd.GetID()));
 	}
 	
 	public static boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)

@@ -2,7 +2,7 @@ package simulation.resource;
 
 public class ParkingSpot extends Resource {
 
-	ParkingSpot(int ID) {
+	public ParkingSpot(String ID) {
 		super(ID, Resource_Type.PARKING_SPOT);
 	}
 

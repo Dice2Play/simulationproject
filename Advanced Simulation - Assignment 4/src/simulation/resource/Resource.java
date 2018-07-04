@@ -2,13 +2,13 @@ package simulation.resource;
 
 public abstract class Resource {
 
-	int ID;
-	Resource_Type type;
-	boolean occupied;
-	double cost = 0;
-	double amountOfHoursOccupied;
+	private String ID;
+	private Resource_Type type;
+	private boolean occupied;
+	private double cost = 0;
+	private double amountOfHoursOccupied;
 	
-	Resource(int ID, Resource_Type type)
+	public Resource(String ID, Resource_Type type)
 	{
 		this.ID = ID;
 		this.type = type;
@@ -40,5 +40,9 @@ public abstract class Resource {
 		cost += amountOfCostToAdd;
 	}
 	
+	public String GetID()
+	{
+		return ID;
+	}
 	
 }
