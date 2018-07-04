@@ -3,13 +3,26 @@ package simulation.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityManager {
+import simulation.interfaces.Tick_Listener;
 
-	List<Entity> entities = new ArrayList<Entity>();
+public class EntityManager implements Tick_Listener{
 
-	private void GenerateEntity()
+	static List<Entity> entities = new ArrayList<Entity>();
+	static Process startingProcess;
+	
+		
+	private static void GenerateEntity()
 	{
 		
+	}
+	
+	public static void SetStartingProcess(Process newStartingProcess)
+	{
+		startingProcess = newStartingProcess;
+	}
+
+	public void On_Tick() {
+		GenerateEntity();
 	}
 	
 	

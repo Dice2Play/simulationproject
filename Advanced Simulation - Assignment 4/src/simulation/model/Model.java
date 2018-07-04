@@ -11,6 +11,7 @@ import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
 import simulation.time.TimeManager;
 import simulation.process.Process;
+import simulation.process.ProcessManager;
 public class Model {
 
 	int amountOfDaysToRun;
@@ -41,10 +42,12 @@ public class Model {
 		
 	}
 	
+	
+	
 	public void GenerateProcesses()
 	{
 		// Create queue's
-		Queue queue1 = new Queue("Queue_1");
+		Queue queue1 = new Queue("SEIZE ASSISTANT AND CLEANING SPOT QUEUE");
 		
 	
 		
