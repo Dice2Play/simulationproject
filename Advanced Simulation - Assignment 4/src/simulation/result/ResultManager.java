@@ -8,7 +8,7 @@ public class ResultManager {
 	 
  }
  
- /** 
+ /** All the method are per run!
   * the people left divide the total entities appear in the system per run 
   * @return
   */
@@ -33,7 +33,9 @@ public class ResultManager {
 	 return 0.5;
  }
  /**
-  * For each car we record its stay time in the car wash shop, the time from the customer drop the car till the car finished and left
+  * For each car we record its stay time in the car wash shop, then we get the avg nr per run(need sum of car each run)
+  * by each run the avg nr we add to the double record list.
+  * the time from the customer drop the car till the car finished and left
   * @return the list of record for each car
   */
  public double[] getProcessingTimeOfCar()
