@@ -9,7 +9,11 @@ import simulation.resource.CleaningSpot;
 import simulation.resource.ParkingSpot;
 import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
+import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
+import simulation.entity.EntityManager;
+import simulation.interfaces.Command;
+import simulation.interfaces.Tick_Listener;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
 public class Model {
@@ -23,6 +27,12 @@ public class Model {
 		// Generate model objects
 		GenerateResources();
 		GenerateProcesses();
+		
+		// Generate discrete time events
+		TimeManager.GenerateDiscreteTimeUnits(amountOfDaysToRun, 25);
+		
+		// Set listeners
+		TimeManager.AddTickListener(EntityManager.GetInstance());
 	}
 	
 	public void GenerateResources()
@@ -60,6 +70,7 @@ public class Model {
 		
 		// Entity manager
 		// Register starting process
+		EntityManager.GetInstance().SetStartingProcess(process1);
 		
 		
 		
@@ -73,7 +84,7 @@ public class Model {
 	
 	public void Run()
 	{
-		System.out.print("MODEL: Start run");
+		System.out.print("MODEL: RUN STARTED");
 		
 		while(TimeManager.GetCurrentDay() < amountOfDaysToRun)
 		{
@@ -81,8 +92,14 @@ public class Model {
 			{
 				ProcessManager.Fire();
 			}
-		}
+			
+			// If no processes can fire tell the TimeManager to tick
+			TimeManager.Tick();
+		} 
 		
+		
+
 		
 	}
+
 }

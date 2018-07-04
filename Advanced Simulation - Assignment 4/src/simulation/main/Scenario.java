@@ -20,7 +20,7 @@ public class Scenario {
 		{
 			
 			Model modelToRun = new Model(amountOfDaysToRun);
-			//modelToRun.Run();
+			modelToRun.Run();
 		}
 		
 		

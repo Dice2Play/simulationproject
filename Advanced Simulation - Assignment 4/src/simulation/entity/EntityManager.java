@@ -10,34 +10,54 @@ import Statistics.NormalDistribution;
 import Statistics.Statistics;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
+import simulation.time.TimeEvent;
+import simulation.time.TimeManager;
 
 public class EntityManager implements Tick_Listener{
 
-	static List<Entity> entities = new ArrayList<Entity>();
-	static Process startingProcess;
+	static EntityManager entityManager = null;
+	
+	List<Entity> entities = new ArrayList<Entity>();
+	simulation.process.Process startingProcess;
 	
 	// Probability of customer takes Short or Long cleaning
-	final static double PROBABILITY_SHORT_CLEANING = 0.293;
-	final static double PROBABILITY_LONG_CLEANING = 0.707;
+	final  double PROBABILITY_SHORT_CLEANING = 0.293;
+	final  double PROBABILITY_LONG_CLEANING = 0.707;
 	
 	
 	// Short cleaning normal distribution parameters
-	final static double LONG_CLEANING_MEAN = 0;
-	final static double LONG_CLEANING_VARIANCE = 0;
+	final  double LONG_CLEANING_MEAN = 0;
+	final  double LONG_CLEANING_VARIANCE = 0;
 	
 	// Long cleaning chi-square distribution parameters
-	final static double SHORT_CLEANING_MEAN = 0;
-	final static double SHORT_CLEANING_VARIANCE = 0;	
+	final  double SHORT_CLEANING_MEAN = 0;
+	final  double SHORT_CLEANING_VARIANCE = 0;	
 	
+	
+	private EntityManager()
+	{
+		
+	}
+	
+	
+	public static EntityManager GetInstance()
+	{
+		if(entityManager == null)
+		{
+			entityManager = new EntityManager();
+		}
+		
+		return entityManager;
+	}
 	
 	/**
 	 * Generate entity according to the 'generateRate'
 	 * Use the result from the normal distribution to determine when this entity arrives, pass this result to the TimeManager
 	 */
-	private static void GenerateEntity()
+	private void GenerateEntity()
 	{
 		// Time at which next car should arrive
-		double timeOnWhichNextCarArrives;
+		double timeOnWhichNextEntityArrives = 0;
 		
 		// Artificial distribution parameters
 		double[] possibleOutcomes = new double[] {0,1};
@@ -52,22 +72,24 @@ public class EntityManager implements Tick_Listener{
 		
 		if(outcomeToChoose == 0)
 		{
-			timeOnWhichNextCarArrives = Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
+			timeOnWhichNextEntityArrives = TimeManager.GetCurrentTime() + Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
 		}
 		
 		if(outcomeToChoose == 1)
 		{
-			timeOnWhichNextCarArrives = Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
+			timeOnWhichNextEntityArrives = TimeManager.GetCurrentTime() + Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
 		}
 		
 		// Add time event which will generate an entity when its being executed
 		Entity newEntity = new Entity(String.format("CAR_%d", entities.size() + 1));
-		entities.add(newEntity);
-		GenerateEntity generateEntity = new GenerateEntity(newEntity, )
+		GenerateEntityCommand generateEntity = new GenerateEntityCommand(newEntity, startingProcess);
+		
+		TimeManager.AddTimeEvent(new TimeEvent(timeOnWhichNextEntityArrives, generateEntity, String.valueOf("Entity %s has arrived")));
 			
 	}
 	
-	public static void AddEntity(Entity entityToAdd)
+	
+	public void AddEntity(Entity entityToAdd)
 	{
 		entities.add(entityToAdd);
 	}
@@ -77,7 +99,7 @@ public class EntityManager implements Tick_Listener{
 	 * 
 	 * @param newStartingProcess
 	 */
-	public static void SetStartingProcess(Process newStartingProcess)
+	public void SetStartingProcess(simulation.process.Process newStartingProcess)
 	{
 		startingProcess = newStartingProcess;
 	}
@@ -86,25 +108,9 @@ public class EntityManager implements Tick_Listener{
 		GenerateEntity();
 	}
 	
-	private class GenerateEntityCommand implements Command
-	{
 
-		Entity entityToAdd;
-		simulation.process.Process processWhereEntityNeedsToBeAddedTo;		
 		
-		public GenerateEntityCommand(Entity entityToAdd, simulation.process.Process processWhereEntityNeedsToBeAddedTo)
-		{
-			this.entityToAdd = entityToAdd;
-			this.processWhereEntityNeedsToBeAddedTo = processWhereEntityNeedsToBeAddedTo;
-		}
-		
-		@Override
-		public void Execute() {
-			// QUEUE , PROCESS, ENTITYMANAGER
-			
-			processWhereEntityNeedsToBeAddedTo.AddEntityToQueue(entityToAdd);
-			
-		}
-		
-	}
+	
+
+
 }

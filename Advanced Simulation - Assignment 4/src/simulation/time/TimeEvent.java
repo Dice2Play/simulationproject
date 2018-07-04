@@ -8,6 +8,12 @@ public class TimeEvent {
 	private Command commandToExecute;
 	private String description;
 	
+	public TimeEvent(double timeOnWhichEventOccurs, String description)
+	{
+		this.timeOnWhichEventOccurs = timeOnWhichEventOccurs;
+		this.description = description;		
+	}
+	
 	public TimeEvent(double timeOnWhichEventOccurs, Command commandToExecute, String description)
 	{
 		this.timeOnWhichEventOccurs = timeOnWhichEventOccurs;
@@ -17,6 +23,7 @@ public class TimeEvent {
 	
 	public void ExecuteTimeEvent()
 	{
+		if(commandToExecute == null) {return;}
 		commandToExecute.Execute();
 	}
 	

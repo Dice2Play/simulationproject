@@ -11,7 +11,7 @@ public class Entity {
 	
 	public Entity(String ID)
 	{
-		
+		this.ID = ID;
 	}
 	
 	public String GetID()

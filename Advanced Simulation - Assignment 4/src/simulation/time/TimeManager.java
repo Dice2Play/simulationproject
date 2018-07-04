@@ -17,7 +17,23 @@ public class TimeManager {
 	final static double END_TIME = 12.5;
 
 	
-	
+	public static void GenerateDiscreteTimeUnits(int amountOfDays, int amountOfDailyDiscreteEvents)
+	{
+		for(int i = 0; i < amountOfDays; i++)
+		{
+			double timeNextDiscreteEvent = 0;
+			double intervalBetweenDiscreteEvent = END_TIME / amountOfDailyDiscreteEvents;
+			
+			for(int ii = 0; ii < amountOfDailyDiscreteEvents; ii++)
+			{
+				
+				
+				AddTimeEvent(new TimeEvent(timeNextDiscreteEvent,"Discrete Time Event"));
+				
+				timeNextDiscreteEvent += intervalBetweenDiscreteEvent;
+			}
+		}
+	}
 	
 	// Increment and execute time event which has to occur on this time
 	public static void Tick()
@@ -46,7 +62,8 @@ public class TimeManager {
 	 */
 	public static void ExecuteNextTimeEvent(TimeEvent timeEventToExecute)
 	{
-		System.out.println(String.format("TIME MANAGER: EVENT %s fired on %d", timeEventToExecute.GetDescription(), GetCurrentTime()));
+		timeEventToExecute.ExecuteTimeEvent();
+		System.out.println(String.format("TIME MANAGER:[ %s ] EVENT %s ",  GetCurrentTime(), timeEventToExecute.GetDescription()));
 	}
 	
 	/**
