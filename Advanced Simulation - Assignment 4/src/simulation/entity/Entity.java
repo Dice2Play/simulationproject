@@ -7,6 +7,7 @@ public class Entity {
 	private double arrivalTime;
 	private double pickUpTime;
 	private double calledTime;
+	private double cleaningTime;
 	
 	public Entity(String ID)
 	{

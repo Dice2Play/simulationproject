@@ -12,6 +12,6 @@ public class QueueManager {
 	{
 		queues.add(queueToRegister);
 		
-		System.out.println(String.format("QUEUE MANAGER: Registered %s",));
+		System.out.println(String.format("QUEUE MANAGER: Registered %s",queueToRegister.));
 	}
 }

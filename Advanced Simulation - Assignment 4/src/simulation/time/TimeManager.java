@@ -15,6 +15,8 @@ public class TimeManager {
 	// Increase time to next event
 	public static void Tick()
 	{
+		// Increment to next 
+		
 		
 		// Fire listeners
 		tickListeners.forEach(x -> x.On_Tick());
