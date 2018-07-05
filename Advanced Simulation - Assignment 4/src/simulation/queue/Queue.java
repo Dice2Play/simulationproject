@@ -18,7 +18,7 @@ public class Queue {
 	public void AddEntity(Entity entityToAdd)
 	{
 		this.entities.add(entityToAdd);
-		System.out.println(String.format("Added entity %s to queue %s", entityToAdd.GetID()));
+		System.out.println(String.format("Added entity %s to queue %s", entityToAdd.GetID(), GetID()));
 	}
 	
 	public String GetID()

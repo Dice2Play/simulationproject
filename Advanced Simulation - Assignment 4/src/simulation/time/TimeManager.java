@@ -1,6 +1,7 @@
 package simulation.time;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 
@@ -93,6 +94,8 @@ public class TimeManager {
 	private static void IncrementDay()
 	{
 		currentDay++;
+		System.out.println(String.format("TIME MANAGER: Day incremented to %s", currentDay));
+		
 	}
 	
 	public static void AddTickListener(Tick_Listener tickListenerToAdd)
@@ -119,5 +122,15 @@ public class TimeManager {
 	{
 		currentTime = newTimeValue;
 	}
+	
+	private static class TimeEventComparator implements Comparator
+	{
+		@Override
+		public int compare(Object arg0, Object arg1) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+	}
+	
 	
 }
