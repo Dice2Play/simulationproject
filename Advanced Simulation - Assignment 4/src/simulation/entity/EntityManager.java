@@ -10,6 +10,7 @@ import Statistics.NormalDistribution;
 import Statistics.Statistics;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
+import simulation.time.Event_Type;
 import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
 
@@ -26,17 +27,22 @@ public class EntityManager implements Tick_Listener{
 	
 	
 	// Short cleaning normal distribution parameters
-	final  double LONG_CLEANING_MEAN = 0;
-	final  double LONG_CLEANING_VARIANCE = 0;
+	final  double SHORT_CLEANING_MEAN = 70.3;
+	final  double SHORT_CLEANING_SD_DEVIATION = 11.7;
 	
 	// Long cleaning chi-square distribution parameters
-	final  double SHORT_CLEANING_MEAN = 0;
-	final  double SHORT_CLEANING_VARIANCE = 0;	
+	final  double LONG_CLEANING_MEAN = 191;
+	final  double LONG_CLEANING_SD_DEVIATION  = 24;	
+	
+	// Transform time unit constant
+	final double TIME_UNIT_TRANSFORM_FACTOR = (1.0/60.0);
 	
 	
+
 	private EntityManager()
 	{
-		
+		// Set listeners
+		TimeManager.GetInstance().AddTickListener(this);
 	}
 	
 	
@@ -48,6 +54,14 @@ public class EntityManager implements Tick_Listener{
 		}
 		
 		return entityManager;
+	}
+	
+	/**
+	 * Call this method at the beginning to start creating time events generating entities.
+	 */
+	public void StartGenerating()
+	{
+		GenerateEntity();
 	}
 	
 	/**
@@ -72,19 +86,19 @@ public class EntityManager implements Tick_Listener{
 		
 		if(outcomeToChoose == 0)
 		{
-			timeOnWhichNextEntityArrives = TimeManager.GetCurrentTime() + Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
+			timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + (Statistics.GetDistributionResult(new NormalDistribution(SHORT_CLEANING_MEAN,SHORT_CLEANING_SD_DEVIATION,new Random()))* TIME_UNIT_TRANSFORM_FACTOR);
 		}
 		
 		if(outcomeToChoose == 1)
 		{
-			timeOnWhichNextEntityArrives = TimeManager.GetCurrentTime() + Statistics.GetDistributionResult(new NormalDistribution(0,0,new Random()));
+			timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + (Statistics.GetDistributionResult(new NormalDistribution(LONG_CLEANING_MEAN,LONG_CLEANING_SD_DEVIATION,new Random())) * TIME_UNIT_TRANSFORM_FACTOR);
 		}
 		
 		// Add time event which will generate an entity when its being executed
 		Entity newEntity = new Entity(String.format("CAR_%d", entities.size() + 1));
 		GenerateEntityCommand generateEntity = new GenerateEntityCommand(newEntity, startingProcess);
 		
-		TimeManager.AddTimeEvent(new TimeEvent(timeOnWhichNextEntityArrives, generateEntity, String.valueOf("Entity %s has arrived")));
+		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichNextEntityArrives, generateEntity, String.valueOf("Entity %s has arrived"), Event_Type.ARRIVAL));
 			
 	}
 	
@@ -104,8 +118,10 @@ public class EntityManager implements Tick_Listener{
 		startingProcess = newStartingProcess;
 	}
 
-	public void On_Tick() {
-		GenerateEntity();
+
+	@Override
+	public void On_Tick(Event_Type eventType) {
+		if(eventType == Event_Type.ARRIVAL) 	{GenerateEntity();}
 	}
 	
 

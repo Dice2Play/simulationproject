@@ -27,12 +27,6 @@ public class Model {
 		// Generate model objects
 		GenerateResources();
 		GenerateProcesses();
-		
-		// Generate discrete time events
-		TimeManager.GenerateDiscreteTimeUnits(amountOfDaysToRun, 25);
-		
-		// Set listeners
-		TimeManager.AddTickListener(EntityManager.GetInstance());
 	}
 	
 	public void GenerateResources()
@@ -70,8 +64,9 @@ public class Model {
 		
 		// Entity manager
 		// Register starting process
-		EntityManager.GetInstance().SetStartingProcess(process1);
 		
+		EntityManager.GetInstance().SetStartingProcess(process1);
+		EntityManager.GetInstance().StartGenerating();
 		
 		
 		// QueueManager
@@ -84,9 +79,9 @@ public class Model {
 	
 	public void Run()
 	{
-		System.out.print("MODEL: RUN STARTED");
+		System.out.print("MODEL: RUN STARTED \n");
 		
-		while(TimeManager.GetCurrentDay() < amountOfDaysToRun)
+		while(TimeManager.GetInstance().GetCurrentDay() < amountOfDaysToRun)
 		{
 			while(ProcessManager.CanFire())
 			{
@@ -94,7 +89,7 @@ public class Model {
 			}
 			
 			// If no processes can fire tell the TimeManager to tick
-			TimeManager.Tick();
+			TimeManager.GetInstance().Tick();
 		} 
 		
 		
