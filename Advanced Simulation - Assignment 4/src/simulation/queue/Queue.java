@@ -1,13 +1,14 @@
 package simulation.queue;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import simulation.entity.Entity;
 
 public class Queue {
 
-	private List<Entity> entities = new ArrayList<Entity>();
+	private LinkedList<Entity> entities = new LinkedList<Entity>();
 	private String ID;
 	
 	public Queue(String ID)
@@ -25,4 +26,15 @@ public class Queue {
 	{
 		return ID;
 	}
+	
+	public boolean IsEntityInQueue()
+	{
+		return !entities.isEmpty();
+	}
+	
+	public Entity GetFirstEntity()
+	{
+		return entities.getFirst();
+	}
+	
 }

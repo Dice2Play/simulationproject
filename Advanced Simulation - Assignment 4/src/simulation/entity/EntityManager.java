@@ -98,7 +98,7 @@ public class EntityManager implements Tick_Listener{
 		Entity newEntity = new Entity(String.format("CAR_%d", entities.size() + 1));
 		GenerateEntityCommand generateEntity = new GenerateEntityCommand(newEntity, startingProcess);
 		
-		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichNextEntityArrives, generateEntity, String.valueOf("Entity %s has arrived"), Event_Type.ARRIVAL));
+		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichNextEntityArrives, generateEntity, String.format("Entity %s has arrived", newEntity.GetID()), Event_Type.ARRIVAL));
 			
 	}
 	

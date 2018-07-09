@@ -14,6 +14,7 @@ import simulation.time.TimeManager;
 import simulation.entity.EntityManager;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
+import simulation.process.Decision;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
 public class Model {
@@ -50,21 +51,35 @@ public class Model {
 	
 	public void GenerateProcesses()
 	{
-		// Create queue's
-		Queue queue1 = new Queue("SEIZE ASSISTANT AND CLEANING SPOT QUEUE");
+		// Create references
+		Queue queue1;
+		Decision shortOrLongCleaning;
+		Process process1,process2;
+		process1 = process2 = null;
 		
-	
+		
+		// Create queue's
+		queue1 = new Queue("CLEAN CAR QUEUE");
+		
+		// Set decisions
+		shortOrLongCleaning = new Decision("DECISION: LONG OR SHORT CLEANING");
+		shortOrLongCleaning.SetNextSequenceLink(process1);
+		
 		
 		// Create processes
-		Process process1 = new Process("SEIZE ASSISTANT AND CLEANING SPOT");
+		
+		process1 = new Process("LONG CLEANING CAR", 10.0/60.0);
 		process1.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
 		process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
-		
 		process1.SetQueue(queue1);
+		
+		process2 = new Process("SHORT CLEANING CAR", 20.0/60.0);
+		process2.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
+		process2.AddRequiredResource(Resource_Type.CLEANING_SPOT);
+		process2.SetQueue(queue1);
 		
 		// Entity manager
 		// Register starting process
-		
 		EntityManager.GetInstance().SetStartingProcess(process1);
 		EntityManager.GetInstance().StartGenerating();
 		
@@ -83,12 +98,15 @@ public class Model {
 		
 		while(TimeManager.GetInstance().GetCurrentDay() < amountOfDaysToRun)
 		{
-			while(ProcessManager.CanFire())
+			while(ProcessManager.GetInstance().CanFire())
 			{
-				ProcessManager.Fire();
+				ProcessManager.GetInstance().Fire();
 			}
 			
-			// If no processes can fire tell the TimeManager to tick
+			/** If no processes can fire tell the TimeManager to tick.
+			 * - Will generate new entities when TimeEvent Event-Type is 'ARRIVAL'.
+			 * - Will cause a process to call it's 'End_Delay' method, releasing related resources and entities.
+			 */
 			TimeManager.GetInstance().Tick();
 		} 
 		

@@ -1,24 +1,71 @@
 package simulation.process;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ProcessManager {
 
-	static List<Process> processes = new ArrayList<Process>();
+	static ProcessManager processManager = null;
+	List<SequenceObject> sequenceObjects = new ArrayList<SequenceObject>();
 	
-	public static void AddProcess(Process processToAdd)
+	
+	private ProcessManager()
 	{
-		processes.add(processToAdd);
+		
+	}
+	
+	private void OrderByPriorityCode()
+	{
+		sequenceObjects.sort(new SequenceObjectPriorityComparator());
+	}
+	
+	public static ProcessManager GetInstance()
+	{
+		if(processManager == null)
+		{
+			processManager = new ProcessManager();
+		}
+		
+		return processManager;
+	}
+	
+	public void AddProcess(Process processToAdd)
+	{
+		sequenceObjects.add(processToAdd);
 	}
 
-	public static boolean CanFire() {
-		// TODO Auto-generated method stub
+	
+	
+	public boolean CanFire() {
+		for(SequenceObject sequenceObject: sequenceObjects)
+		{
+			if(sequenceObject.CanFire())
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
-	public static void Fire() {
-		// TODO Auto-generated method stub
+	public void Fire() {
+		// Sort by priority
+		OrderByPriorityCode();
+		
+		for(SequenceObject seqObj : sequenceObjects)
+		{
+			seqObj.Fire();
+		}
+		
+	}
+	
+	private class SequenceObjectPriorityComparator implements Comparator<SequenceObject>
+	{
+
+		@Override
+		public int compare(SequenceObject seqObj1, SequenceObject seqObj2) {
+			return (seqObj1.GetProcessPriority().getLevelCode() - seqObj2.GetProcessPriority().getLevelCode());
+		}
 		
 	}
 }
