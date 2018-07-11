@@ -6,15 +6,19 @@ import java.util.List;
 import simulation.entity.Entity;
 import simulation.interfaces.Tick_Listener;
 import simulation.queue.Queue;
+import simulation.resource.Resource;
 import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
 import simulation.time.Event_Type;
+import simulation.time.TimeEvent;
+import simulation.time.TimeManager;
 
-public class Process extends SequenceObject implements Tick_Listener{
+public class Process extends SequenceObject{
 
 	private List<Resource_Type> typeOfResourcesNeeded = new ArrayList<Resource_Type>();
+	ArrayList<Resource> seizedResources = new ArrayList<Resource>();
 	private double processTime;
-	private double finishTime;
+	private boolean isAvailable = true;
 
 	
 	public Process(String ID, double processTime)
@@ -26,13 +30,21 @@ public class Process extends SequenceObject implements Tick_Listener{
 	{
 		super(ID, processPriority);
 		this.processTime = processTime;
-		
-		
+	}
+	
+	public void SetIsAvailable(boolean newValue)
+	{
+		isAvailable = newValue;
 	}
 		
 	public void AddRequiredResource(Resource_Type typeOfResourceNeeded)
 	{
 		typeOfResourcesNeeded.add(typeOfResourceNeeded);
+	}
+	
+	private boolean IsAvailable()
+	{
+		return isAvailable;
 	}
 	
 
@@ -54,9 +66,10 @@ public class Process extends SequenceObject implements Tick_Listener{
 	 * Check for available:
 	 * - Entity
 	 * - Resource(typeOfResourcesNeeded)
+	 * - Process
 	 */
 	public boolean CanFire() {
-		return IsThereANextEntityFromQueue() && AreResourcesAvailable(); 
+		return IsThereANextEntityFromQueue() && AreResourcesAvailable() && IsAvailable(); 
 	}
 
 	@Override
@@ -64,40 +77,45 @@ public class Process extends SequenceObject implements Tick_Listener{
 		super.Fire();
 		Delay();
 		
+		// Create time-event
+		double timeOnWhichEventMostOccur = TimeManager.GetInstance().GetCurrentTime() + processTime;
+		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichEventMostOccur,
+				new ReleaseProcessCommand(this),
+				String.format("Process [%s] released resources", this.GetID()),
+				Event_Type.GENERAL));
 	}
 	
-	public void Delay()
+	public void Delay() throws Exception
 	{
 		// Seize resources
-		typeOfResourcesNeeded.forEach(x -> ResourceManager.GetInstance().SeizeResource(x));
+		for(Resource_Type resourceType : typeOfResourcesNeeded)
+		{
+			Resource resourceToSeize = ResourceManager.GetInstance().GetAvailableResource(resourceType);
+			seizedResources.add(resourceToSeize);
+			resourceToSeize.Seize();
+		}
 		
 		// Seize entity
+		currentEntity.Seize();
 		
-		
-		// Set time when process is finished
+		// Seize this process
+		isAvailable = false;
+				
 	}
 	
-	private void End_Delay()
-	{
-		// Release resources
-		
-		// Set next process + Release entity
-		
-		// Reset time when process is finished
-
-	}
 
 	@Override
-	public void On_Tick(Event_Type eventType) {
-		End_Delay();
+	public void SetNextSequenceObjectForEntity() {
+		// Get next sequenceObject
+		SequenceObject nextSequenceObject = linkedSequenceObjects.getFirst().GetNextSequenceObject(); 
 		
-	}
-
-	@Override
-	public void SetNextSequenceObjectForEntity(Entity entity) {
-		// TODO Auto-generated method stub
+		// Set next sequenceObject for entity
+		currentEntity.SetCurrentSequenceObject(nextSequenceObject);
 		
+		// Adds entity to queue of next sequenceObject
+		nextSequenceObject.AddEntityToQueue(currentEntity);
 	}
-
+	
+	
 
 }

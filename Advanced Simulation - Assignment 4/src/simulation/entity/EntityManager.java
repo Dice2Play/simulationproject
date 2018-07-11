@@ -7,6 +7,7 @@ import java.util.Random;
 import Statistics.ArtificialDistribution;
 import Statistics.Distribution;
 import Statistics.NormalDistribution;
+import Statistics.PoissonDistribution;
 import Statistics.Statistics;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
@@ -23,25 +24,54 @@ public class EntityManager implements Tick_Listener{
 	SequenceObject startingSequenceObject;
 	
 	// Probability of customer takes Short or Long cleaning
-	final  double PROBABILITY_SHORT_CLEANING = 0.293;
-	final  double PROBABILITY_LONG_CLEANING = 0.707;
+	//final  double PROBABILITY_SHORT_CLEANING = 0.293;
+	//final  double PROBABILITY_LONG_CLEANING = 0.707;
 	
 	
 	// Short cleaning normal distribution parameters
-	final  double SHORT_CLEANING_MEAN = 70.3;
-	final  double SHORT_CLEANING_SD_DEVIATION = 11.7;
+	//final  double SHORT_CLEANING_MEAN = 70.3;
+	//final  double SHORT_CLEANING_SD_DEVIATION = 11.7;
 	
 	// Long cleaning chi-square distribution parameters
-	final  double LONG_CLEANING_MEAN = 191;
-	final  double LONG_CLEANING_SD_DEVIATION  = 24;	
+	//final  double LONG_CLEANING_MEAN = 191;
+	//final  double LONG_CLEANING_SD_DEVIATION  = 24;	
 	
 	// Transform time unit constant
 	final double TIME_UNIT_TRANSFORM_FACTOR = (1.0/60.0);
+	
+	// Set schedule
+	ArrayList<Double> poissonArrivalRates = new ArrayList<Double>();
+	
+	final double POISSON_ARRIVAL_RATE_0 = 5.067; 
+	final double POISSON_ARRIVAL_RATE_1 = 4.111;
+	final double POISSON_ARRIVAL_RATE_2 = 3.244;
+	final double POISSON_ARRIVAL_RATE_3 = 2.067;
+	final double POISSON_ARRIVAL_RATE_4 = 1.578;
+	final double POISSON_ARRIVAL_RATE_5 = 1.267;
+	final double POISSON_ARRIVAL_RATE_6 = 0.978;
+	final double POISSON_ARRIVAL_RATE_7 = 1.556;
+	final double POISSON_ARRIVAL_RATE_8 = 2.511;
+	final double POISSON_ARRIVAL_RATE_9 = 4.733;
+	final double POISSON_ARRIVAL_RATE_10 = 4.400;
+	final double POISSON_ARRIVAL_RATE_11 = 3.222;
 	
 	
 
 	private EntityManager()
 	{
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_0);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_1);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_2);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_3);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_4);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_5);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_6);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_7);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_8);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_9);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_10);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_11);
+		
 		// Set listeners
 		TimeManager.GetInstance().AddTickListener(this);
 	}
@@ -71,29 +101,10 @@ public class EntityManager implements Tick_Listener{
 	 */
 	private void GenerateEntity()
 	{
-		// Time at which next car should arrive
-		double timeOnWhichNextEntityArrives = 0;
+		// Time at which next entity should arrive
+		double currentHour = Math.floor(TimeManager.GetInstance().GetCurrentTime());
+		double timeOnWhichNextEntityArrives = Statistics.GetDistributionResult(new PoissonDistribution(poissonArrivalRates.get((int)currentHour), new Random()));
 		
-		// Artificial distribution parameters
-		double[] possibleOutcomes = new double[] {0,1};
-		double[] probabilityOfPossibleOutcomes = new double[] {PROBABILITY_SHORT_CLEANING,PROBABILITY_LONG_CLEANING};
-		
-		
-		// If outcomeToChoose 
-		// 0: Get short cleaning 
-		// 1: Get long cleaning
-		double outcomeToChoose = Statistics.GetDistributionResult(new ArtificialDistribution(possibleOutcomes, probabilityOfPossibleOutcomes));
-		
-		
-		if(outcomeToChoose == 0)
-		{
-			timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + (Statistics.GetDistributionResult(new NormalDistribution(SHORT_CLEANING_MEAN,SHORT_CLEANING_SD_DEVIATION,new Random()))* TIME_UNIT_TRANSFORM_FACTOR);
-		}
-		
-		if(outcomeToChoose == 1)
-		{
-			timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + (Statistics.GetDistributionResult(new NormalDistribution(LONG_CLEANING_MEAN,LONG_CLEANING_SD_DEVIATION,new Random())) * TIME_UNIT_TRANSFORM_FACTOR);
-		}
 		
 		// Add time event which will generate an entity when its being executed
 		Entity newEntity = new Entity(String.format("CAR_%d", entities.size() + 1));

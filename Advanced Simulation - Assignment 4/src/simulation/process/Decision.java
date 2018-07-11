@@ -43,8 +43,9 @@ public class Decision extends SequenceObject{
 	public void Fire() throws Exception {
 		
 		super.Fire();
-		SetNextSequenceObjectForEntity(currentEntity);
+		SetNextSequenceObjectForEntity();
 		RemoveEntityFromQueue(currentEntity);
+		SetCurrentEntityToNull();
 	}
 
 	/**
@@ -52,7 +53,7 @@ public class Decision extends SequenceObject{
 	 * - the new currentProcess for entity
 	 * - adds entity to queue of next sequence object
 	 */
-	public void SetNextSequenceObjectForEntity(Entity entity) {
+	public void SetNextSequenceObjectForEntity() {
 		
 		
 		// Artificial distribution parameters
@@ -74,10 +75,10 @@ public class Decision extends SequenceObject{
 		SequenceObject chosenSequenceObject = linkedSequenceObjects.get((int) Statistics.GetDistributionResult(new ArtificialDistribution(possibleOutcomes, probabilityOfPossibleOutcomes))).GetNextSequenceObject();
 		
 		// Set next sequenceObject for entity
-		entity.SetCurrentSequenceObject(chosenSequenceObject);
+		currentEntity.SetCurrentSequenceObject(chosenSequenceObject);
 		
 		// Adds entity to queue of next sequenceObject
-		chosenSequenceObject.AddEntityToQueue(entity);
+		chosenSequenceObject.AddEntityToQueue(currentEntity);
 	}
 
 

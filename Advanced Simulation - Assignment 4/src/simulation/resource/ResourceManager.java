@@ -46,26 +46,26 @@ public class ResourceManager {
 		return isResourceTypeAvailable;
 	}
 	
-	
-	public void SeizeResource(Resource_Type typeOfResourceNeeded)
+	/**
+	 * Assumption: There is at least one resource of input type available
+	 * @param typeOfResourceNeeded : ENUM, type of resource needed
+	 * @return available resource
+	 * @throws Exception 
+	 */
+	public Resource GetAvailableResource(Resource_Type typeOfResourceNeeded) throws Exception
 	{
 		for(Resource resource : resources)
 		{
 			if((resource.getResourceType() == typeOfResourceNeeded) && resource.IsAvailable())
 			{
-				resource.Seize();
+				return resource;
 			}
 		}
+		
+		throw new Exception("There is no available resource");
 	}
 	
-	// When multiple resources of the same kind need to be seized
-	public void SeizeResource(int quantityOfResourcesNeeded, Resource_Type typeOfResourceNeeded)
-	{
-		for(int index = 0; index < quantityOfResourcesNeeded; index++)
-		{
-			SeizeResource(typeOfResourceNeeded);
-		}
-	}
+
 	
 	
 	

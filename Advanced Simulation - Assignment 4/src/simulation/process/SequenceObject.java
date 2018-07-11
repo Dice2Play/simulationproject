@@ -1,6 +1,7 @@
 package simulation.process;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import simulation.entity.Entity;
 import simulation.process.behavior.NextSequence;
@@ -11,7 +12,7 @@ public abstract class SequenceObject {
 	private String ID;
 	private Process_Priority processPriority;
 	private Queue queue;
-	ArrayList<NextSequence> linkedSequenceObjects = new ArrayList<NextSequence>();
+	LinkedList<NextSequence> linkedSequenceObjects = new LinkedList<NextSequence>();
 	Entity currentEntity;
 
 	
@@ -64,11 +65,11 @@ public abstract class SequenceObject {
 
 	
 	/**
-	 * - Removes entity from current queue
-	 * - Adds entity to next sequenceObject's queue
-	 * @param entity: entity which has to be transferred to next sequenceObject
+	 * - Removes current entity from  queue
+	 * - Adds current entity to next sequenceObject's queue
+	 * 
 	 */
-	public abstract void SetNextSequenceObjectForEntity(Entity entity);
+	public abstract void SetNextSequenceObjectForEntity();
 	
 	
 	public void AddNextSequenceLink(NextSequence nextSeqLinkType)
@@ -83,5 +84,10 @@ public abstract class SequenceObject {
 	public void Fire() throws Exception
 	{
 		currentEntity = GetNextEntityFromQueue();
+	}
+	
+	public void SetCurrentEntityToNull()
+	{
+		currentEntity = null;
 	}
 }

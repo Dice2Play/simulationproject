@@ -53,31 +53,34 @@ public class Model {
 	public void GenerateProcesses()
 	{
 		// Create references
-		Queue queue1;
+		Queue queue1, queue2;
 		Decision shortOrLongCleaning;
 		Process process1,process2;
-		process1 = process2 = null;
+		process1 = null;
+		process2 = null;
 		
 		
 		// Create queue's
-		queue1 = new Queue("CLEAN CAR QUEUE");
+		queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE");
+		queue2 = new Queue("CLEAN CAR QUEUE");
 		
 		// Set decisions
 		shortOrLongCleaning = new Decision("DECISION: LONG OR SHORT CLEANING");
 		shortOrLongCleaning.AddNextSequenceLink(new NextSequence(process1));
 		shortOrLongCleaning.AddNextSequenceLink(new NextSequence(process2));
+		shortOrLongCleaning.SetQueue(queue1);
 		
 		// Create processes
 		
 		process1 = new Process("LONG CLEANING CAR", 10.0/60.0);
 		process1.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
 		process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
-		process1.SetQueue(queue1);
+		process1.SetQueue(queue2);
 		
 		process2 = new Process("SHORT CLEANING CAR", 20.0/60.0);
 		process2.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
 		process2.AddRequiredResource(Resource_Type.CLEANING_SPOT);
-		process2.SetQueue(queue1);
+		process2.SetQueue(queue2);
 		
 		// Entity manager
 		// Register starting process

@@ -35,6 +35,11 @@ public abstract class Resource {
 		amountOfHoursOccupied =+ amountOfHoursToAdd;
 	}
 	
+	public void Release()
+	{
+		occupied = false;
+	}
+	
 	public void AddCost(double amountOfCostToAdd)
 	{
 		cost += amountOfCostToAdd;
