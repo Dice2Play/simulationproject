@@ -3,6 +3,7 @@ package simulation.process;
 import java.util.ArrayList;
 
 import simulation.entity.Entity;
+import simulation.process.behavior.NextSequence;
 import simulation.queue.Queue;
 
 public abstract class SequenceObject {
@@ -10,7 +11,9 @@ public abstract class SequenceObject {
 	private String ID;
 	private Process_Priority processPriority;
 	private Queue queue;
-	private ArrayList<SequenceObject> linkedSequenceObjects = new ArrayList<SequenceObject>();
+	ArrayList<NextSequence> linkedSequenceObjects = new ArrayList<NextSequence>();
+	Entity currentEntity;
+
 	
 	public SequenceObject(String ID, Process_Priority processPriority)
 	{
@@ -21,6 +24,11 @@ public abstract class SequenceObject {
 	public String GetID()
 	{
 		return ID;
+	}
+	
+	public void AddEntityToQueue(Entity entityToAdd)
+	{
+		this.queue.AddEntity(entityToAdd);
 	}
 	
 	public Process_Priority GetProcessPriority()
@@ -35,12 +43,23 @@ public abstract class SequenceObject {
 	
 	boolean IsThereANextEntityFromQueue()
 	{
-		return queue.IsEntityInQueue();
+		return queue.IsThereAnAvailableEntityInQueue();
 	}
 	
-	Entity GetNextEntityFromQueue()
+	
+	/**
+	 * Gets the next 
+	 * @return
+	 * @throws Exception 
+	 */
+	Entity GetNextEntityFromQueue() throws Exception
 	{
-		return queue.GetFirstEntity();
+		return queue.GetFirstAvailableEntity();
+	}
+	
+	void RemoveEntityFromQueue(Entity entityToRemove)
+	{
+		queue.RemoveEntity(entityToRemove);
 	}
 
 	
@@ -49,14 +68,20 @@ public abstract class SequenceObject {
 	 * - Adds entity to next sequenceObject's queue
 	 * @param entity: entity which has to be transferred to next sequenceObject
 	 */
-	abstract void SetNextSequenceObjectForEntity(Entity entity);
+	public abstract void SetNextSequenceObjectForEntity(Entity entity);
 	
-	public void AddNextSequenceLink(SequenceObject seqObject)
+	
+	public void AddNextSequenceLink(NextSequence nextSeqLinkType)
 	{
-		linkedSequenceObjects.add(seqObject);
+		linkedSequenceObjects.add(nextSeqLinkType);
 	}
+	
 
 	public abstract boolean CanFire();
 	
-	public abstract void Fire();
+	
+	public void Fire() throws Exception
+	{
+		currentEntity = GetNextEntityFromQueue();
+	}
 }

@@ -27,14 +27,37 @@ public class Queue {
 		return ID;
 	}
 	
-	public boolean IsEntityInQueue()
+	public boolean IsThereAnAvailableEntityInQueue()
 	{
-		return !entities.isEmpty();
+		for(Entity entity : entities)
+		{
+			if(entity.IsAvailable()) {return true;}
+		}
+		
+		// default value
+		return false;
 	}
 	
-	public Entity GetFirstEntity()
+	
+	/**
+	 * Assumption: there is at least one available entity in 'entities'
+	 * @return
+	 * @throws Exception 
+	 */
+	public Entity GetFirstAvailableEntity() throws Exception
 	{
-		return entities.getFirst();
+		for(Entity entity : entities)
+		{
+			if(entity.IsAvailable()) {return entity;}
+		}
+		
+		// Throw exception
+		throw new Exception("Assumption has been violated, no available entity.");
+	}
+	
+	public void RemoveEntity(Entity entityToRemove)
+	{
+		entities.remove(entityToRemove);
 	}
 	
 }

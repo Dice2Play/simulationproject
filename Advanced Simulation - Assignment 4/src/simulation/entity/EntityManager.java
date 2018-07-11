@@ -10,6 +10,7 @@ import Statistics.NormalDistribution;
 import Statistics.Statistics;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
+import simulation.process.SequenceObject;
 import simulation.time.Event_Type;
 import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
@@ -19,7 +20,7 @@ public class EntityManager implements Tick_Listener{
 	static EntityManager entityManager = null;
 	
 	List<Entity> entities = new ArrayList<Entity>();
-	simulation.process.Process startingProcess;
+	SequenceObject startingSequenceObject;
 	
 	// Probability of customer takes Short or Long cleaning
 	final  double PROBABILITY_SHORT_CLEANING = 0.293;
@@ -96,7 +97,7 @@ public class EntityManager implements Tick_Listener{
 		
 		// Add time event which will generate an entity when its being executed
 		Entity newEntity = new Entity(String.format("CAR_%d", entities.size() + 1));
-		GenerateEntityCommand generateEntity = new GenerateEntityCommand(newEntity, startingProcess);
+		GenerateEntityCommand generateEntity = new GenerateEntityCommand(newEntity, startingSequenceObject);
 		
 		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichNextEntityArrives, generateEntity, String.format("Entity %s has arrived", newEntity.GetID()), Event_Type.ARRIVAL));
 			
@@ -113,9 +114,9 @@ public class EntityManager implements Tick_Listener{
 	 * 
 	 * @param newStartingProcess
 	 */
-	public void SetStartingProcess(simulation.process.Process newStartingProcess)
+	public void SetStartingSequenceObject(SequenceObject newStartingSequenceObject)
 	{
-		startingProcess = newStartingProcess;
+		startingSequenceObject = newStartingSequenceObject;
 	}
 
 

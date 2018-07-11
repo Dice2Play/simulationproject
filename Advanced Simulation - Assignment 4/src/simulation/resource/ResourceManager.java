@@ -5,16 +5,32 @@ import java.util.List;
 
 public class ResourceManager {
 	
-	static List<Resource> resources = new ArrayList<Resource>();
+	List<Resource> resources = new ArrayList<Resource>();
+	static ResourceManager resourceManager;
 	
-	public static void AddResource(Resource resourceToAdd)
+	private ResourceManager()
+	{
+		
+	}
+	
+	public static ResourceManager GetInstance()
+	{
+		if(resourceManager == null)
+		{
+			resourceManager = new ResourceManager(); 
+		}
+		
+		return resourceManager;
+	}
+	
+	public void AddResource(Resource resourceToAdd)
 	{
 		resources.add(resourceToAdd);
 		
 		System.out.println(String.format("RESOURCE MANAGER: Added %s with ID %s", resourceToAdd.getResourceType(), resourceToAdd.GetID()));
 	}
 	
-	public static boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)
+	public boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)
 	{
 		boolean isResourceTypeAvailable = false;
 		
@@ -31,7 +47,7 @@ public class ResourceManager {
 	}
 	
 	
-	public static void SeizeResource(Resource_Type typeOfResourceNeeded)
+	public void SeizeResource(Resource_Type typeOfResourceNeeded)
 	{
 		for(Resource resource : resources)
 		{
@@ -43,7 +59,7 @@ public class ResourceManager {
 	}
 	
 	// When multiple resources of the same kind need to be seized
-	public static void SeizeResource(int quantityOfResourcesNeeded, Resource_Type typeOfResourceNeeded)
+	public void SeizeResource(int quantityOfResourcesNeeded, Resource_Type typeOfResourceNeeded)
 	{
 		for(int index = 0; index < quantityOfResourcesNeeded; index++)
 		{

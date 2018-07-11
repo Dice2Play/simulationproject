@@ -48,7 +48,7 @@ public class ProcessManager {
 		return false;
 	}
 
-	public void Fire() {
+	public void Fire() throws Exception {
 		// Sort by priority
 		OrderByPriorityCode();
 		

@@ -17,6 +17,7 @@ import simulation.interfaces.Tick_Listener;
 import simulation.process.Decision;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
+import simulation.process.behavior.NextSequence;
 public class Model {
 
 	int amountOfDaysToRun;
@@ -33,17 +34,17 @@ public class Model {
 	public void GenerateResources()
 	{
 		// Add cash registers
-		for(int index = 1; index < 4; index++) {ResourceManager.AddResource(new CashRegister(String.format("CASH_REGISTER_%d", index)));}
+		for(int index = 1; index < 4; index++) {ResourceManager.GetInstance().AddResource(new CashRegister(String.format("CASH_REGISTER_%d", index)));}
 				
 		// Add cleaning spots
-		for(int index = 1; index < 11; index++) {ResourceManager.AddResource(new CleaningSpot(String.format("CLEANING_SPOT_%d", index)));}
+		for(int index = 1; index < 11; index++) {ResourceManager.GetInstance().AddResource(new CleaningSpot(String.format("CLEANING_SPOT_%d", index)));}
 						
 		// Add parking spots
-		for(int index = 1; index < 26; index++) {ResourceManager.AddResource(new ParkingSpot(String.format("PARKING_SPOT_%d", index)));}
+		for(int index = 1; index < 26; index++) {ResourceManager.GetInstance().AddResource(new ParkingSpot(String.format("PARKING_SPOT_%d", index)));}
 
 		// Add employees
-		for(int index = 1; index < 4; index++) {ResourceManager.AddResource(new Assistant(String.format("ASSISTANT_%d", index)));}
-		for(int index = 1; index < 4; index++) {ResourceManager.AddResource(new Cleaner(String.format("CLEANER_%d", index)));}
+		for(int index = 1; index < 4; index++) {ResourceManager.GetInstance().AddResource(new Assistant(String.format("ASSISTANT_%d", index)));}
+		for(int index = 1; index < 4; index++) {ResourceManager.GetInstance().AddResource(new Cleaner(String.format("CLEANER_%d", index)));}
 		
 	}
 	
@@ -63,8 +64,8 @@ public class Model {
 		
 		// Set decisions
 		shortOrLongCleaning = new Decision("DECISION: LONG OR SHORT CLEANING");
-		shortOrLongCleaning.SetNextSequenceLink(process1);
-		
+		shortOrLongCleaning.AddNextSequenceLink(new NextSequence(process1));
+		shortOrLongCleaning.AddNextSequenceLink(new NextSequence(process2));
 		
 		// Create processes
 		
@@ -80,7 +81,7 @@ public class Model {
 		
 		// Entity manager
 		// Register starting process
-		EntityManager.GetInstance().SetStartingProcess(process1);
+		EntityManager.GetInstance().SetStartingSequenceObject(shortOrLongCleaning);
 		EntityManager.GetInstance().StartGenerating();
 		
 		
@@ -100,7 +101,16 @@ public class Model {
 		{
 			while(ProcessManager.GetInstance().CanFire())
 			{
-				ProcessManager.GetInstance().Fire();
+				try
+				{
+					ProcessManager.GetInstance().Fire();
+				}
+				
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+				
 			}
 			
 			/** If no processes can fire tell the TimeManager to tick.

@@ -6,15 +6,16 @@ import java.util.List;
 import simulation.entity.Entity;
 import simulation.interfaces.Tick_Listener;
 import simulation.queue.Queue;
+import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
 import simulation.time.Event_Type;
 
 public class Process extends SequenceObject implements Tick_Listener{
 
-	private Queue queue;
 	private List<Resource_Type> typeOfResourcesNeeded = new ArrayList<Resource_Type>();
 	private double processTime;
 	private double finishTime;
+
 	
 	public Process(String ID, double processTime)
 	{
@@ -34,27 +35,33 @@ public class Process extends SequenceObject implements Tick_Listener{
 		typeOfResourcesNeeded.add(typeOfResourceNeeded);
 	}
 	
-	public void AddEntityToQueue(Entity entityToAdd)
+
+	private boolean AreResourcesAvailable()
 	{
-		this.queue.AddEntity(entityToAdd);
-	}
-
-	@Override
-	void SetNextSequenceObjectForEntity(Entity entity) {
-		// TODO Auto-generated method stub
+		for(Resource_Type typeOfResource : typeOfResourcesNeeded)
+		{
+			if(!ResourceManager.GetInstance().CheckForAvailableResource(typeOfResource)) 
+			{
+				return false;
+			}
+		}
 		
+		// Default value
+		return true;
 	}
 
-
-	@Override
+	/**
+	 * Check for available:
+	 * - Entity
+	 * - Resource(typeOfResourcesNeeded)
+	 */
 	public boolean CanFire() {
-		return false;
-		// TODO Auto-generated method stub
-		
+		return IsThereANextEntityFromQueue() && AreResourcesAvailable(); 
 	}
 
 	@Override
-	public void Fire() {
+	public void Fire() throws Exception {
+		super.Fire();
 		Delay();
 		
 	}
@@ -62,9 +69,10 @@ public class Process extends SequenceObject implements Tick_Listener{
 	public void Delay()
 	{
 		// Seize resources
-		
+		typeOfResourcesNeeded.forEach(x -> ResourceManager.GetInstance().SeizeResource(x));
 		
 		// Seize entity
+		
 		
 		// Set time when process is finished
 	}
@@ -84,4 +92,12 @@ public class Process extends SequenceObject implements Tick_Listener{
 		End_Delay();
 		
 	}
+
+	@Override
+	public void SetNextSequenceObjectForEntity(Entity entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

@@ -1,9 +1,12 @@
 package simulation.entity;
 
+import simulation.process.SequenceObject;
+
 public class Entity {
 
 	private String ID;
-	private Process currentProcess;
+	private SequenceObject currentSequenceObject;
+	private boolean isAvailable = true;
 	private double arrivalTime;
 	private double pickUpTime;
 	private double calledTime;
@@ -19,14 +22,29 @@ public class Entity {
 		return ID;
 	}
 	
-	public Process GetCurrentProcess()
+	public SequenceObject GetCurrentSequenceObject()
 	{
-		return currentProcess;
+		return currentSequenceObject;
 	}
 	
-	public void SetCurrentProcess(Process currentProcess)
+	public void SetCurrentSequenceObject(SequenceObject currentSequenceObject)
 	{
-		this.currentProcess = currentProcess;
+		this.currentSequenceObject = currentSequenceObject;
+	}
+	
+	public boolean IsAvailable()
+	{
+		return isAvailable;
+	}
+	
+	public void Seize()
+	{
+		isAvailable = false;
+	}
+	
+	public void Release()
+	{
+		isAvailable = true;
 	}
 	
 	

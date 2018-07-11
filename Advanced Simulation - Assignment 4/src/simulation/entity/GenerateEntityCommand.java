@@ -1,17 +1,18 @@
 package simulation.entity;
 
 import simulation.interfaces.Command;
+import simulation.process.SequenceObject;
 
 
 public class GenerateEntityCommand implements Command
 {
 		Entity entityToAdd;
-		simulation.process.Process processWhereEntityNeedsToBeAddedTo;		
+		SequenceObject startingSequenceObjectWhereEntityNeedsToBeAddedTo;		
 		
-		public GenerateEntityCommand(Entity entityToAdd, simulation.process.Process processWhereEntityNeedsToBeAddedTo)
+		public GenerateEntityCommand(Entity entityToAdd, SequenceObject startingSequenceObjectWhereEntityNeedsToBeAddedTo)
 		{
 			this.entityToAdd = entityToAdd;
-			this.processWhereEntityNeedsToBeAddedTo = processWhereEntityNeedsToBeAddedTo;
+			this.startingSequenceObjectWhereEntityNeedsToBeAddedTo = startingSequenceObjectWhereEntityNeedsToBeAddedTo;
 		}
 		
 		@Override
@@ -22,7 +23,7 @@ public class GenerateEntityCommand implements Command
 			EntityManager.GetInstance().AddEntity(entityToAdd);
 			
 			// Add entity to PROCESS
-			processWhereEntityNeedsToBeAddedTo.AddEntityToQueue(entityToAdd);
+			startingSequenceObjectWhereEntityNeedsToBeAddedTo.AddEntityToQueue(entityToAdd);
 			
 		}
 	
