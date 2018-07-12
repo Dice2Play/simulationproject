@@ -16,6 +16,16 @@ public class ProcessManager {
 		sequenceObjects.sort(new SequenceObjectPriorityComparator());
 	}
 	
+	public void Reset()
+	{
+		// Delete all sequenceObjects
+		sequenceObjects = new LinkedList<SequenceObject>();
+		
+		// Set process manager to null
+		processManager = null;
+	}
+	
+	
 	public static ProcessManager GetInstance()
 	{
 		if(processManager == null)

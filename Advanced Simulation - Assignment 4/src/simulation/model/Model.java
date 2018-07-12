@@ -23,8 +23,7 @@ import simulation.process.behavior.NextSequenceWithChance;
 public class Model {
 
 	int amountOfDaysToRun;
-	final  double PROBABILITY_SHORT_CLEANING = 0.293;
-	final  double PROBABILITY_LONG_CLEANING = 0.707;
+
 	
 	public Model(int amountOfDaysToRun)
 	{
@@ -51,11 +50,12 @@ public class Model {
 		for(int index = 1; index < 4; index++) {new Cleaner(String.format("CLEANER_%d", index));}
 		
 	}
-	
-	
-	
+		
 	public void GenerateProcesses()
 	{
+		double PROBABILITY_SHORT_CLEANING = 0.293;
+		double PROBABILITY_LONG_CLEANING = 0.707;
+		
 		// Create references
 		Queue queue1, queue2, queue3;
 		
@@ -106,7 +106,10 @@ public class Model {
 		
 	}
 	
-	
+	private void Report()
+	{
+		
+	}
 	
 	public void Run()
 	{
@@ -128,6 +131,11 @@ public class Model {
 				
 			}
 			
+			/**
+			 * Report after all possible processes have fired. 
+			 */
+			Report();
+			
 			/** If no processes can fire tell the TimeManager to tick.
 			 * - Will generate new entities when TimeEvent Event-Type is 'ARRIVAL'.
 			 * - Will cause a process to call it's 'End_Delay' method, releasing related resources and entities.
@@ -135,9 +143,18 @@ public class Model {
 			TimeManager.GetInstance().Tick();
 		} 
 		
-		
-
-		
+			
 	}
 
+	public void Reset()
+	{
+		// Reset all managers
+		ProcessManager.GetInstance().Reset();
+		QueueManager.GetInstance().Reset();
+		ResourceManager.GetInstance().Reset();
+		TimeManager.GetInstance().Reset();
+		EntityManager.GetInstance().Reset();
+		
+	}
+	
 }

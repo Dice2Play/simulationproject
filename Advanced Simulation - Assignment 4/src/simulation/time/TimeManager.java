@@ -9,7 +9,7 @@ import simulation.interfaces.Tick_Listener;
 
 public class TimeManager {
 
-	private static TimeManager timeManager;
+	private static TimeManager timeManager = null;
 	private int currentDay;
 	private double currentTime;
 	private LinkedList<TimeEvent> plannedTimeEvents = new LinkedList<TimeEvent>();
@@ -164,6 +164,11 @@ public class TimeManager {
 	double GetEndTimeAll()
 	{
 		return END_TIME_ALL;
+	}
+	
+	public void Reset()
+	{
+		timeManager = null;
 	}
 	
 	private static class TimeEventComparator implements Comparator<TimeEvent>

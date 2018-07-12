@@ -6,7 +6,7 @@ import java.util.List;
 public class ResourceManager {
 	
 	List<Resource> resources = new ArrayList<Resource>();
-	static ResourceManager resourceManager;
+	static ResourceManager resourceManager = null;
 	
 	
 	public static ResourceManager GetInstance()
@@ -17,6 +17,12 @@ public class ResourceManager {
 		}
 		
 		return resourceManager;
+	}
+	
+	public void Reset()
+	{
+		resources = new ArrayList<Resource>();
+		resourceManager = null;
 	}
 	
 	void RegisterResource(Resource resourceToRegister)

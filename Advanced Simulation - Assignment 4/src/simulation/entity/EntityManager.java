@@ -77,6 +77,12 @@ public class EntityManager implements Tick_Listener{
 		TimeManager.GetInstance().AddTickListener(this);
 	}
 		
+	public void Reset()
+	{
+		entityManager = null;
+		entities = new ArrayList<Entity>();
+	}
+	
 	public static EntityManager GetInstance()
 	{
 		if(entityManager == null)

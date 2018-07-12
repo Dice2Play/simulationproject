@@ -1,6 +1,7 @@
 package simulation.main;
 
 import simulation.model.Model;
+import simulation.result.ResultManager;
 
 public class Scenario {
 
@@ -18,9 +19,16 @@ public class Scenario {
 	{
 		for(int index=0; index < amountOfReplications; index++)
 		{
-			
+			// Run/Reset Model
 			Model modelToRun = new Model(amountOfDaysToRun);
 			modelToRun.Run();
+			modelToRun.Reset();
+			
+			// Print results
+			ResultManager.GetInstance().PrintResults();
+				
+			// Reset resultManager
+			ResultManager.GetInstance().Reset();
 		}
 		
 		
