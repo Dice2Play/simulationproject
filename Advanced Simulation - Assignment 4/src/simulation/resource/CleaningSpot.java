@@ -23,8 +23,19 @@ public class CleaningSpot extends Resource{
 			hasMaintenance = true;
 			
 			// Make new process "Maintenance"
-			
+			try {
+				throw new Exception("not implemented");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
+		super.Release();
+		
+		
+		
+		
 	}
 	
 

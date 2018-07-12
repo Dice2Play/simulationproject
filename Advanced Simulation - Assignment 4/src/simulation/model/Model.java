@@ -9,6 +9,7 @@ import simulation.resource.CleaningSpot;
 import simulation.resource.ParkingSpot;
 import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
+import simulation.result.ResultManager;
 import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
 import simulation.entity.EntityManager;
@@ -105,10 +106,17 @@ public class Model {
 
 		
 	}
-	
-	private void Report()
+	/**
+	 * Call this method when the run is finished
+	 */
+	public void Report()
 	{
+		// Retrieve info from entity manager
 		
+		//ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
+		//ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
+		//ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
+		//ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
 	}
 	
 	public void Run()
@@ -131,11 +139,7 @@ public class Model {
 				
 			}
 			
-			/**
-			 * Report after all possible processes have fired. 
-			 */
-			Report();
-			
+
 			/** If no processes can fire tell the TimeManager to tick.
 			 * - Will generate new entities when TimeEvent Event-Type is 'ARRIVAL'.
 			 * - Will cause a process to call it's 'End_Delay' method, releasing related resources and entities.

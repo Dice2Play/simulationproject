@@ -12,14 +12,11 @@ public class Termination extends SequenceObject {
 	}
 	
 	
-	// End of the line, remove from entity manager and (this)queue
+	// End of the line
 	@Override
 	public void Fire() throws Exception
 	{
 		super.Fire();
-		SetNextSequenceObjectForEntity();
-		RemoveEntityFromQueue(currentEntity);
-		
 	}
 	
 	

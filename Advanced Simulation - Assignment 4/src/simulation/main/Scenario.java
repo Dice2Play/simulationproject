@@ -22,6 +22,7 @@ public class Scenario {
 			// Run/Reset Model
 			Model modelToRun = new Model(amountOfDaysToRun);
 			modelToRun.Run();
+			modelToRun.Report(); // Writes all results to ResultManager
 			modelToRun.Reset();
 			
 			// Print results
