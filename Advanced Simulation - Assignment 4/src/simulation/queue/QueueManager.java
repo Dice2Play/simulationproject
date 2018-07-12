@@ -5,13 +5,23 @@ import java.util.List;
 
 public class QueueManager {
 
-	static List<Queue> queues = new ArrayList<Queue>();
+	List<Queue> queues = new ArrayList<Queue>();
+	static QueueManager queueManager;
 	
+	public static QueueManager GetInstance()
+	{
+		if(queueManager == null)
+		{
+			queueManager = new QueueManager();
+		}
+		
+		return queueManager;
+	}
 	
-	public static void RegisterQueue(Queue queueToRegister)
+	public void RegisterQueue(Queue queueToRegister)
 	{
 		queues.add(queueToRegister);
 		
-		System.out.println(String.format("QUEUE MANAGER: Registered %s",queueToRegister.GetID()));
+		System.out.println(String.format("QUEUE MANAGER: Registered QUEUE %s",queueToRegister.GetID()));
 	}
 }

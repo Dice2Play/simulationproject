@@ -24,8 +24,7 @@ public class EntityManager implements Tick_Listener{
 	SequenceObject startingSequenceObject;
 	
 	// Probability of customer takes Short or Long cleaning
-	//final  double PROBABILITY_SHORT_CLEANING = 0.293;
-	//final  double PROBABILITY_LONG_CLEANING = 0.707;
+
 	
 	
 	// Short cleaning normal distribution parameters
@@ -54,6 +53,7 @@ public class EntityManager implements Tick_Listener{
 	final double POISSON_ARRIVAL_RATE_9 = 4.733;
 	final double POISSON_ARRIVAL_RATE_10 = 4.400;
 	final double POISSON_ARRIVAL_RATE_11 = 3.222;
+	final double POISSON_ARRIVAL_RATE_12 = 0;
 	
 	
 
@@ -71,12 +71,12 @@ public class EntityManager implements Tick_Listener{
 		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_9);
 		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_10);
 		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_11);
+		poissonArrivalRates.add(POISSON_ARRIVAL_RATE_12);
 		
 		// Set listeners
 		TimeManager.GetInstance().AddTickListener(this);
 	}
-	
-	
+		
 	public static EntityManager GetInstance()
 	{
 		if(entityManager == null)
@@ -97,27 +97,32 @@ public class EntityManager implements Tick_Listener{
 	
 	/**
 	 * Generate entity according to the 'generateRate'
-	 * Use the result from the normal distribution to determine when this entity arrives, pass this result to the TimeManager
 	 */
 	private void GenerateEntity()
 	{
 		// Time at which next entity should arrive
 		double currentHour = Math.floor(TimeManager.GetInstance().GetCurrentTime());
-		double timeOnWhichNextEntityArrives = Statistics.GetDistributionResult(new PoissonDistribution(poissonArrivalRates.get((int)currentHour), new Random()));
+		double timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + Statistics.GetDistributionResult(new PoissonDistribution(poissonArrivalRates.get((int)currentHour), new Random()));
 		
 		
 		// Add time event which will generate an entity when its being executed
 		Entity newEntity = new Entity(String.format("CAR_%d", entities.size() + 1));
 		GenerateEntityCommand generateEntity = new GenerateEntityCommand(newEntity, startingSequenceObject);
 		
-		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichNextEntityArrives, generateEntity, String.format("Entity %s has arrived", newEntity.GetID()), Event_Type.ARRIVAL));
+		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichNextEntityArrives, generateEntity, String.format("Entity %s has arrived", newEntity.GetID()), Event_Type.GENERATE));
 			
+	}
+
+	
+	public void DeRegisterEntity(Entity entityToDeRegister)
+	{
+		entities.remove(entityToDeRegister);
 	}
 	
 	
-	public void AddEntity(Entity entityToAdd)
+	public void RegisterEntity(Entity entityToRegister)
 	{
-		entities.add(entityToAdd);
+		entities.add(entityToRegister);
 	}
 	
 	
@@ -133,7 +138,7 @@ public class EntityManager implements Tick_Listener{
 
 	@Override
 	public void On_Tick(Event_Type eventType) {
-		if(eventType == Event_Type.ARRIVAL) 	{GenerateEntity();}
+		if(eventType == Event_Type.GENERATE) 	{GenerateEntity();}
 	}
 	
 

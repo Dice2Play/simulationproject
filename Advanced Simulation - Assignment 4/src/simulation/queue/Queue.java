@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import simulation.entity.Entity;
+import simulation.process.ProcessManager;
 
 public class Queue {
 
@@ -14,6 +15,9 @@ public class Queue {
 	public Queue(String ID)
 	{
 		this.ID = ID;
+		
+		// Register to Queue Manager
+		QueueManager.GetInstance().RegisterQueue(this);
 	}
 	
 	public void AddEntity(Entity entityToAdd)

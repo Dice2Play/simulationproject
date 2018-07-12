@@ -77,7 +77,7 @@ public class Process extends SequenceObject{
 		super.Fire();
 		Delay();
 		
-		// Create time-event
+		// Create time-event on which process must release resources
 		double timeOnWhichEventMostOccur = TimeManager.GetInstance().GetCurrentTime() + processTime;
 		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichEventMostOccur,
 				new ReleaseProcessCommand(this),

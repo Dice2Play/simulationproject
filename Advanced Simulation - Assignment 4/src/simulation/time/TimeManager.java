@@ -9,28 +9,24 @@ import simulation.interfaces.Tick_Listener;
 
 public class TimeManager {
 
-	static TimeManager timeManager;
-	int currentDay;
-	double currentTime;
-	LinkedList<TimeEvent> plannedTimeEvents = new LinkedList<TimeEvent>();
-	ArrayList<Tick_Listener> tickListeners = new ArrayList<Tick_Listener>();
+	private static TimeManager timeManager;
+	private int currentDay;
+	private double currentTime;
+	private LinkedList<TimeEvent> plannedTimeEvents = new LinkedList<TimeEvent>();
+	private ArrayList<Tick_Listener> tickListeners = new ArrayList<Tick_Listener>();
 	
-	final double START_TIME = 0;
-	final static double END_TIME = 12.5;
-	final int AMOUNT_OF_DISCRETE_DAILY_TIME_EVENTS = 25;
+	private final static double END_TIME_CUSTOMERS_CLEANERS = 12;
+	private final static double END_TIME_ALL = 12.5;
+	private final int AMOUNT_OF_DISCRETE_DAILY_TIME_EVENTS = 25;
 	
-	private TimeManager()
-	{
-		// On creation, generate time events for first day
-		GenerateDiscreteTimeUnits();
-		
-	}
+	private boolean hasToBeInstantiated = true;
+
 	
 	
 	private void GenerateDiscreteTimeUnits()
 	{
 		double timeNextDiscreteEvent = 0;
-		double intervalBetweenDiscreteEvent = END_TIME / AMOUNT_OF_DISCRETE_DAILY_TIME_EVENTS;
+		double intervalBetweenDiscreteEvent = END_TIME_ALL / AMOUNT_OF_DISCRETE_DAILY_TIME_EVENTS;
 			
 		for(int ii = 0; ii <= AMOUNT_OF_DISCRETE_DAILY_TIME_EVENTS; ii++)
 		{				
@@ -43,6 +39,9 @@ public class TimeManager {
 	// Increment and execute time event which has to occur on this time
 	public void Tick()
 	{
+		// Only use for first time
+		if(hasToBeInstantiated) {GenerateDiscreteTimeUnits(); hasToBeInstantiated=false; }
+		
 		// Get next time event
 		OrderPlannedTimeEventsListByTime();
 		TimeEvent nextTimeEvent = GetNextTimeEvent();
@@ -54,7 +53,7 @@ public class TimeManager {
 		ExecuteNextTimeEvent(nextTimeEvent);
 		
 		// Check if next time value surpasses the end time, if so, increment day
-		if(nextTimeEvent.GetTimeOnWhichEventOccurs() == END_TIME)
+		if(nextTimeEvent.GetTimeOnWhichEventOccurs() == END_TIME_ALL)
 		{
 			// Increment day
 			IncrementDay();
@@ -92,12 +91,7 @@ public class TimeManager {
 	 */
 	public void IncrementTime(TimeEvent timeEvent)
 	{
-		
 		SetCurrentTime(timeEvent.GetTimeOnWhichEventOccurs());
-		
-	
-		
-		
 	}
 	
 	/**
@@ -162,9 +156,14 @@ public class TimeManager {
 		return timeManager;
 	}
 	
-	public double GetEndTime()
+	double GetEndTimeCustomersAndCleaners()
 	{
-		return END_TIME;
+		return END_TIME_CUSTOMERS_CLEANERS;
+	}
+	
+	double GetEndTimeAll()
+	{
+		return END_TIME_ALL;
 	}
 	
 	private static class TimeEventComparator implements Comparator<TimeEvent>

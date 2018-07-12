@@ -17,10 +17,14 @@ import simulation.interfaces.Tick_Listener;
 import simulation.process.Decision;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
+import simulation.process.Termination;
 import simulation.process.behavior.NextSequence;
+import simulation.process.behavior.NextSequenceWithChance;
 public class Model {
 
 	int amountOfDaysToRun;
+	final  double PROBABILITY_SHORT_CLEANING = 0.293;
+	final  double PROBABILITY_LONG_CLEANING = 0.707;
 	
 	public Model(int amountOfDaysToRun)
 	{
@@ -34,17 +38,17 @@ public class Model {
 	public void GenerateResources()
 	{
 		// Add cash registers
-		for(int index = 1; index < 4; index++) {ResourceManager.GetInstance().AddResource(new CashRegister(String.format("CASH_REGISTER_%d", index)));}
+		for(int index = 1; index < 4; index++) {new CashRegister(String.format("CASH_REGISTER_%d", index));}
 				
 		// Add cleaning spots
-		for(int index = 1; index < 11; index++) {ResourceManager.GetInstance().AddResource(new CleaningSpot(String.format("CLEANING_SPOT_%d", index)));}
+		for(int index = 1; index < 11; index++) {new CleaningSpot(String.format("CLEANING_SPOT_%d", index));}
 						
 		// Add parking spots
-		for(int index = 1; index < 26; index++) {ResourceManager.GetInstance().AddResource(new ParkingSpot(String.format("PARKING_SPOT_%d", index)));}
+		for(int index = 1; index < 26; index++) {new ParkingSpot(String.format("PARKING_SPOT_%d", index));}
 
 		// Add employees
-		for(int index = 1; index < 4; index++) {ResourceManager.GetInstance().AddResource(new Assistant(String.format("ASSISTANT_%d", index)));}
-		for(int index = 1; index < 4; index++) {ResourceManager.GetInstance().AddResource(new Cleaner(String.format("CLEANER_%d", index)));}
+		for(int index = 1; index < 4; index++) {new Assistant(String.format("ASSISTANT_%d", index));}
+		for(int index = 1; index < 4; index++) {new Cleaner(String.format("CLEANER_%d", index));}
 		
 	}
 	
@@ -53,44 +57,52 @@ public class Model {
 	public void GenerateProcesses()
 	{
 		// Create references
-		Queue queue1, queue2;
-		Decision shortOrLongCleaning;
+		Queue queue1, queue2, queue3;
+		
+			// Decisions
+		Decision shortOrLongCleaning = new Decision("DECISION: LONG OR SHORT CLEANING");
+		
+			// Processes
 		Process process1,process2;
-		process1 = null;
-		process2 = null;
+		process1 = new Process("LONG CLEANING CAR", 10.0/60.0);
+		process2 = new Process("SHORT CLEANING CAR", 20.0/60.0);
+		
+			// Terminators
+		Termination termination1 = new Termination("End of the line baby");
 		
 		
-		// Create queue's
+			// Queue's
 		queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE");
 		queue2 = new Queue("CLEAN CAR QUEUE");
+		queue3 = new Queue("Termination queue");
 		
 		// Set decisions
-		shortOrLongCleaning = new Decision("DECISION: LONG OR SHORT CLEANING");
-		shortOrLongCleaning.AddNextSequenceLink(new NextSequence(process1));
-		shortOrLongCleaning.AddNextSequenceLink(new NextSequence(process2));
+		shortOrLongCleaning.AddNextSequenceLink(new NextSequenceWithChance(process1, PROBABILITY_SHORT_CLEANING));
+		shortOrLongCleaning.AddNextSequenceLink(new NextSequenceWithChance(process2, PROBABILITY_LONG_CLEANING));
 		shortOrLongCleaning.SetQueue(queue1);
 		
-		// Create processes
-		
-		process1 = new Process("LONG CLEANING CAR", 10.0/60.0);
+		// Set processes
 		process1.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
 		process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
 		process1.SetQueue(queue2);
+		process1.AddNextSequenceLink(new NextSequence(termination1));
 		
-		process2 = new Process("SHORT CLEANING CAR", 20.0/60.0);
+		
 		process2.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
 		process2.AddRequiredResource(Resource_Type.CLEANING_SPOT);
 		process2.SetQueue(queue2);
+		process2.AddNextSequenceLink(new NextSequence(termination1));
+		
+		// Set terminators
+		termination1.SetQueue(queue3);
 		
 		// Entity manager
-		// Register starting process
+		// Set starting process
 		EntityManager.GetInstance().SetStartingSequenceObject(shortOrLongCleaning);
 		EntityManager.GetInstance().StartGenerating();
 		
 		
-		// QueueManager
-		// Register queue's
-		QueueManager.RegisterQueue(queue1);
+
 		
 	}
 	

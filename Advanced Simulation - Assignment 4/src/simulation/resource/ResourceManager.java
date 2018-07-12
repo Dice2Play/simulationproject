@@ -8,10 +8,6 @@ public class ResourceManager {
 	List<Resource> resources = new ArrayList<Resource>();
 	static ResourceManager resourceManager;
 	
-	private ResourceManager()
-	{
-		
-	}
 	
 	public static ResourceManager GetInstance()
 	{
@@ -23,11 +19,11 @@ public class ResourceManager {
 		return resourceManager;
 	}
 	
-	public void AddResource(Resource resourceToAdd)
+	void RegisterResource(Resource resourceToRegister)
 	{
-		resources.add(resourceToAdd);
+		resources.add(resourceToRegister);
 		
-		System.out.println(String.format("RESOURCE MANAGER: Added %s with ID %s", resourceToAdd.getResourceType(), resourceToAdd.GetID()));
+		System.out.println(String.format("RESOURCE MANAGER: Registered %s with ID %s", resourceToRegister.getResourceType(), resourceToRegister.GetID()));
 	}
 	
 	public boolean CheckForAvailableResource(Resource_Type typeOfResourceNeeded)

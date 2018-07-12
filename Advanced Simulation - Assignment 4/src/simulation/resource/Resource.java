@@ -13,6 +13,9 @@ public abstract class Resource {
 		this.ID = ID;
 		this.type = type;
 		this.occupied = false;
+		
+		// Register resource
+		ResourceManager.GetInstance().RegisterResource(this);
 	}
 	
 	public void Seize()

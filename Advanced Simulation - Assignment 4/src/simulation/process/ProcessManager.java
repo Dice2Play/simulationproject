@@ -2,18 +2,14 @@ package simulation.process;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ProcessManager {
 
 	static ProcessManager processManager = null;
-	List<SequenceObject> sequenceObjects = new ArrayList<SequenceObject>();
+	LinkedList<SequenceObject> sequenceObjects = new LinkedList<SequenceObject>();
 	
-	
-	private ProcessManager()
-	{
-		
-	}
 	
 	private void OrderByPriorityCode()
 	{
@@ -30,9 +26,11 @@ public class ProcessManager {
 		return processManager;
 	}
 	
-	public void AddProcess(Process processToAdd)
+	void RegisterSequenceObject(SequenceObject sequenceObjectToAdd)
 	{
-		sequenceObjects.add(processToAdd);
+		sequenceObjects.add(sequenceObjectToAdd);
+		
+		System.out.printf("PROCESS MANAGER: Registered SEQUENCEOBJECT %s \n", sequenceObjectToAdd.GetID());
 	}
 
 	
@@ -52,12 +50,30 @@ public class ProcessManager {
 		// Sort by priority
 		OrderByPriorityCode();
 		
-		for(SequenceObject seqObj : sequenceObjects)
+		// Get first sequence object that CAN fire, from list
+		SequenceObject seqObject = GetFirstCanFireSequenceObject();
+		seqObject.Fire();
+		System.out.printf("Process %s has fired \n", seqObject.GetID());
+				
+	}
+	
+	/**
+	 * Assumption1: There is an sequenceObject which can fire.
+	 * Assumption2: sequenceObjects list is ordered by priority.
+	 * @return
+	 * @throws Exception 
+	 */
+	private SequenceObject GetFirstCanFireSequenceObject() throws Exception
+	{
+		for(SequenceObject sequenceObject: sequenceObjects)
 		{
-			seqObj.Fire();
+			if(sequenceObject.CanFire()) {return sequenceObject;}
 		}
 		
+		throw new Exception("Assumption violated, there is no sequenceObject which can fire");
+		
 	}
+	
 	
 	private class SequenceObjectPriorityComparator implements Comparator<SequenceObject>
 	{

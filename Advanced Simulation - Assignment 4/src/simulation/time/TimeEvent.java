@@ -7,7 +7,7 @@ public class TimeEvent {
 	private double timeOnWhichEventOccurs;
 	private Command commandToExecute;
 	private String description;
-	private int dayOnWhichEventIsAvailable;
+	private int dayOnWhichEventIsAvailable = Integer.MAX_VALUE;
 	private Event_Type eventType;
 	
 	public TimeEvent(double timeOnWhichEventOccurs, String description, Event_Type eventType)
@@ -35,24 +35,62 @@ public class TimeEvent {
 		return eventType;
 	}
 	
-	
+	/**
+	 * If eventType is Generate (=Customer arrives), then use closing time for customers as endTime,
+	 * otherwise use endTime for all.
+	 * @throws Exception 
+	 */
+	private double GetEndTimeToUse() throws Exception
+	{
+		switch(eventType)
+		{
+			case GENERAL:
+			return TimeManager.GetInstance().GetEndTimeAll();
+		
+		case GENERATE:
+			return TimeManager.GetInstance().GetEndTimeCustomersAndCleaners();
+			
+		default:
+				throw new Exception("Shouldnt occur.");
+				
+		}
+		
+		
+		
+	}
 	
 	private void SetTimeAccordingToTimeManagerEndTime()
 	{
-		if(timeOnWhichEventOccurs > TimeManager.END_TIME)
+	
+		try 
 		{
-			double remainder = timeOnWhichEventOccurs - TimeManager.GetInstance().GetEndTime();
-			timeOnWhichEventOccurs = remainder;
+	
+			double 	EndTimeToUse = GetEndTimeToUse();
 			
-			dayOnWhichEventIsAvailable = TimeManager.GetInstance().GetCurrentDay() + 1;
-		}
+			if(timeOnWhichEventOccurs > EndTimeToUse || ((timeOnWhichEventOccurs >= EndTimeToUse) && (eventType == Event_Type.GENERATE)))
+			{
+				double remainder = timeOnWhichEventOccurs - EndTimeToUse;
+				timeOnWhichEventOccurs = remainder;
+				
+				dayOnWhichEventIsAvailable = TimeManager.GetInstance().GetCurrentDay() + 1;
+			}
+			
+			else
+			{
+				dayOnWhichEventIsAvailable = TimeManager.GetInstance().GetCurrentDay();
+			}
+				
+		} 
+		
+		catch (Exception e) {	e.printStackTrace();}
+		
+		
 	}
 	
 	public boolean IsAvailable()
 	{
-		// Check if null
-		if (dayOnWhichEventIsAvailable == 0) {return true;} 
-		else return (TimeManager.GetInstance().GetCurrentDay() >= dayOnWhichEventIsAvailable);
+
+		return (TimeManager.GetInstance().GetCurrentDay() >= dayOnWhichEventIsAvailable);
 	}
 	
 	public void ExecuteTimeEvent()

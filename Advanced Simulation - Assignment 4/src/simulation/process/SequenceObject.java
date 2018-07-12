@@ -20,6 +20,9 @@ public abstract class SequenceObject {
 	{
 		this.ID = ID;
 		this.processPriority = processPriority;
+		
+		// Register to Process Manager
+		ProcessManager.GetInstance().RegisterSequenceObject(this);
 	}
 	
 	public String GetID()
