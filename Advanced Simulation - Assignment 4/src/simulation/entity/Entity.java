@@ -60,6 +60,11 @@ public class Entity {
 		return isRejected;
 	}
 	
+	public double GetProcessingTime()
+	{
+		return processingTime;
+	}
+	
 	public boolean WaitingRateUnder6Hours()
 	{
 		return waitingRateUnder6Hours;
@@ -70,5 +75,9 @@ public class Entity {
 		return calledUnderTwoTimesCleaningTime;
 	}
 	
+	public void UpdateProcessingTime(double amountOfTimeToAdd)
+	{
+		processingTime+= amountOfTimeToAdd;
+	}
 	
 }

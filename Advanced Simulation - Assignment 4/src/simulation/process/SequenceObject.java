@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import simulation.entity.Entity;
-import simulation.process.behavior.NextSequence;
+import simulation.process.behavior.CanFireBehavior;
+import simulation.process.behavior.FireBehavior;
+import simulation.process.behavior.NextSequenceBehavior;
 import simulation.queue.Queue;
 
 public abstract class SequenceObject {
@@ -12,8 +14,13 @@ public abstract class SequenceObject {
 	private String ID;
 	private Process_Priority processPriority;
 	private Queue queue;
-	LinkedList<NextSequence> linkedSequenceObjects = new LinkedList<NextSequence>();
-	Entity currentEntity;
+	private LinkedList<SequenceObject> linkedSequenceObjects = new LinkedList<SequenceObject>();
+	
+	
+	protected CanFireBehavior canFireBehavior;
+	protected FireBehavior fireBehavior;
+	protected NextSequenceBehavior nextSequenceBehavior;
+	
 
 	
 	public SequenceObject(String ID, Process_Priority processPriority)
@@ -45,18 +52,18 @@ public abstract class SequenceObject {
 		this.queue = queue;
 	}
 	
-	boolean IsThereANextEntityFromQueue()
+	public boolean IsThereANextEntityFromQueue()
 	{
 		return queue.IsThereAnAvailableEntityInQueue();
 	}
 	
 	
 	/**
-	 * Gets the next 
+	 * Gets the next entity in queue 
 	 * @return
 	 * @throws Exception 
 	 */
-	Entity GetNextEntityFromQueue() throws Exception
+	public Entity GetNextEntityFromQueue() throws Exception
 	{
 		return queue.GetFirstAvailableEntity();
 	}
@@ -67,30 +74,37 @@ public abstract class SequenceObject {
 	}
 
 	
-	/**
-	 * - Removes current entity from  queue
-	 * - Adds current entity to next sequenceObject's queue
-	 * 
-	 */
-	public abstract void SetNextSequenceObjectForEntity();
-	
-	
-	public void AddNextSequenceLink(NextSequence nextSeqLinkType)
+	public void AddNextSequenceLink(SequenceObject nextSeqLinkType)
 	{
 		linkedSequenceObjects.add(nextSeqLinkType);
 	}
 	
 
-	public abstract boolean CanFire();
-	
-	
-	public void Fire() throws Exception
+	public boolean CanFire()
 	{
-		currentEntity = GetNextEntityFromQueue();
+		return canFireBehavior.CanFire();
 	}
 	
-	public void SetCurrentEntityToNull()
+	
+	public void Fire()
 	{
-		currentEntity = null;
+		fireBehavior.Fire();
 	}
+	
+	public LinkedList<SequenceObject> GetLinkedSequenceObjects()
+	{
+		return linkedSequenceObjects;
+	}
+
+	public NextSequenceBehavior GetNextSequenceBehavior() {
+		return nextSequenceBehavior;
+	}
+
+
+	public void RemoveFirstEntityFromQueue()
+	{
+		queue.RemoveFirstEntityFromQueue();
+	}
+	
+
 }

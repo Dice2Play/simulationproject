@@ -141,7 +141,32 @@ public class EntityManager implements Tick_Listener{
 		startingSequenceObject = newStartingSequenceObject;
 	}
 
-
+	public double GetLeftRate()
+	{
+		return 0;
+	}
+	
+	public double GetWaitingTimeUnder6Hours()
+	{
+		return 0;
+	}
+	
+	public double GetCallsUnder2TimesCleaningTime()
+	{
+		return 0;
+	}
+	
+	public double GetProcessingTime()
+	{
+		double totalProcessingTime = 0;
+		
+		for(Entity entity : entities)
+		{
+			totalProcessingTime += entity.GetProcessingTime();
+		}
+		
+		return (totalProcessingTime/entities.size());
+	}
 	@Override
 	public void On_Tick(Event_Type eventType) {
 		if(eventType == Event_Type.GENERATE) 	{GenerateEntity();}

@@ -4,21 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simulation.entity.Entity;
-import simulation.interfaces.Tick_Listener;
-import simulation.queue.Queue;
+import simulation.interfaces.DoubleCommand;
+import simulation.process.behavior.CanFireProcessResourceAndEntity;
+import simulation.process.behavior.ProcessFire;
+import simulation.process.behavior.ProcessNextSequence;
+import simulation.process.behavior.RegularNextSequence;
 import simulation.resource.Resource;
 import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
-import simulation.time.Event_Type;
-import simulation.time.TimeEvent;
-import simulation.time.TimeManager;
 
 public class Process extends SequenceObject{
 
 	private List<Resource_Type> typeOfResourcesNeeded = new ArrayList<Resource_Type>();
-	ArrayList<Resource> seizedResources = new ArrayList<Resource>();
+	private ArrayList<Resource> seizedResources = new ArrayList<Resource>();
+	private double generatedProcessTime;
 	private double processTime;
 	private boolean isAvailable = true;
+	private boolean isUsingCommandForGeneratingProcessTime = false;
+	private DoubleCommand commandForGeneratingProcessTime;
+	private boolean hasAlreadyGeneratedGeneratingTime = false;
+	private Entity seizedEntity;
+	
 
 	
 	public Process(String ID, double processTime)
@@ -30,25 +36,44 @@ public class Process extends SequenceObject{
 	{
 		super(ID, processPriority);
 		this.processTime = processTime;
+		fireBehavior = new ProcessFire(this);
+		canFireBehavior = new CanFireProcessResourceAndEntity(this);
+		nextSequenceBehavior = new ProcessNextSequence(this);
+		isUsingCommandForGeneratingProcessTime = false;
+	}
+	
+	public Process(String ID, Process_Priority processPriority, DoubleCommand commandForGeneratingProcessTime)
+	{
+		super(ID, processPriority);
+		this.commandForGeneratingProcessTime = commandForGeneratingProcessTime;
+		fireBehavior = new ProcessFire(this);
+		canFireBehavior = new CanFireProcessResourceAndEntity(this);
+		nextSequenceBehavior = new ProcessNextSequence(this);
+		isUsingCommandForGeneratingProcessTime = true;
+		
 	}
 	
 	public void SetIsAvailable(boolean newValue)
 	{
 		isAvailable = newValue;
 	}
-		
+			
 	public void AddRequiredResource(Resource_Type typeOfResourceNeeded)
 	{
 		typeOfResourcesNeeded.add(typeOfResourceNeeded);
 	}
 	
-	private boolean IsAvailable()
+	public boolean IsAvailable()
 	{
 		return isAvailable;
 	}
 	
+	ArrayList<Resource> GetSeizedResources()
+	{
+		return seizedResources;
+	}
 
-	private boolean AreResourcesAvailable()
+	public boolean AreResourcesAvailable()
 	{
 		for(Resource_Type typeOfResource : typeOfResourcesNeeded)
 		{
@@ -61,60 +86,103 @@ public class Process extends SequenceObject{
 		// Default value
 		return true;
 	}
-
-	/**
-	 * Check for available:
-	 * - Entity
-	 * - Resource(typeOfResourcesNeeded)
-	 * - Process
-	 */
-	public boolean CanFire() {
-		return IsThereANextEntityFromQueue() && AreResourcesAvailable() && IsAvailable(); 
-	}
-
-	@Override
-	public void Fire() throws Exception {
-		super.Fire();
-		Delay();
+	
+	public double GetProcessTime()
+	{
+		// If static (not using generating command) return processTime
+		if(!isUsingCommandForGeneratingProcessTime) {return processTime;}
 		
-		// Create time-event on which process must release resources
-		double timeOnWhichEventMostOccur = TimeManager.GetInstance().GetCurrentTime() + processTime;
-		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeOnWhichEventMostOccur,
-				new ReleaseProcessCommand(this),
-				String.format("Process [%s] released resources", this.GetID()),
-				Event_Type.GENERAL));
+		else
+		{ 
+			// check if already an time has been generated
+			if(!hasAlreadyGeneratedGeneratingTime)
+			{
+				generatedProcessTime = commandForGeneratingProcessTime.Execute();
+				hasAlreadyGeneratedGeneratingTime = true;
+			}
+			
+			return generatedProcessTime;
+		}
 	}
 	
-	public void Delay() throws Exception
+	/**
+	 * Seize Process, Resources and Entity
+	 */
+	public void Seize()
 	{
-		// Seize resources
-		for(Resource_Type resourceType : typeOfResourcesNeeded)
-		{
-			Resource resourceToSeize = ResourceManager.GetInstance().GetAvailableResource(resourceType);
-			seizedResources.add(resourceToSeize);
-			resourceToSeize.Seize();
+		SeizeProcess();
+		SeizeResources();
+		SeizeEntity();
+	}
+	
+	private void SeizeEntity() {
+		try {
+			seizedEntity = GetNextEntityFromQueue();
+			seizedEntity.Seize();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		// Seize entity
-		currentEntity.Seize();
+	}
+
+	private void SeizeResources() {
+
+		for(Resource_Type typeOfResourceNeeded : typeOfResourcesNeeded)
+		{
+			try {
+				ResourceManager.GetInstance().GetAvailableResource(typeOfResourceNeeded).Seize();;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
-		// Seize this process
-		isAvailable = false;
-				
+	}
+
+	private void SeizeProcess()
+	{
+		isAvailable = false;	
+	}
+
+	/**
+	 * Release Process, Resources and Entity
+	 */
+	public void Release()
+	{
+		ReleaseProcess();
+		ReleaseEntity();
+		ReleaseResources();
+		Reset();
+	}
+
+	private void ReleaseResources() {
+		GetSeizedResources().forEach(x -> x.Release());	
+	}
+
+	private void ReleaseEntity() 
+	{
+		try {GetSeizedEntity().Release();}
+		catch (Exception e) {e.printStackTrace();}
+	}
+
+	private void ReleaseProcess()
+	{
+		isAvailable = true;
+		
 	}
 	
-
-	@Override
-	public void SetNextSequenceObjectForEntity() {
-		// Get next sequenceObject
-		SequenceObject nextSequenceObject = linkedSequenceObjects.getFirst().GetNextSequenceObject(); 
-		
-		// Set next sequenceObject for entity
-		currentEntity.SetCurrentSequenceObject(nextSequenceObject);
-		
-		// Adds entity to queue of next sequenceObject
-		nextSequenceObject.AddEntityToQueue(currentEntity);
+	private void Reset()
+	{
+		if(isUsingCommandForGeneratingProcessTime) { hasAlreadyGeneratedGeneratingTime = false;}
+		seizedEntity = null;
 	}
+
+	public Entity GetSeizedEntity() {
+		
+		return seizedEntity;
+	}
+
 	
 	
 
