@@ -22,7 +22,7 @@ public class EntityManager implements Tick_Listener{
 	
 	List<Entity> entities = new ArrayList<Entity>();
 	SequenceObject startingSequenceObject;
-	
+	private double amountOfRejects;
 	// Probability of customer takes Short or Long cleaning
 
 	
@@ -108,7 +108,8 @@ public class EntityManager implements Tick_Listener{
 	{
 		// Time at which next entity should arrive
 		double currentHour = Math.floor(TimeManager.GetInstance().GetCurrentTime());
-		double timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + Statistics.GetDistributionResult(new PoissonDistribution(poissonArrivalRates.get((int)currentHour), new Random()));
+		double generatedValueForNextEntity = Statistics.GetDistributionResult(new PoissonDistribution(poissonArrivalRates.get((int)currentHour), new Random()));
+		double timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + generatedValueForNextEntity;
 		
 		
 		// Add time event which will generate an entity when its being executed
@@ -143,7 +144,7 @@ public class EntityManager implements Tick_Listener{
 
 	public double GetLeftRate()
 	{
-		return 0;
+		return (amountOfRejects/entities.size());
 	}
 	
 	public double GetWaitingTimeUnder6Hours()
@@ -155,6 +156,12 @@ public class EntityManager implements Tick_Listener{
 	{
 		return 0;
 	}
+	
+	public void IncrementAmountOfRejects()
+	{
+		amountOfRejects++;
+	}
+	
 	
 	public double GetProcessingTime()
 	{
