@@ -5,6 +5,7 @@ import java.util.List;
 
 import simulation.entity.Entity;
 import simulation.interfaces.Tick_Listener;
+import simulation.process.behavior.CanFireBehavior;
 import simulation.queue.Queue;
 import simulation.resource.Resource;
 import simulation.resource.ResourceManager;
@@ -19,6 +20,7 @@ public class Process extends SequenceObject{
 	private ArrayList<Resource> seizedResources = new ArrayList<Resource>();
 	private double processTime;
 	private boolean isAvailable = true;
+	
 
 	
 	public Process(String ID, double processTime)

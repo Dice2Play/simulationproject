@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import simulation.entity.Entity;
+import simulation.process.behavior.CanFireBehavior;
 import simulation.process.behavior.NextSequence;
 import simulation.queue.Queue;
 
@@ -13,7 +14,8 @@ public abstract class SequenceObject {
 	private Process_Priority processPriority;
 	private Queue queue;
 	LinkedList<NextSequence> linkedSequenceObjects = new LinkedList<NextSequence>();
-	Entity currentEntity;
+	private CanFireBehavior canFireBehavior;
+
 
 	
 	public SequenceObject(String ID, Process_Priority processPriority)
@@ -89,8 +91,5 @@ public abstract class SequenceObject {
 		currentEntity = GetNextEntityFromQueue();
 	}
 	
-	public void SetCurrentEntityToNull()
-	{
-		currentEntity = null;
-	}
+
 }
