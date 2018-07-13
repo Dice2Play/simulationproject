@@ -16,7 +16,10 @@ public class ReleaseProcessCommand implements Command{
 	public void Execute() {
 		
 		// Release resources
-		currentProcess.seizedResources.forEach(x -> x.Release());
+		currentProcess.GetSeizedResources().forEach(x -> x.Release());
+		
+		// Update processing time for entity
+		currentProcess.GetCurrentEntity().UpdateProcessingTime(currentProcess.GetProcessTime());
 		
 		// Set next process + Release entity
 		currentProcess.SetNextSequenceObjectForEntity();

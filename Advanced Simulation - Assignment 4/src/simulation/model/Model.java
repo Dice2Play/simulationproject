@@ -6,7 +6,8 @@ import simulation.resource.Assistant;
 import simulation.resource.CashRegister;
 import simulation.resource.Cleaner;
 import simulation.resource.CleaningSpot;
-import simulation.resource.ParkingSpot;
+import simulation.resource.ParkingSpotNotReserved;
+import simulation.resource.ParkingSpotReserved;
 import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
 import simulation.result.ResultManager;
@@ -16,6 +17,7 @@ import simulation.entity.EntityManager;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
 import simulation.process.Decision;
+import simulation.process.Initiator;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
 import simulation.process.Termination;
@@ -44,8 +46,9 @@ public class Model {
 		for(int index = 1; index < 11; index++) {new CleaningSpot(String.format("CLEANING_SPOT_%d", index));}
 						
 		// Add parking spots
-		for(int index = 1; index < 26; index++) {new ParkingSpot(String.format("PARKING_SPOT_%d", index));}
-
+		for(int index = 1; index < 21; index++) {new ParkingSpotNotReserved(String.format("NOT_RESERVED_PARKING_SPOT_%d", index));}
+		for(int index = 1; index < 6; index++) {new ParkingSpotReserved(String.format("RESERVED_PARKING_SPOT_%d", index));}
+		
 		// Add employees
 		for(int index = 1; index < 4; index++) {new Assistant(String.format("ASSISTANT_%d", index));}
 		for(int index = 1; index < 4; index++) {new Cleaner(String.format("CLEANER_%d", index));}
@@ -58,29 +61,30 @@ public class Model {
 		double PROBABILITY_LONG_CLEANING = 0.707;
 		
 		// Create references
-		Queue queue1, queue2, queue3;
+		
+			// Initiators
+		Initiator initiator = new Initiator("Initiator");
 		
 			// Decisions
 		Decision shortOrLongCleaning = new Decision("DECISION: LONG OR SHORT CLEANING");
 		
 			// Processes
-		Process process1,process2;
-		process1 = new Process("LONG CLEANING CAR", 10.0/60.0);
-		process2 = new Process("SHORT CLEANING CAR", 20.0/60.0);
+		Process process1 = new Process("SHORT CLEANING CAR", 10.0/60.0);
+		Process process2 = new Process("LONG CLEANING CAR", 20.0/60.0);
 		
 			// Terminators
 		Termination termination1 = new Termination("End of the line baby");
 		
-		
 			// Queue's
-		queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE");
-		queue2 = new Queue("CLEAN CAR QUEUE");
-		queue3 = new Queue("Termination queue");
+		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE");
+		Queue queue2 = new Queue("CLEAN CAR QUEUE");
+		Queue queue3 = new Queue("Termination queue");
 		
 		// Set decisions
 		shortOrLongCleaning.AddNextSequenceLink(new NextSequenceWithChance(process1, PROBABILITY_SHORT_CLEANING));
 		shortOrLongCleaning.AddNextSequenceLink(new NextSequenceWithChance(process2, PROBABILITY_LONG_CLEANING));
 		shortOrLongCleaning.SetQueue(queue1);
+		
 		
 		// Set processes
 		process1.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
@@ -112,11 +116,16 @@ public class Model {
 	public void Report()
 	{
 		// Retrieve info from entity manager
+		double meanLeftRate = EntityManager.GetInstance().GetLeftRate();
+		double meanWaitingRateUnder6Hours = EntityManager.GetInstance().GetWaitingTimeUnder6Hours();
+		double meanCallsUnder2TimesCleaningTime = EntityManager.GetInstance().GetCallsUnder2TimesCleaningTime();
+		double meanProcessingTime = EntityManager.GetInstance().GetProcessingTime();
 		
-		//ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
-		//ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
-		//ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
-		//ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
+		
+		ResultManager.GetInstance().SetMeanCallsUnder2TimesCleaningTime(meanCallsUnder2TimesCleaningTime);
+		ResultManager.GetInstance().SetMeanLeftRate(meanLeftRate);
+		ResultManager.GetInstance().SetMeanWaitingRateUnder6Hours(meanWaitingRateUnder6Hours);
+		ResultManager.GetInstance().SetMeanProcessingTime(meanProcessingTime);
 	}
 	
 	public void Run()

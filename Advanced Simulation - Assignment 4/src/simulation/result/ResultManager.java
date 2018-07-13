@@ -44,14 +44,14 @@ public class ResultManager {
 
 	public void PrintResults()
 	{
-		System.out.println("=================== PRINT RESULTS OF RUN =====================");
+		System.out.println("\n=================== PRINT RESULTS OF RUN =====================");
 		
 		System.out.printf("%1$-50s %2$.2f \n", "MEAN LEFT RATE", GetMeanLeftRate());
 		System.out.printf("%1$-50s %2$.2f \n", "MEAN WAITING RATE UNDER 6 HOURS", GetMeanWaitingTimeUnder6Hours());
 		System.out.printf("%1$-50s %2$.2f \n", "MEAN CALLS UNDER 2x CLEANING TIME", GetMeanCallsUnder2XCleaningTime());
 		System.out.printf("%1$-50s %2$.2f \n", "MEAN PROCESSING TIME", GetMeanProcessingTimeOfCars());
 		
-		System.out.println("==============================================================");
+		System.out.println("==============================================================\n");
 	}
 	
  
@@ -59,7 +59,7 @@ public class ResultManager {
 	 * the people left divide the total entities appear in the system per run 
 	 * @return
 	 */
-	 public double GetMeanLeftRate()
+	 private double GetMeanLeftRate()
 	 {
 		 return meanLeftRate;
 	 }
@@ -68,7 +68,7 @@ public class ResultManager {
 	  * arrivalTime- call time(in 1 day)<6  in 2 days need to check as well, first check wether in 1 day or not.
 	  * @return
 	  */
-	 public double GetMeanWaitingTimeUnder6Hours()
+	 private double GetMeanWaitingTimeUnder6Hours()
 	 {
 		 return meanWaitingRateUnder6Hours;
 	 }
@@ -77,7 +77,7 @@ public class ResultManager {
 	  * if the cleaning time of car < (arrival time - call time)/2, add to the unsatisfied cs, otherwise add count to the satisfied cs.
 	  * @return the rate. 
 	  */
-	 public double GetMeanCallsUnder2XCleaningTime()
+	 private double GetMeanCallsUnder2XCleaningTime()
 	 {
 		 return meanCallsUnder2TimesCleaningTime;
 	 }
@@ -88,7 +88,7 @@ public class ResultManager {
 	  * the time from the customer drop the car till the car finished and left
 	  * @return the list of record for each car
 	  */
-	 public double GetMeanProcessingTimeOfCars()
+	 private double GetMeanProcessingTimeOfCars()
 	 {
 		 return meanProcessingTime;
 	 }

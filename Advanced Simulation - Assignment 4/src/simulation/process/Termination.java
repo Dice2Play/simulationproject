@@ -17,6 +17,7 @@ public class Termination extends SequenceObject {
 	public void Fire() throws Exception
 	{
 		super.Fire();
+		SetCurrentEntityToNull();
 	}
 	
 	

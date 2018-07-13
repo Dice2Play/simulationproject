@@ -16,7 +16,7 @@ import simulation.time.TimeManager;
 public class Process extends SequenceObject{
 
 	private List<Resource_Type> typeOfResourcesNeeded = new ArrayList<Resource_Type>();
-	ArrayList<Resource> seizedResources = new ArrayList<Resource>();
+	private ArrayList<Resource> seizedResources = new ArrayList<Resource>();
 	private double processTime;
 	private boolean isAvailable = true;
 
@@ -47,6 +47,10 @@ public class Process extends SequenceObject{
 		return isAvailable;
 	}
 	
+	ArrayList<Resource> GetSeizedResources()
+	{
+		return seizedResources;
+	}
 
 	private boolean AreResourcesAvailable()
 	{
@@ -103,6 +107,15 @@ public class Process extends SequenceObject{
 				
 	}
 	
+	double GetProcessTime()
+	{
+		return processTime;
+	}
+	
+	Entity GetCurrentEntity()
+	{
+		return currentEntity;
+	}
 
 	@Override
 	public void SetNextSequenceObjectForEntity() {
