@@ -5,21 +5,13 @@ import java.util.List;
 
 import simulation.entity.Entity;
 import simulation.interfaces.DoubleCommand;
-import simulation.interfaces.Tick_Listener;
-import simulation.process.behavior.CanFireBehavior;
-import simulation.process.behavior.CanFireEntity;
 import simulation.process.behavior.CanFireProcessResourceAndEntity;
-import simulation.process.behavior.DecisionFire;
-import simulation.process.behavior.NextSequenceBasedOnChance;
 import simulation.process.behavior.ProcessFire;
+import simulation.process.behavior.ProcessNextSequence;
 import simulation.process.behavior.RegularNextSequence;
-import simulation.queue.Queue;
 import simulation.resource.Resource;
 import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
-import simulation.time.Event_Type;
-import simulation.time.TimeEvent;
-import simulation.time.TimeManager;
 
 public class Process extends SequenceObject{
 
@@ -31,6 +23,7 @@ public class Process extends SequenceObject{
 	private boolean isUsingCommandForGeneratingProcessTime = false;
 	private DoubleCommand commandForGeneratingProcessTime;
 	private boolean hasAlreadyGeneratedGeneratingTime = false;
+	private Entity seizedEntity;
 	
 
 	
@@ -45,6 +38,7 @@ public class Process extends SequenceObject{
 		this.processTime = processTime;
 		fireBehavior = new ProcessFire(this);
 		canFireBehavior = new CanFireProcessResourceAndEntity(this);
+		nextSequenceBehavior = new ProcessNextSequence(this);
 		isUsingCommandForGeneratingProcessTime = false;
 	}
 	
@@ -54,7 +48,7 @@ public class Process extends SequenceObject{
 		this.commandForGeneratingProcessTime = commandForGeneratingProcessTime;
 		fireBehavior = new ProcessFire(this);
 		canFireBehavior = new CanFireProcessResourceAndEntity(this);
-		nextSequenceBehavior = new RegularNextSequence(this);
+		nextSequenceBehavior = new ProcessNextSequence(this);
 		isUsingCommandForGeneratingProcessTime = true;
 		
 	}
@@ -123,7 +117,8 @@ public class Process extends SequenceObject{
 	
 	private void SeizeEntity() {
 		try {
-			this.GetNextEntityFromQueue().Seize();
+			seizedEntity = GetNextEntityFromQueue();
+			seizedEntity.Seize();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -167,7 +162,7 @@ public class Process extends SequenceObject{
 
 	private void ReleaseEntity() 
 	{
-		try {GetNextEntityFromQueue().Release();}
+		try {GetSeizedEntity().Release();}
 		catch (Exception e) {e.printStackTrace();}
 	}
 
@@ -180,6 +175,12 @@ public class Process extends SequenceObject{
 	private void Reset()
 	{
 		if(isUsingCommandForGeneratingProcessTime) { hasAlreadyGeneratedGeneratingTime = false;}
+		seizedEntity = null;
+	}
+
+	public Entity GetSeizedEntity() {
+		
+		return seizedEntity;
 	}
 
 	
