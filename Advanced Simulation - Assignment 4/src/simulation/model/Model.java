@@ -16,21 +16,30 @@ import simulation.time.TimeManager;
 import simulation.entity.EntityManager;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
+import simulation.process.Action;
 import simulation.process.Decision;
 import simulation.process.DecisionBasedOnChance;
+import simulation.process.DecisionBasedOnCondition;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
 import simulation.process.Termination;
+import simulation.process.commands.IsParkingSpotFullBooleanCommand;
+import simulation.process.commands.IncrementAmountOfRejects;
 
 
 public class Model {
 
-	int amountOfDaysToRun;
-
+	final int AMOUNT_OF_DAYS_TO_RUN;
+	final int AMOUNT_OF_CASH_REGISTERS = 3;
+	final int AMOUNT_OF_CLEANING_SPOTS = 10;
+	final int AMOUNT_OF_NOT_RESERVED_PARKING_SPOT = 20;
+	final int AMOUNT_OF_RESERVED_PARKING_SPOT = 5;
+	final int AMOUNT_OF_CLEANERS = 3;
+	final int AMOUNT_OF_ASSISTANTS = 3;
 	
 	public Model(int amountOfDaysToRun)
 	{
-		this.amountOfDaysToRun = amountOfDaysToRun;
+		this.AMOUNT_OF_DAYS_TO_RUN = amountOfDaysToRun;
 		
 		// Generate model objects
 		GenerateResources();
@@ -40,18 +49,18 @@ public class Model {
 	public void GenerateResources()
 	{
 		// Add cash registers
-		for(int index = 1; index < 4; index++) {new CashRegister(String.format("CASH_REGISTER_%d", index));}
+		for(int index = 0; index < AMOUNT_OF_CASH_REGISTERS; index++) {new CashRegister(String.format("CASH_REGISTER_%d", index + 1));}
 				
 		// Add cleaning spots
-		for(int index = 1; index < 11; index++) {new CleaningSpot(String.format("CLEANING_SPOT_%d", index));}
+		for(int index = 0; index < AMOUNT_OF_CLEANING_SPOTS; index++) {new CleaningSpot(String.format("CLEANING_SPOT_%d", index + 1));}
 						
 		// Add parking spots
-		for(int index = 1; index < 21; index++) {new ParkingSpotNotReserved(String.format("NOT_RESERVED_PARKING_SPOT_%d", index));}
-		for(int index = 1; index < 6; index++) {new ParkingSpotReserved(String.format("RESERVED_PARKING_SPOT_%d", index));}
+		for(int index = 0; index < AMOUNT_OF_NOT_RESERVED_PARKING_SPOT; index++) {new ParkingSpotNotReserved(String.format("NOT_RESERVED_PARKING_SPOT_%d", index + 1));}
+		for(int index = 0; index < AMOUNT_OF_RESERVED_PARKING_SPOT; index++) {new ParkingSpotReserved(String.format("RESERVED_PARKING_SPOT_%d", index + 1));}
 		
 		// Add employees
-		for(int index = 1; index < 4; index++) {new Assistant(String.format("ASSISTANT_%d", index));}
-		for(int index = 1; index < 4; index++) {new Cleaner(String.format("CLEANER_%d", index));}
+		for(int index = 0; index < AMOUNT_OF_ASSISTANTS; index++) {new Assistant(String.format("ASSISTANT_%d", index + 1));}
+		for(int index = 0; index < AMOUNT_OF_CLEANERS; index++) {new Cleaner(String.format("CLEANER_%d", index + 1));}
 		
 	}
 		
@@ -71,7 +80,10 @@ public class Model {
 		// Create references
 				
 			// Decisions
+		DecisionBasedOnCondition isParkingLotFull = new DecisionBasedOnCondition("DECISION: IS PARKINGLOT FULL?", new IsParkingSpotFullBooleanCommand());
 		DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
+		
+		
 		
 			// Processes
 		Process process1 = new Process("SHORT CLEANING CAR", 10.0/60.0);
@@ -84,8 +96,20 @@ public class Model {
 		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE?");
 		Queue queue2 = new Queue("CLEAN CAR QUEUE");
 		Queue queue3 = new Queue("Termination QUEUE");
+		Queue queue4 = new Queue("DECISION: IS PARKING LOT FULL? QUEUE");
+		Queue queue5 = new Queue("Set entity to rejected action QUEUE ");
+		
+			// Actions
+		Action setEntityToRejected = new Action("Set entity to rejected action", new IncrementAmountOfRejects());
+		setEntityToRejected.SetQueue(queue5);
+		setEntityToRejected.AddNextSequenceLink(termination1);
 		
 		// Set decisions
+		isParkingLotFull.SetQueue(queue4);
+		isParkingLotFull.AddNextSequenceLink(setEntityToRejected);
+		isParkingLotFull.AddNextSequenceLink(shortOrLongCleaning);
+		
+		
 		shortOrLongCleaning.AddNextSequenceLink(process1);
 		shortOrLongCleaning.AddNextSequenceLink(process2);
 		shortOrLongCleaning.SetQueue(queue1);
@@ -106,9 +130,13 @@ public class Model {
 		// Set terminators
 		termination1.SetQueue(queue3);
 		
+		// Set actions
+		setEntityToRejected.SetQueue(queue5);
+		setEntityToRejected.AddNextSequenceLink(termination1);
+		
 		// Entity manager
 		// Set starting process
-		EntityManager.GetInstance().SetStartingSequenceObject(shortOrLongCleaning);
+		EntityManager.GetInstance().SetStartingSequenceObject(isParkingLotFull);
 		EntityManager.GetInstance().StartGenerating();
 		
 		
@@ -137,7 +165,7 @@ public class Model {
 	{
 		System.out.print("MODEL: RUN STARTED \n");
 		
-		while(TimeManager.GetInstance().GetCurrentDay() < amountOfDaysToRun)
+		while(TimeManager.GetInstance().GetCurrentDay() < AMOUNT_OF_DAYS_TO_RUN)
 		{
 			while(ProcessManager.GetInstance().CanFire())
 			{
