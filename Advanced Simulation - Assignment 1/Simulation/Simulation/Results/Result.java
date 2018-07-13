@@ -26,7 +26,7 @@ public class Result {
 		
 		for(IResultAttribute attribute : attributes)
 		{
-			stringToPrint.append(String.format(" %s : %.4f " , attribute.getID(), attribute.getValue()));
+			stringToPrint.append(String.format(" %s : %.6f " , attribute.getID(), attribute.getValue()));
 		}
 		
 		return stringToPrint.toString();

@@ -9,16 +9,34 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.DoubleUnaryOperator;
+import java.util.function.Function;
 
 import com.csvreader.CsvWriter;
 
 import Simulation.Interfaces.IResultAttribute;
+import Simulation.Model.Queue.Queue;
 import Simulation.Model.Time.TimeManager;
 
 public class ResultManager {
 
 	private static List<Result> results = new ArrayList<Result>(); 	
 	private static List<Double> replicationSummary = new ArrayList<Double>(); // csv uses
+	//for table use:
+	public static final List<Integer> xgRecord = new ArrayList<Integer>();
+	public static final List<Integer> x0Record = new ArrayList<Integer>();
+	public static final List<Integer> xfullRecord = new ArrayList<Integer>();
+	//collecting vehivle actuated case data labeled with 2, so the vairable above is not usefull anymore
+	public static final List<Integer> xgRecord2 = new ArrayList<Integer>();
+	public static final List<Integer> x0Record2 = new ArrayList<Integer>();
+	//testing counter
+	private static int counter0;
+	private static int counterg;
+	//for varacance
+	public static final List<Double> xgRecordAvgPerRun = new ArrayList<Double>();
+	public static final List<Double> x0RecordAvgPerRun = new ArrayList<Double>();
+	public static final List<Double> xfullRecordAvgPerRun = new ArrayList<Double>();
+	public static final List<Double> delayAvgPerRun = new ArrayList<Double>();
 	
 	private static int currentReplication;
 	//private static final String outputDirectory;
@@ -120,12 +138,201 @@ public class ResultManager {
 	        
 		}
 		
-	
+	//	printCounterG(counterg);
+	//	printCounter0(counter0);
+		
 		
 		
 	}
+	public static void printCounterG(int counter)
+	{
+		System.out.print("counter Xg is "+ counter+"\n");
+	}
+	public static void printCounter0(int counter)
+	{
+		System.out.print("counter X0 is "+ counter +"\n");
+	}
 	
 	
+	public static void setCounter0(int c)
+	{
+		counter0 = c;
+	}
+	public static void setCounterg(int c)
+	{
+		counterg = c;
+	}
+   //get the average waiting time the whole simulation
+	//duplicated method, used for testing 
+	public static Double calculateAvgWaitingTime()
+	{                       
+	  return Queue.waitingTimeRecord.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	/******************************Table of expected values and probability for question1,2*******************/
+	//Expected Xg
+	public static Double getExpectedValueXg()
+	{
+		return xgRecord.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	//Expected Expected g ^2
+	public static Double getExpectedValueXg2nd()
+	{
+		Function<Integer, Integer> square = x -> x * x;
+
+		return xgRecord.stream().map(square).mapToDouble(val -> val).average().orElse(0);
+	}
+	//Expected value of X0
+	public static Double getExpectedValueX0()
+	{
+		return x0Record.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	//E[x-]
+	public static Double getExpectedValueofAvgQueuelength()
+	{
+		return xfullRecord.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	public static Double getExpectedDelay() 
+	{
+		return Queue.waitingTimeRecord.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	public static Double getExpectedDelay2nd()
+	{
+		Function<Double, Double> square = x -> x * x;
+
+		return Queue.waitingTimeRecord.stream().map(square).mapToDouble(val -> val).average().orElse(0);
+	}
+	public static Double getProbabilityX0is0()
+	{    double counter = 0;
+		 counter =  x0Record.stream().filter(record ->record.equals(0)).count();		 
+		return counter/x0Record.size();
+	}
+	public static Double getProbabilityXgis0()
+	{
+		double counter = 0;
+		counter =  xgRecord.stream().filter(record ->record.equals(0)).count();		 
+		return counter/xgRecord.size();
+	}
+	/******************************Variance and half-width*******************/
+	/**public static final List<Double> xgRecordAvgPerRun = new ArrayList<Double>();
+	public static final List<Double> x0RecordAvgPerRun = new ArrayList<Double>();
+	public static final List<Double> xfullRecordAvgPerRun = new ArrayList<Double>();
+	public static final List<Double> delayAvgPerRun = new ArrayList<Double>();
+	 * */
+	public static double getVarianceXg()
+	{
+		Function<Double, Double> differnce = x -> x- getExpectedValueXg();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = xgRecordAvgPerRun.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(xgRecordAvgPerRun.size()-1);
+	}
+	public static double getVarianceX0()
+	{
+		Function<Double, Double> differnce = x -> x- getExpectedValueX0();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = x0RecordAvgPerRun.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(x0RecordAvgPerRun.size()-1);
+	}
+	public static double getVarianceX()
+	{
+		//first get average per run
+		Function<Double, Double> differnce = x -> x- getExpectedValueofAvgQueuelength();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = xfullRecordAvgPerRun.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(xfullRecordAvgPerRun.size()-1);
+	}
+	public static double getVarianceDelay()
+	{
+		Function<Double, Double> differnce = x -> x- getExpectedDelay();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = delayAvgPerRun.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(delayAvgPerRun.size()-1);
+	}
+	/**
+	 * Get half width formula
+	 * @param varaince of each value
+	 * @param N is the total smaple number
+	 * @return upper and lower bound 95% confidence 
+	 */
+	public static double[] getlowerHigherBond(double mean, double varaince, double N)
+	{
+		double c = 1.96;
+		double half_width = c*Math.sqrt(varaince/N);
+		double upper = mean+half_width;
+		double lower = mean-half_width;
+		double[] myList = {upper, lower};
+	  return myList;
+	}
+	public static double[] get95ConfidenceX0()
+	{
+		return getlowerHigherBond(getExpectedValueX0(),getVarianceX0(),x0Record.size());
+	}
+	public static double[] get95ConfidenceXg()
+	{
+		return getlowerHigherBond(getExpectedValueXg(),getVarianceXg(),xgRecord.size());
+	}
+	public static double[] get95ConfidenceX()
+	{
+		return getlowerHigherBond(getExpectedValueofAvgQueuelength(),getVarianceX(),xfullRecord.size());
+	}
+	public static double[] get95ConfidenceDelay()
+	{
+		return getlowerHigherBond(getExpectedDelay(),getVarianceDelay(),Queue.waitingTimeRecord.size());
+	}
+	/******************All results method for Vehicle actuated q3 usage!*********************/
+	/******************************Table of expected values and probability*******************/
+	//Expected Xg
+	public static Double getExpectedValueXg2()
+	{
+		return xgRecord2.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	//Expected Expected g ^2
+	public static Double getExpectedValueXg2nd2()
+	{
+		Function<Integer, Integer> square = x -> x * x;
+
+		return xgRecord2.stream().map(square).mapToDouble(val -> val).average().orElse(0);
+	}
+	//Expected value of X0
+	public static Double getExpectedValueX02()
+	{
+		return x0Record2.stream().mapToDouble(val -> val).average().orElse(0);
+	}
+	//E[x-]
+	public static Double getProbabilityX0is02()
+	{    double counter = 0;
+		 counter =  x0Record2.stream().filter(record ->record.equals(0)).count();		 
+		return counter/x0Record2.size();
+	}
+	public static Double getProbabilityXgis02()
+	{
+		double counter = 0;
+		counter =  xgRecord2.stream().filter(record ->record.equals(0)).count();		 
+		return counter/xgRecord2.size();
+	}
+	/******************************Variance and half-width*******************/
+	public static double getVarianceXg2()
+	{
+		Function<Integer, Double> differnce = x -> x- getExpectedValueXg2();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = xgRecord2.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(xgRecord2.size()-1);
+	}
+	public static double getVarianceX02()
+	{
+		Function<Integer, Double> differnce = x -> x- getExpectedValueX02();
+		DoubleUnaryOperator square = x -> x * x;
+		Double top = x0Record2.stream().map(differnce).mapToDouble(val -> val).map(square).sum();
+		return top/(x0Record2.size()-1);
+	}
+	//
+	public static double[] get95ConfidenceX02()
+	{
+		return getlowerHigherBond(getExpectedValueX0(),getVarianceX0(),x0Record2.size());
+	}
+	public static double[] get95ConfidenceXg2()
+	{
+		return getlowerHigherBond(getExpectedValueXg(),getVarianceXg(),xgRecord2.size());
+	}
 
 	
 	/*****Write results to csv******/

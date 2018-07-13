@@ -33,27 +33,29 @@ public class QueueManager {
 	
 	public static void SeizeQueueObject(int seizeTime)
 	{
-		PriorityQueue<Queue> queuesByPriority = OrderQueuesByPriority();
 		
-	
-		for(Queue queue : queuesByPriority)
+		for(Queue queue : queues)
 		{
 			if(queue.HasNextQueueObject())
 			{
 				queue.SeizeFirstQueueObject(seizeTime);
+				
 				break;
 			}
 		}
+		//System.out.print("test for seize function: "+ queues.size()+"/n");
+		
 	}
 	
 
 	// Returns amount of spots seized
-	// Only use 
+	/** Only use 
 	public static int SeizeQueueObject(int seizeTime, int capacity) 
 	{
 		int amountOfSpotsTaken = 0;
 		PriorityQueue<Queue> queuesByPriority = OrderQueuesByPriority();
-		
+		System.out.print("test for seize function: "+ queuesByPriority.size()+"/n");
+
 		while(amountOfSpotsTaken <= capacity)
 		{
 	
@@ -85,7 +87,7 @@ public class QueueManager {
 		// if no spots could be filled
 		return 0;
 			
-	}
+	}*/
 		
 
 	public static void Reset() {
@@ -140,15 +142,17 @@ public class QueueManager {
 		{
 			queue = queues.get(r.nextInt(queues.size()));
 			
-			if(queue.HasNextQueueObject()) { hasValidQueue = true;}
+			if(queue.HasNextQueueObject()) 
+			{ hasValidQueue = true;}
 		}
-		
+	
 		// Get a random queueobject
 		QueueObject queueObject = queue.GetQueueObjectList().get(r.nextInt(queue.GetQueueObjectList().size()));
 		
 		// Get waiting time
 		return queueObject.GetWaitingTime();
 	}
+	
 	
 	public static HashMap<String,Double> GetTotalQueueLengthPerQueue()
 	{
@@ -175,7 +179,6 @@ public class QueueManager {
 	public static double GetTotalQueueLength()
 	{
 		double totalNumberOfPeopleWaiting = 0;
-		
 		for(Queue queue : queues)
 		{
 			for(QueueObject queueObject : queue.GetQueueObjectList())
@@ -183,9 +186,11 @@ public class QueueManager {
 				if(queueObject.IsAvailable())
 				{
 					totalNumberOfPeopleWaiting = totalNumberOfPeopleWaiting + queueObject.GetGroupSize();
+					
 				}
 				
 			}
+		
 		}
 		
 		return totalNumberOfPeopleWaiting;

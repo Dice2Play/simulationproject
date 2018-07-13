@@ -38,11 +38,11 @@ public class Result {
 		return stringToPrint.toString();
 	}
 	
-	double GetTimeStamp()
+	public double GetTimeStamp()
 	{
 		return timeStamp;
 	}
-	
+
 
 }
 

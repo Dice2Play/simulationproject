@@ -11,14 +11,16 @@ import Statistics.ExponentialDistribution;
 
 public class ContinuousGenerateBehavior extends  QueueGenerateBehavior{
 
-	private final int rate;
+	private final double rate;
 	
-	public ContinuousGenerateBehavior(String queueID, String queueObjectName, int rate, LinkedList<QueueObject> queueObjects)
+	public ContinuousGenerateBehavior(String queueID, String queueObjectName, double rate, LinkedList<QueueObject> queueObjects)
 	{
 		super(queueID, queueObjects, queueObjectName);
 		this.rate = rate;
 	}
-
+    /**
+     * Cards arrival in the continous time, we generate cars object in a continues generation way.
+     */
 	@Override
 	public void GenerateQueueObjects() {
 		

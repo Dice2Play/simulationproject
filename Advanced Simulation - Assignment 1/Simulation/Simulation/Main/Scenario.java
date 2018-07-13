@@ -1,7 +1,10 @@
 package Simulation.Main;
 
 
+import java.util.List;
+
 import Simulation.Model.*;
+import Simulation.Model.Queue.Queue;
 import Simulation.Results.ResultManager;
 
 public class Scenario {

@@ -20,8 +20,8 @@ public class RegularFireBehavior implements IProcessFireBehavior{
 	@Override
 	public void Fire() {
 		// Fire process
-		int resourceCapacityFilled = QueueManager.SeizeQueueObject(processTime, ResourceManager.GetCapacityOfResource(resourceTypeNeeded));
-		ResourceManager.SeizeResource(resourceTypeNeeded, resourceCapacityFilled, processTime, ID);
+//		int resourceCapacityFilled = QueueManager.SeizeQueueObject(processTime, ResourceManager.GetCapacityOfResource(resourceTypeNeeded));
+//		ResourceManager.SeizeResource(resourceTypeNeeded, resourceCapacityFilled, processTime, ID);
 		
 	}
 

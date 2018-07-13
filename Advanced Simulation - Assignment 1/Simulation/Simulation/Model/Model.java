@@ -9,7 +9,6 @@ import java.util.Set;
 import Simulation.Enums.Queue_Priority;
 import Simulation.Enums.Resource_Type;
 import  Simulation.Interfaces.*;
-import Simulation.Model.Queue.QueueManager;
 import Simulation.Model.Resource.ResourceManager;
 import Simulation.Model.Time.TimeManager;
 import Simulation.Results.DoubleResultAttribute;
@@ -49,8 +48,9 @@ public class Model implements Tick_Listener {
 
 		
 		// Queue's
-		QueueManager.AddQueue(new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE"));
-		QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));
+		QueueManager.AddQueue(new Queue(Queue_Priority.High, 1,8, "BOAT_GROUP_QUEUE")); // multi group queue
+		
+		QueueManager.AddQueue(new Queue(Queue_Priority.Low, 1,1, "BOAT_SINGLE_QUEUE"));// single queue
 		
 		// Processes
 		ProcessManager.AddProcess(new Process("Boattrip", 1 , Resource_Type.BOAT));
@@ -65,14 +65,14 @@ public class Model implements Tick_Listener {
 			// Print amount of time units passed
 			TimeManager.PrintAmountOfTimePassed();
 			
-
-			
 			// Check if ProcessManager can fire any process
 			// If so, fire processes
 			if(ProcessManager.CanFire()){ ProcessManager.Fire();}
 			
-			// Save results from previous timeUnit
+			
+			// Save results 
 			Report();
+			
 			
 			// increment timeUnit, such that:
 			// - subscribed resourceManager can release resources.
@@ -111,27 +111,32 @@ public class Model implements Tick_Listener {
 	{
 
 		// Retrieve values
-		//double waitingTimeArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomer();
-		//double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
+		double totalQueuelength =  QueueManager.GetTotalQueueLength(); // Total number of people waiting
 		double meanBoatOccupancy = ResourceManager.GetResourceOccupancy();
-		
 		HashMap<String,Double> totalQueueLengthPerQueue = QueueManager.GetTotalQueueLengthPerQueue();
-		HashMap<String,Double> waitingTimesArbitraryCustomer = QueueManager.GetWaitingTimeArbitraryCustomerPerQueue();
-	
+
 		
 		// Add values to result
 		Result result = new Result();
 		
+		result.AddAttribute(new DoubleResultAttribute(meanBoatOccupancy, "Mean boat occupancy"));
+		result.AddAttribute(new DoubleResultAttribute(totalQueuelength, "totalQueuelength"));
+
+		
+
+		/*
 		// waitingTimeArbitraryCustomr -- Hashmap for multiple queue's 
 	    Set waitingTimesArbitraryCustomerSet = waitingTimesArbitraryCustomer.entrySet();
 	    Iterator waitingTimesArbitraryCustomerSetIterator = waitingTimesArbitraryCustomerSet.iterator();
 	    
 	    
-		while(waitingTimesArbitraryCustomerSetIterator.hasNext())
+		 while(waitingTimesArbitraryCustomerSetIterator.hasNext())
 		{
 			Map.Entry me = (Map.Entry)waitingTimesArbitraryCustomerSetIterator.next();			
 			result.AddAttribute(new DoubleResultAttribute((Double) me.getValue(), String.format("%s: Waiting time arbitrary customer ", me.getKey())));
 		}
+		
+		*/
 		
 		// totalQueueLengthPerQueue -- Hashmap for multiple queue's 
 	    Set totalQueueLengthSet = totalQueueLengthPerQueue.entrySet();
@@ -147,10 +152,9 @@ public class Model implements Tick_Listener {
 		
 		
 		
-		result.AddAttribute(new DoubleResultAttribute(meanBoatOccupancy, "Mean boat occupancy"));
+			
 		
-			
-			
+		
 			
 		// Add result to resultManager
 		ResultManager.AddResults(result);

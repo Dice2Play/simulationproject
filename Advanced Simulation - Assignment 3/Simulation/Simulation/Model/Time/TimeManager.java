@@ -101,6 +101,8 @@ public class TimeManager  {
 	{
 		tickListeners = new ArrayList<Tick_Listener>();
 		timeUnitsPassed = 0;
+		state = TimeManager_State.FIRE_ALL;
+		events = new LinkedList<TimeEvent>();	
 	}
 	
 	// Add subscriber to tick event

@@ -9,6 +9,9 @@ import java.util.Random;
 import Simulation.Enums.Queue_Priority;
 import Simulation.Interfaces.Tick_Listener;
 import Simulation.Model.Time.TimeManager;
+import Simulation.Results.DoubleResultAttribute;
+import Simulation.Results.Result;
+import Simulation.Results.ResultManager;
 import Statistics.ArtificialDistribution;
 
 public class Queue{
@@ -16,6 +19,7 @@ public class Queue{
 	private final Queue_Priority queueingPriority;
 	private final int maxGroupSize;
 	private final String queueID;
+	private final static List<Double> waitingTime = new ArrayList<Double>();
 	
 	
 	private LinkedList<QueueObject> groupsInQueue = new LinkedList<QueueObject>();
@@ -35,9 +39,29 @@ public class Queue{
 		// Seize
 		firstQueueObject.SeizeQueueObject(amountOfTimeToSeize);
 		
+		// Add result to result manager
+		int amountOfPeople = firstQueueObject.GetGroupSize();
+		double waitingTime = firstQueueObject.GetWaitingTime();
+		Result result = new Result();
+		
+		for(int index = 0; index < amountOfPeople; index++)
+		{
+			
+			result.AddAttribute(new DoubleResultAttribute(waitingTime, "Waiting Time"));
+			result.AddAttribute(new DoubleResultAttribute(waitingTime, queueID + " Waiting Time"));
+			
+			
+		}
+		
+		
+		// Add result to resultManager
+		ResultManager.AddResults(result);
+		
+		
 		// Remove from list
 		groupsInQueue.remove(firstQueueObject);		
 	}
+	
 	
 	Queue_Priority GetQueuePriority()
 	{
@@ -85,6 +109,9 @@ public class Queue{
 	{
 		return groupsInQueue;
 	}
-	
+	  public static List<Double> getWaitingTimeRecord()
+	 {
+		 return waitingTime;
+	 }
 	
 }
