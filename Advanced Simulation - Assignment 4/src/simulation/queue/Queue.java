@@ -64,4 +64,9 @@ public class Queue {
 		entities.remove(entityToRemove);
 	}
 	
+	public void RemoveFirstEntityFromQueue()
+	{
+		entities.removeFirst();
+	}
+	
 }

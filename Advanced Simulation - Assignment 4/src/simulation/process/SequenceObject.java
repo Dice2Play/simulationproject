@@ -19,7 +19,7 @@ public abstract class SequenceObject {
 	
 	protected CanFireBehavior canFireBehavior;
 	protected FireBehavior fireBehavior;
-	protected NextSequenceBehavior nextSequenceBehavior;
+	private NextSequenceBehavior nextSequenceBehavior;
 	
 
 	
@@ -52,7 +52,7 @@ public abstract class SequenceObject {
 		this.queue = queue;
 	}
 	
-	boolean IsThereANextEntityFromQueue()
+	public boolean IsThereANextEntityFromQueue()
 	{
 		return queue.IsThereAnAvailableEntityInQueue();
 	}
@@ -63,7 +63,7 @@ public abstract class SequenceObject {
 	 * @return
 	 * @throws Exception 
 	 */
-	Entity GetNextEntityFromQueue() throws Exception
+	public Entity GetNextEntityFromQueue() throws Exception
 	{
 		return queue.GetFirstAvailableEntity();
 	}
@@ -89,6 +89,21 @@ public abstract class SequenceObject {
 	public void Fire()
 	{
 		fireBehavior.Fire();
+	}
+	
+	public LinkedList<SequenceObject> GetLinkedSequenceObjects()
+	{
+		return linkedSequenceObjects;
+	}
+
+	public NextSequenceBehavior GetNextSequenceBehavior() {
+		return nextSequenceBehavior;
+	}
+
+
+	public void RemoveFirstEntityFromQueue()
+	{
+		queue.RemoveFirstEntityFromQueue();
 	}
 	
 

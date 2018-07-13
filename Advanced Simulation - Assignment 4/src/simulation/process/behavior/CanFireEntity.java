@@ -1,5 +1,20 @@
 package simulation.process.behavior;
 
-public class CanFireEntity {
+import simulation.process.SequenceObject;
+
+public class CanFireEntity extends CanFireBehavior{
+
+	private SequenceObject sequenceObject;
+	
+	public CanFireEntity(SequenceObject seqObject)
+	{
+		this.sequenceObject = seqObject;
+	}
+	
+	@Override
+	public boolean CanFire() {
+		
+		return sequenceObject.CanFire();
+	}
 
 }

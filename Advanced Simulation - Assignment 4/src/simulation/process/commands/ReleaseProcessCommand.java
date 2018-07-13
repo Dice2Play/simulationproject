@@ -1,6 +1,7 @@
-package simulation.process;
+package simulation.process.commands;
 
 import simulation.interfaces.Command;
+import simulation.process.Process;
 
 public class ReleaseProcessCommand implements Command{
 
@@ -15,11 +16,13 @@ public class ReleaseProcessCommand implements Command{
 	@Override
 	public void Execute() {
 		
-		// Release resources
-		currentProcess.GetSeizedResources().forEach(x -> x.Release());
+		// Release 
+		currentProcess.Release();
+		
+		
 		
 		// Update processing time for entity
-		currentProcess.GetCurrentEntity().UpdateProcessingTime(currentProcess.GetProcessTime());
+		currentProcess.GetNextEntityFromQueue().UpdateProcessingTime(currentProcess.GetProcessTime());
 		
 		// Set next process + Release entity
 		currentProcess.SetNextSequenceObjectForEntity();
