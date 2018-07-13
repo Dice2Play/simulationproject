@@ -16,21 +16,24 @@ public class ReleaseProcessCommand implements Command{
 	@Override
 	public void Execute() {
 		
-		// Release 
-		currentProcess.Release();
+		try
+		{
+			// Update processing time for entity
+			currentProcess.GetNextEntityFromQueue().UpdateProcessingTime(currentProcess.GetProcessTime());
+			
+			// Set next process + Release entity
+			currentProcess.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
+			
+			// Set process available again for further firing
+			currentProcess.Release();
+			
+		}
 		
-		
-		
-		// Update processing time for entity
-		currentProcess.GetNextEntityFromQueue().UpdateProcessingTime(currentProcess.GetProcessTime());
-		
-		// Set next process + Release entity
-		currentProcess.SetNextSequenceObjectForEntity();
-		
-		// Set process available again for further firing
-		currentProcess.SetIsAvailable(true);
-		currentProcess.SetCurrentEntityToNull();
-		
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+				
 	}
 
 	

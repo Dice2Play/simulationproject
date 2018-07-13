@@ -7,8 +7,12 @@ import simulation.entity.Entity;
 import simulation.interfaces.DoubleCommand;
 import simulation.interfaces.Tick_Listener;
 import simulation.process.behavior.CanFireBehavior;
+import simulation.process.behavior.CanFireEntity;
 import simulation.process.behavior.CanFireProcessResourceAndEntity;
+import simulation.process.behavior.DecisionFire;
+import simulation.process.behavior.NextSequenceBasedOnChance;
 import simulation.process.behavior.ProcessFire;
+import simulation.process.behavior.RegularNextSequence;
 import simulation.queue.Queue;
 import simulation.resource.Resource;
 import simulation.resource.ResourceManager;
@@ -21,7 +25,7 @@ public class Process extends SequenceObject{
 
 	private List<Resource_Type> typeOfResourcesNeeded = new ArrayList<Resource_Type>();
 	private ArrayList<Resource> seizedResources = new ArrayList<Resource>();
-	private double lastUsedProcessTime;
+	private double generatedProcessTime;
 	private double processTime;
 	private boolean isAvailable = true;
 	private boolean isUsingCommandForGeneratingProcessTime = false;
@@ -50,6 +54,7 @@ public class Process extends SequenceObject{
 		this.commandForGeneratingProcessTime = commandForGeneratingProcessTime;
 		fireBehavior = new ProcessFire(this);
 		canFireBehavior = new CanFireProcessResourceAndEntity(this);
+		nextSequenceBehavior = new RegularNextSequence(this);
 		isUsingCommandForGeneratingProcessTime = true;
 		
 	}
@@ -91,10 +96,19 @@ public class Process extends SequenceObject{
 	public double GetProcessTime()
 	{
 		// If static (not using generating command) return processTime
-		if(!)
+		if(!isUsingCommandForGeneratingProcessTime) {return processTime;}
 		
-		
-		return processTime;
+		else
+		{ 
+			// check if already an time has been generated
+			if(!hasAlreadyGeneratedGeneratingTime)
+			{
+				generatedProcessTime = commandForGeneratingProcessTime.Execute();
+				hasAlreadyGeneratedGeneratingTime = true;
+			}
+			
+			return generatedProcessTime;
+		}
 	}
 	
 	/**

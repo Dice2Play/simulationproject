@@ -17,12 +17,12 @@ import simulation.entity.EntityManager;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
 import simulation.process.Decision;
-import simulation.process.Initiator;
+import simulation.process.DecisionBasedOnChance;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
 import simulation.process.Termination;
-import simulation.process.behavior.NextSequence;
-import simulation.process.behavior.NextSequenceWithChance;
+
+
 public class Model {
 
 	int amountOfDaysToRun;
@@ -57,16 +57,21 @@ public class Model {
 		
 	public void GenerateProcesses()
 	{
-		double PROBABILITY_SHORT_CLEANING = 0.293;
+		
+		/**
+		 * NOTE: When using condition decisions, the first set sequenceLink is used when the condition evaluates to true  
+		 */
+		
+		/**
+		 * NOTE: When using the defined probabilities below, add the processes (short and long) in the same order.
+		 */
+		double PROBABILITY_SHORT_CLEANING = 0.293; 
 		double PROBABILITY_LONG_CLEANING = 0.707;
 		
 		// Create references
-		
-			// Initiators
-		Initiator initiator = new Initiator("Initiator");
-		
+				
 			// Decisions
-		Decision shortOrLongCleaning = new Decision("DECISION: LONG OR SHORT CLEANING");
+		DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
 		
 			// Processes
 		Process process1 = new Process("SHORT CLEANING CAR", 10.0/60.0);
@@ -76,13 +81,13 @@ public class Model {
 		Termination termination1 = new Termination("End of the line baby");
 		
 			// Queue's
-		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE");
+		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE?");
 		Queue queue2 = new Queue("CLEAN CAR QUEUE");
-		Queue queue3 = new Queue("Termination queue");
+		Queue queue3 = new Queue("Termination QUEUE");
 		
 		// Set decisions
-		shortOrLongCleaning.AddNextSequenceLink(new NextSequenceWithChance(process1, PROBABILITY_SHORT_CLEANING));
-		shortOrLongCleaning.AddNextSequenceLink(new NextSequenceWithChance(process2, PROBABILITY_LONG_CLEANING));
+		shortOrLongCleaning.AddNextSequenceLink(process1);
+		shortOrLongCleaning.AddNextSequenceLink(process2);
 		shortOrLongCleaning.SetQueue(queue1);
 		
 		
@@ -90,13 +95,13 @@ public class Model {
 		process1.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
 		process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
 		process1.SetQueue(queue2);
-		process1.AddNextSequenceLink(new NextSequence(termination1));
+		process1.AddNextSequenceLink(termination1);
 		
 		
 		process2.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
 		process2.AddRequiredResource(Resource_Type.CLEANING_SPOT);
 		process2.SetQueue(queue2);
-		process2.AddNextSequenceLink(new NextSequence(termination1));
+		process2.AddNextSequenceLink(termination1);
 		
 		// Set terminators
 		termination1.SetQueue(queue3);

@@ -1,5 +1,7 @@
 package simulation.process;
 
+import simulation.process.behavior.CanFireEntity;
+import simulation.process.behavior.DecisionFire;
 import simulation.process.behavior.NextSequenceBasedOnChance;
 
 public class DecisionBasedOnChance extends Decision{
@@ -9,7 +11,9 @@ public class DecisionBasedOnChance extends Decision{
 	
 	public DecisionBasedOnChance(String ID, double chanceForFirstSequenceLink, double chanceForSecondSequenceLink) {
 		super(ID);
-		setNextSequenceBehavior(new NextSequenceBasedOnChance(this));
+		nextSequenceBehavior = new NextSequenceBasedOnChance(this);
+		canFireBehavior = new CanFireEntity(this);
+		fireBehavior = new DecisionFire(this);
 		this.chanceForFirstSequenceLink = chanceForFirstSequenceLink;
 		this.chanceForSecondSequenceLink = chanceForSecondSequenceLink;
 	}

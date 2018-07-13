@@ -19,7 +19,7 @@ public abstract class SequenceObject {
 	
 	protected CanFireBehavior canFireBehavior;
 	protected FireBehavior fireBehavior;
-	private NextSequenceBehavior nextSequenceBehavior;
+	protected NextSequenceBehavior nextSequenceBehavior;
 	
 
 	
