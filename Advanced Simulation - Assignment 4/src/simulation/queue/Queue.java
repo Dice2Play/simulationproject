@@ -6,6 +6,7 @@ import java.util.List;
 
 import simulation.entity.Entity;
 import simulation.process.ProcessManager;
+import simulation.process.SequenceObject;
 
 public class Queue {
 
@@ -48,11 +49,11 @@ public class Queue {
 	 * @return
 	 * @throws Exception 
 	 */
-	public Entity GetFirstAvailableEntity() throws Exception
+	public Entity GetFirstAvailableEntityForSpecifiedSequenceObject(SequenceObject seqObj) throws Exception
 	{
 		for(Entity entity : entities)
 		{
-			if(entity.IsAvailable()) {return entity;}
+			if(entity.IsAvailable() && entity.GetCurrentSequenceObject().equals(seqObj)) {return entity;}
 		}
 		
 		// Throw exception
@@ -67,6 +68,11 @@ public class Queue {
 	public void RemoveFirstEntityFromQueue()
 	{
 		entities.removeFirst();
+	}
+	
+	public boolean IsNextEntityMeantForSequenceObject(SequenceObject seqObj)
+	{
+		return entities.getFirst().GetCurrentSequenceObject().equals(seqObj);
 	}
 	
 }

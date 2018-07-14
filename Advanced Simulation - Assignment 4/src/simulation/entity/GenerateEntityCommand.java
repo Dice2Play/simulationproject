@@ -22,6 +22,9 @@ public class GenerateEntityCommand implements Command
 			// Register entity to ENTITYMANAGER
 			EntityManager.GetInstance().RegisterEntity(entityToAdd);
 			
+			// Set starting process for entity
+			entityToAdd.SetCurrentSequenceObject(startingSequenceObjectWhereEntityNeedsToBeAddedTo);
+			
 			// Add entity to PROCESS
 			startingSequenceObjectWhereEntityNeedsToBeAddedTo.AddEntityToQueue(entityToAdd);
 			

@@ -11,7 +11,7 @@ public class CanFireProcessResourceAndEntity extends CanFireBehavior{
 	
 	@Override
 	public boolean CanFire() {
-		return process.AreResourcesAvailable() && process.IsAvailable() && process.IsThereANextEntityFromQueue();
+		return process.AreResourcesAvailable() && process.IsAvailable() && process.IsThereANextEntityFromQueueForCurrentProcess();
 	}
 
 }
