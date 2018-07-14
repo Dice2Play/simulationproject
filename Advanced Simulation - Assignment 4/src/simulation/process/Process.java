@@ -175,12 +175,20 @@ public class Process extends SequenceObject{
 	private void Reset()
 	{
 		if(isUsingCommandForGeneratingProcessTime) { hasAlreadyGeneratedGeneratingTime = false;}
+		
 		seizedEntity = null;
 	}
 
 	public Entity GetSeizedEntity() {
 		
 		return seizedEntity;
+	}
+
+	@Override
+	public void Validate() throws Exception {
+		if(typeOfResourcesNeeded.isEmpty()) { throw new Exception(String.format("VALIDATE MODEL ERROR: No resource has been set for %s", this.GetID()));}
+		if(GetLinkedSequenceObjects().size() != 1){throw new Exception(String.format("VALIDATE MODEL ERROR: Exactly 1 Sequence Link need to be set for %s", this.GetID()));}
+		
 	}
 
 	

@@ -24,4 +24,11 @@ public class Action extends SequenceObject{
 		return commandToExecute;
 	}
 
+	@Override
+	public void Validate() throws Exception {
+		if(GetLinkedSequenceObjects().size() != 1){throw new Exception(String.format("VALIDATE MODEL ERROR: Exactly 1 Sequence Link need to be set for %s", this.GetID()));}
+		if(GetQueue() == null) {throw new Exception(String.format("VALIDATE MODEL ERROR: No Queue has been set for %s", this.GetID()));}
+		
+	}
+
 }

@@ -44,8 +44,26 @@ public class Model {
 		// Generate model objects
 		GenerateResources();
 		GenerateProcesses();
+		
+		// Validate model
+		Validate();
 	}
 	
+	private void Validate() {
+		
+		try
+		{
+			EntityManager.GetInstance().Validate();
+			ProcessManager.GetInstance().Validate();
+		}
+		
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+	}
+
 	public void GenerateResources()
 	{
 		// Add cash registers
@@ -86,8 +104,8 @@ public class Model {
 		
 		
 			// Processes
-		Process process1 = new Process("SHORT CLEANING CAR", 10.0/60.0);
-		Process process2 = new Process("LONG CLEANING CAR", 20.0/60.0);
+		Process process1 = new Process("SHORT CLEANING CAR", 60.0/60.0);
+		Process process2 = new Process("LONG CLEANING CAR", 60.0/60.0);
 		
 			// Terminators
 		Termination termination1 = new Termination("End of the line baby");
@@ -101,8 +119,7 @@ public class Model {
 		
 			// Actions
 		Action setEntityToRejected = new Action("Set entity to rejected action", new IncrementAmountOfRejects());
-		setEntityToRejected.SetQueue(queue5);
-		setEntityToRejected.AddNextSequenceLink(termination1);
+
 		
 		// Set decisions
 		isParkingLotFull.SetQueue(queue4);
@@ -131,20 +148,17 @@ public class Model {
 		termination1.SetQueue(queue3);
 		
 		// Set actions
-		setEntityToRejected.SetQueue(queue5);
 		setEntityToRejected.AddNextSequenceLink(termination1);
+		setEntityToRejected.SetQueue(queue5);
 		
 		// Entity manager
 		// Set starting process
-		EntityManager.GetInstance().SetStartingSequenceObject(isParkingLotFull);
-		EntityManager.GetInstance().StartGenerating();
-		
-		
-
-		
+		//EntityManager.GetInstance().SetStartingSequenceObject(isParkingLotFull);
+		EntityManager.GetInstance().StartGenerating();		
 	}
+	
 	/**
-	 * Call this method when the run is finished
+	 * Call this method when the run is finished, to get statistics about the run.
 	 */
 	public void Report()
 	{

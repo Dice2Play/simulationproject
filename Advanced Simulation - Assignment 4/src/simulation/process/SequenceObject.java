@@ -106,5 +106,12 @@ public abstract class SequenceObject {
 		queue.RemoveFirstEntityFromQueue();
 	}
 	
+	public Queue GetQueue()
+	{
+		return queue;
+	}
+
+	public abstract void Validate() throws Exception;
+	
 
 }

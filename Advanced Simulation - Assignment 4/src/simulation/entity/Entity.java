@@ -13,6 +13,7 @@ public class Entity {
 	private double pickUpTime;
 	private double calledTime;
 	private double cleaningTime;
+	private boolean isFinished; // means it got fired by a terminate sequence object
 	
 	private double processingTime;
 	private boolean isRejected;
@@ -78,6 +79,16 @@ public class Entity {
 	public void UpdateProcessingTime(double amountOfTimeToAdd)
 	{
 		processingTime+= amountOfTimeToAdd;
+	}
+	
+	public void SetFinished()
+	{
+		isFinished = true;
+	}
+	
+	public boolean IsFinished()
+	{
+		return isFinished;
 	}
 	
 }
