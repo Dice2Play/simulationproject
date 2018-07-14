@@ -14,7 +14,7 @@ public class CanFireEntity extends CanFireBehavior{
 	@Override
 	public boolean CanFire() {
 		
-		return sequenceObject.IsThereANextEntityFromQueue();
+		return sequenceObject.IsThereANextEntityFromQueueForCurrentProcess();
 	}
 
 }

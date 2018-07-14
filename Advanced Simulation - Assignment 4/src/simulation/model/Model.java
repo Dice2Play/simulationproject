@@ -13,6 +13,13 @@ import simulation.resource.Resource_Type;
 import simulation.result.ResultManager;
 import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
+
+import java.util.Random;
+
+import Statistics.Distribution;
+import Statistics.GammaDistribution;
+import Statistics.NormalDistribution;
+import Statistics.PoissonDistribution;
 import simulation.entity.EntityManager;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
@@ -22,8 +29,10 @@ import simulation.process.DecisionBasedOnChance;
 import simulation.process.DecisionBasedOnCondition;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
+import simulation.process.Process_Priority;
 import simulation.process.Termination;
 import simulation.process.commands.IsParkingSpotFullBooleanCommand;
+import simulation.process.commands.GenerateProcessingTimeAccordingToDistributionCommand;
 import simulation.process.commands.IncrementAmountOfRejects;
 
 
@@ -36,6 +45,22 @@ public class Model {
 	final int AMOUNT_OF_RESERVED_PARKING_SPOT = 5;
 	final int AMOUNT_OF_CLEANERS = 3;
 	final int AMOUNT_OF_ASSISTANTS = 3;
+	
+	final double PROBABILITY_SHORT_CLEANING = 0.293; 
+	final double PROBABILITY_LONG_CLEANING = 0.707;
+	
+	
+	// Short cleaning normal distribution parameters
+	final  double SHORT_CLEANING_NORMAL_SD_DEVIATION = 11.7;
+	final  double SHORT_CLEANING_NORMAL_MEAN = 11.7;
+	final  Distribution SHORT_CLEANING_NORMAL_DISTRIBUTION = new NormalDistribution(SHORT_CLEANING_NORMAL_SD_DEVIATION, SHORT_CLEANING_NORMAL_MEAN, new Random());
+	
+	
+	// Long cleaning chi-square distribution parameters
+	final  double LONG_CLEANING_GAMMA_MEAN = 191;
+	final  double LONG_CLEANING_GAMMA_DEVIATION  = 24;	
+	final  Distribution LONG_CLEANING_NORMAL_DISTRIBUTION = new GammaDistribution(LONG_CLEANING_GAMMA_MEAN, LONG_CLEANING_GAMMA_DEVIATION, new Random());
+	
 	
 	public Model(int amountOfDaysToRun)
 	{
@@ -92,8 +117,12 @@ public class Model {
 		/**
 		 * NOTE: When using the defined probabilities below, add the processes (short and long) in the same order.
 		 */
-		double PROBABILITY_SHORT_CLEANING = 0.293; 
-		double PROBABILITY_LONG_CLEANING = 0.707;
+
+		/**
+		 * =======================================================================================================
+		 * 											EXAMPLE BELOW
+		 * =======================================================================================================
+		 */
 		
 		// Create references
 				
@@ -104,8 +133,8 @@ public class Model {
 		
 		
 			// Processes
-		Process process1 = new Process("SHORT CLEANING CAR", 60.0/60.0);
-		Process process2 = new Process("LONG CLEANING CAR", 60.0/60.0);
+		Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
+		Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
 		
 			// Terminators
 		Termination termination1 = new Termination("End of the line baby");
@@ -153,7 +182,7 @@ public class Model {
 		
 		// Entity manager
 		// Set starting process
-		//EntityManager.GetInstance().SetStartingSequenceObject(isParkingLotFull);
+		EntityManager.GetInstance().SetStartingSequenceObject(isParkingLotFull);
 		EntityManager.GetInstance().StartGenerating();		
 	}
 	

@@ -19,21 +19,10 @@ import simulation.time.TimeManager;
 public class EntityManager implements Tick_Listener{
 
 	static EntityManager entityManager = null;
-	
 	List<Entity> entities = new ArrayList<Entity>();
 	SequenceObject startingSequenceObject;
 	private double amountOfRejects;
-	// Probability of customer takes Short or Long cleaning
 
-	
-	
-	// Short cleaning normal distribution parameters
-	//final  double SHORT_CLEANING_MEAN = 70.3;
-	//final  double SHORT_CLEANING_SD_DEVIATION = 11.7;
-	
-	// Long cleaning chi-square distribution parameters
-	//final  double LONG_CLEANING_MEAN = 191;
-	//final  double LONG_CLEANING_SD_DEVIATION  = 24;	
 	
 	// Transform time unit constant
 	final double TIME_UNIT_TRANSFORM_FACTOR = (1.0/60.0);

@@ -52,9 +52,14 @@ public abstract class SequenceObject {
 		this.queue = queue;
 	}
 	
-	public boolean IsThereANextEntityFromQueue()
+	/**
+	 * Checks whether there is an entity is in the queue and whether or not this entity is meant for this process
+	 * @return
+	 */
+	
+	public boolean IsThereANextEntityFromQueueForCurrentProcess()
 	{
-		return queue.IsThereAnAvailableEntityInQueue();
+		return queue.IsThereAnAvailableEntityInQueue() && queue.IsNextEntityMeantForSequenceObject(this);
 	}
 	
 	
@@ -65,7 +70,7 @@ public abstract class SequenceObject {
 	 */
 	public Entity GetNextEntityFromQueue() throws Exception
 	{
-		return queue.GetFirstAvailableEntity();
+		return queue.GetFirstAvailableEntityForSpecifiedSequenceObject(this);
 	}
 	
 	void RemoveEntityFromQueue(Entity entityToRemove)

@@ -9,6 +9,7 @@ import simulation.process.behavior.CanFireProcessResourceAndEntity;
 import simulation.process.behavior.ProcessFire;
 import simulation.process.behavior.ProcessNextSequence;
 import simulation.process.behavior.RegularNextSequence;
+import simulation.process.commands.GenerateProcessingTimeAccordingToDistributionCommand;
 import simulation.resource.Resource;
 import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
@@ -27,11 +28,7 @@ public class Process extends SequenceObject{
 	
 
 	
-	public Process(String ID, double processTime)
-	{
-		this(ID, Process_Priority.Normal, processTime);
-	}
-	
+
 	public Process(String ID, Process_Priority processPriority, double processTime)
 	{
 		super(ID, processPriority);

@@ -24,6 +24,9 @@ public class ReleaseProcessCommand implements Command{
 			// Set next process + Release entity
 			currentProcess.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
 			
+			// Remove entity from current queue
+			currentProcess.RemoveFirstEntityFromQueue();
+			
 			// Set process available again for further firing
 			currentProcess.Release();
 			
