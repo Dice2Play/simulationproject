@@ -104,8 +104,8 @@ public class Model {
 		
 		
 			// Processes
-		Process process1 = new Process("SHORT CLEANING CAR", 60.0/60.0);
-		Process process2 = new Process("LONG CLEANING CAR", 60.0/60.0);
+		Process process1 = new Process("SHORT CLEANING CAR", 1);
+		Process process2 = new Process("LONG CLEANING CAR", 1);
 		
 			// Terminators
 		Termination termination1 = new Termination("End of the line baby");
@@ -153,7 +153,7 @@ public class Model {
 		
 		// Entity manager
 		// Set starting process
-		//EntityManager.GetInstance().SetStartingSequenceObject(isParkingLotFull);
+		EntityManager.GetInstance().SetStartingSequenceObject(isParkingLotFull);
 		EntityManager.GetInstance().StartGenerating();		
 	}
 	
