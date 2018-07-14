@@ -84,6 +84,21 @@ public class ProcessManager {
 		
 	}
 	
+	/**
+	 * Checks if the sequence objects are set correctly:
+	 * - Every sequenceObject needs to have a queue
+	 * - Check whether resources are set for processes
+	 * - Checks whether the links are set for each sequenceObject(decisions need 2, others need 1)
+	 * @throws Exception 
+	 */
+	public void Validate() throws Exception
+	{
+		for(SequenceObject sequenceObject : sequenceObjects)
+		{
+			sequenceObject.Validate();
+		}
+	}
+	
 	
 	private class SequenceObjectPriorityComparator implements Comparator<SequenceObject>
 	{
@@ -94,4 +109,6 @@ public class ProcessManager {
 		}
 		
 	}
+	
+	
 }

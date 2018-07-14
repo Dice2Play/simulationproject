@@ -15,5 +15,12 @@ public class Termination extends SequenceObject {
 		fireBehavior = new TerminateFire(this);
 	}
 
+	@Override
+	public void Validate() throws Exception {
+
+		if(GetQueue() == null) {throw new Exception(String.format("VALIDATE MODEL ERROR: No Queue has been set for %s", this.GetID()));}
+		
+	}
+
 
 }

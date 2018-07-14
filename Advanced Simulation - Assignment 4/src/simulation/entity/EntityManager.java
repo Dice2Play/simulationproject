@@ -166,14 +166,27 @@ public class EntityManager implements Tick_Listener{
 	public double GetProcessingTime()
 	{
 		double totalProcessingTime = 0;
+		double amountOfFinishedEntities = 0;
 		
 		for(Entity entity : entities)
 		{
-			totalProcessingTime += entity.GetProcessingTime();
+			if(entity.IsFinished())
+			{
+				totalProcessingTime += entity.GetProcessingTime();
+				amountOfFinishedEntities++;
+			}
+			
 		}
 		
-		return (totalProcessingTime/entities.size());
+		return (totalProcessingTime/amountOfFinishedEntities);
 	}
+	
+	// Checks whether StartSequenceObject is set
+	public void Validate() throws Exception
+	{
+		if(startingSequenceObject == null) { throw new Exception("VALIDATE MODEL ERROR: Starting sequence object hasn't been set for EntityManager.");}
+	}
+	
 	@Override
 	public void On_Tick(Event_Type eventType) {
 		if(eventType == Event_Type.GENERATE) 	{GenerateEntity();}

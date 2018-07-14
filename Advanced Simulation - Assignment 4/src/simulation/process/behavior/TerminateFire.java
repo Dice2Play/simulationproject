@@ -13,8 +13,18 @@ public class TerminateFire extends FireBehavior{
 	
 	@Override
 	public void Fire() {
-		currentSeqObj.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
-		currentSeqObj.RemoveFirstEntityFromQueue();
+		try
+		{
+			currentSeqObj.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
+			currentSeqObj.GetNextEntityFromQueue().SetFinished();
+			currentSeqObj.RemoveFirstEntityFromQueue();
+		}
+		
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
 	}
 
 	
