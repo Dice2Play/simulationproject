@@ -162,14 +162,10 @@ public class Model {
 		
 		
 		// Set processes
-		process1.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
-		process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
 		process1.SetQueue(queue2);
 		process1.AddNextSequenceLink(termination1);
 		
 		
-		process2.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
-		process2.AddRequiredResource(Resource_Type.CLEANING_SPOT);
 		process2.SetQueue(queue2);
 		process2.AddNextSequenceLink(termination1);
 		

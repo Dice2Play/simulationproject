@@ -185,6 +185,16 @@ public class TimeManager {
 			return 0;
 		}
 	}
+
+	// Uses current time as difference
+	public double GetDifference(double inputTime, int inputDay) {
+		double amountOfHoursInADay = END_TIME_CUSTOMERS_CLEANERS; // Note that this is 12 hours instead of 12.5
+		double inputAmountOfHoursPassed = inputTime + (inputDay * amountOfHoursInADay);
+		double currentAmountOfHoursPassed = GetCurrentTime() + (GetCurrentDay() * amountOfHoursInADay); 
+
+
+		return (currentAmountOfHoursPassed - inputAmountOfHoursPassed); 
+	}
 	
 	
 }

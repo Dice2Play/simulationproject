@@ -1,5 +1,7 @@
 package simulation.resource;
 
+import simulation.time.TimeManager;
+
 public abstract class Resource {
 
 	private String ID;
@@ -7,6 +9,8 @@ public abstract class Resource {
 	private boolean occupied;
 	private double cost = 0;
 	private double amountOfHoursOccupied;
+	private double startTimeOfSeize;
+	private int startDayOfSeize;
 	
 	public Resource(String ID, Resource_Type type)
 	{
@@ -51,6 +55,11 @@ public abstract class Resource {
 	public String GetID()
 	{
 		return ID;
+	}
+
+	public void SetStartDayAndTimeOfSeize() {
+		startTimeOfSeize = TimeManager.GetInstance().GetCurrentTime();
+		startDayOfSeize = TimeManager.GetInstance().GetCurrentDay();
 	}
 	
 }

@@ -1,16 +1,22 @@
 package simulation.entity;
 
+import java.util.ArrayList;
+
 import simulation.process.SequenceObject;
+import simulation.resource.Resource;
+import simulation.time.TimeManager;
 
 public class Entity {
 
 	private String ID;
 	private SequenceObject currentSequenceObject;
 	private boolean isAvailable = true;
+	private double startTimeSeize;
+	private int startDaySeize;
+	private ArrayList<Resource> assignedResources = new ArrayList<Resource>();
 	
 	// Results
 	private double arrivalTime;
-	private double pickUpTime;
 	private double calledTime;
 	private double cleaningTime;
 	private boolean isFinished; // means it got fired by a terminate sequence object
@@ -91,36 +97,57 @@ public class Entity {
 		return isFinished;
 	}
 
-	public double getArrivalTime() {
+	public double GetArrivalTime() {
 		return arrivalTime;
 	}
 
-	public void setArrivalTime(double arrivalTime) {
+	public void SetArrivalTime(double arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 
-	public double getPickUpTime() {
-		return pickUpTime;
-	}
 
-	public void setPickUpTime(double pickUpTime) {
-		this.pickUpTime = pickUpTime;
-	}
-
-	public double getCalledTime() {
+	public double GetCalledTime() {
 		return calledTime;
 	}
 
-	public void setCalledTime(double calledTime) {
+	public void SetCalledTime(double calledTime) {
 		this.calledTime = calledTime;
 	}
 
-	public double getCleaningTime() {
+	public double GetCleaningTime() {
 		return cleaningTime;
 	}
 
-	public void setCleaningTime(double cleaningTime) {
+	public void SetCleaningTime(double cleaningTime) {
 		this.cleaningTime = cleaningTime;
+	}
+
+	public void AssignResource(Resource getAvailableResource) {
+		assignedResources.add(getAvailableResource);
+	}
+
+	public int GetStartDaySeize() {
+		return startDaySeize;
+	}
+
+	public void SetStartDaySeize(int startDaySeize) {
+		this.startDaySeize = startDaySeize;
+	}
+
+	public double GetStartTimeSeize() {
+		return startTimeSeize;
+	}
+
+	public void SetStartTimeSeize(double startTimeSeize) {
+		this.startTimeSeize = startTimeSeize;
+	}
+
+	public ArrayList<Resource> GetAssignedResources() {
+		return assignedResources;
+	}
+
+	public void Update() {
+		processingTime = TimeManager.GetInstance().GetDifference(startTimeSeize, startDaySeize);
 	}
 	
 }

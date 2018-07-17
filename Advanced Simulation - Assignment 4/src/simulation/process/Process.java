@@ -5,9 +5,8 @@ import java.util.List;
 
 import simulation.entity.Entity;
 import simulation.interfaces.DoubleCommand;
-import simulation.process.behavior.CanFireProcessResourceAndEntity;
+import simulation.process.behavior.CanFireProcessAndEntity;
 import simulation.process.behavior.ProcessFire;
-import simulation.process.behavior.ProcessNextSequence;
 import simulation.process.behavior.RegularNextSequence;
 import simulation.process.commands.GenerateProcessingTimeAccordingToDistributionCommand;
 import simulation.resource.Resource;
@@ -16,8 +15,6 @@ import simulation.resource.Resource_Type;
 
 public class Process extends SequenceObject{
 
-	private List<Resource_Type> typeOfResourcesNeeded = new ArrayList<Resource_Type>();
-	private ArrayList<Resource> seizedResources = new ArrayList<Resource>();
 	private double generatedProcessTime;
 	private double processTime;
 	private boolean isAvailable = true;
@@ -34,8 +31,8 @@ public class Process extends SequenceObject{
 		super(ID, processPriority);
 		this.processTime = processTime;
 		fireBehavior = new ProcessFire(this);
-		canFireBehavior = new CanFireProcessResourceAndEntity(this);
-		nextSequenceBehavior = new ProcessNextSequence(this);
+		canFireBehavior = new CanFireProcessAndEntity(this);
+		nextSequenceBehavior = new RegularNextSequence(this);
 		isUsingCommandForGeneratingProcessTime = false;
 	}
 	
@@ -44,8 +41,8 @@ public class Process extends SequenceObject{
 		super(ID, processPriority);
 		this.commandForGeneratingProcessTime = commandForGeneratingProcessTime;
 		fireBehavior = new ProcessFire(this);
-		canFireBehavior = new CanFireProcessResourceAndEntity(this);
-		nextSequenceBehavior = new ProcessNextSequence(this);
+		canFireBehavior = new CanFireProcessAndEntity(this);
+		nextSequenceBehavior = new RegularNextSequence(this);
 		isUsingCommandForGeneratingProcessTime = true;
 		
 	}
@@ -55,34 +52,13 @@ public class Process extends SequenceObject{
 		isAvailable = newValue;
 	}
 			
-	public void AddRequiredResource(Resource_Type typeOfResourceNeeded)
-	{
-		typeOfResourcesNeeded.add(typeOfResourceNeeded);
-	}
+
 	
 	public boolean IsAvailable()
 	{
 		return isAvailable;
 	}
 	
-	ArrayList<Resource> GetSeizedResources()
-	{
-		return seizedResources;
-	}
-
-	public boolean AreResourcesAvailable()
-	{
-		for(Resource_Type typeOfResource : typeOfResourcesNeeded)
-		{
-			if(!ResourceManager.GetInstance().CheckForAvailableResource(typeOfResource)) 
-			{
-				return false;
-			}
-		}
-		
-		// Default value
-		return true;
-	}
 	
 	public double GetProcessTime()
 	{
@@ -108,7 +84,6 @@ public class Process extends SequenceObject{
 	public void Seize()
 	{
 		SeizeProcess();
-		SeizeResources();
 		SeizeEntity();
 	}
 	
@@ -123,19 +98,6 @@ public class Process extends SequenceObject{
 		
 	}
 
-	private void SeizeResources() {
-
-		for(Resource_Type typeOfResourceNeeded : typeOfResourcesNeeded)
-		{
-			try {
-				ResourceManager.GetInstance().GetAvailableResource(typeOfResourceNeeded).Seize();;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-	}
 
 	private void SeizeProcess()
 	{
@@ -149,12 +111,7 @@ public class Process extends SequenceObject{
 	{
 		ReleaseProcess();
 		ReleaseEntity();
-		ReleaseResources();
 		Reset();
-	}
-
-	private void ReleaseResources() {
-		GetSeizedResources().forEach(x -> x.Release());	
 	}
 
 	private void ReleaseEntity() 
@@ -183,7 +140,7 @@ public class Process extends SequenceObject{
 
 	@Override
 	public void Validate() throws Exception {
-		if(typeOfResourcesNeeded.isEmpty()) { throw new Exception(String.format("VALIDATE MODEL ERROR: No resource has been set for %s", this.GetID()));}
+		
 		if(GetLinkedSequenceObjects().size() != 1){throw new Exception(String.format("VALIDATE MODEL ERROR: Exactly 1 Sequence Link need to be set for %s", this.GetID()));}
 		
 	}

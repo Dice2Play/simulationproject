@@ -24,7 +24,7 @@ public class ProcessFire extends FireBehavior{
 		double timeForRelease = TimeManager.GetInstance().GetCurrentTime() + process.GetProcessTime();
 		
 		// Generate TimeEvent for release
-		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeForRelease, new ReleaseProcessCommand(process), String.format("Process %s has released resources/entity/process", process.GetID()), Event_Type.GENERAL));
+		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeForRelease, new ReleaseProcessCommand(process), String.format("Process %s has released entity&process", process.GetID()), Event_Type.GENERAL));
 		
 		
 		

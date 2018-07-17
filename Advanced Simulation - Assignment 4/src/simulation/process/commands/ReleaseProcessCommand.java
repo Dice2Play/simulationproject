@@ -18,10 +18,7 @@ public class ReleaseProcessCommand implements Command{
 		
 		try
 		{
-			// Update processing time for entity
-			currentProcess.GetSeizedEntity().UpdateProcessingTime(currentProcess.GetProcessTime());
-			
-			// Set next process + Release entity
+			// Set next process
 			currentProcess.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
 			
 			// Remove entity from current queue
