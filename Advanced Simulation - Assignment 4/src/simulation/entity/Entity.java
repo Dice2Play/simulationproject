@@ -90,5 +90,37 @@ public class Entity {
 	{
 		return isFinished;
 	}
+
+	public double getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(double arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
+
+	public double getPickUpTime() {
+		return pickUpTime;
+	}
+
+	public void setPickUpTime(double pickUpTime) {
+		this.pickUpTime = pickUpTime;
+	}
+
+	public double getCalledTime() {
+		return calledTime;
+	}
+
+	public void setCalledTime(double calledTime) {
+		this.calledTime = calledTime;
+	}
+
+	public double getCleaningTime() {
+		return cleaningTime;
+	}
+
+	public void setCleaningTime(double cleaningTime) {
+		this.cleaningTime = cleaningTime;
+	}
 	
 }
