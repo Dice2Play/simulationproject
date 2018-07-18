@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import simulation.time.TimeManager;
 
-class Simulation_Time_Test_GetDifference {
+class TimeManager_GetDifference {
 
 	
 	private static boolean hasSetupAlreadyRan =  false;
@@ -38,7 +38,7 @@ class Simulation_Time_Test_GetDifference {
 	
 	
 	@Test
-	void test_zero_difference() {
+	void Test_Zero_Difference() {
 		
 		double inputTime = 0;
 		int inputDay = 5;
@@ -50,7 +50,7 @@ class Simulation_Time_Test_GetDifference {
 	}
 	
 	@Test
-	void test_negative_difference() {
+	void Test_Negative_Difference() {
 		
 		double inputTime = 6;
 		int inputDay = 6;
@@ -62,7 +62,7 @@ class Simulation_Time_Test_GetDifference {
 	}
 	
 	@Test
-	void test_positive_difference() {
+	void Test_Positive_Difference() {
 		
 		double inputTime = 4;
 		int inputDay = 4;

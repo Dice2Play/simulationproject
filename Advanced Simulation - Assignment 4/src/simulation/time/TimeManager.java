@@ -59,6 +59,9 @@ public class TimeManager {
 			// Increment day
 			IncrementDay();
 			
+			// Set time to 0
+			SetCurrentTime(0);
+			
 			// Generate new discrete time values for (new) current day
 			GenerateDiscreteTimeUnits();
 			

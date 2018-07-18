@@ -1,11 +1,11 @@
-package simulation.model.test;
+package simulation.resource.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class Simulation_Model_Test {
+class ResourceManager_Reset {
 
 	@BeforeEach
 	void setUp() throws Exception {
