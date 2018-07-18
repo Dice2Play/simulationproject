@@ -19,6 +19,7 @@ public class TimeManager {
 	private final static double END_TIME_ALL = 12.5;
 	private final int AMOUNT_OF_DISCRETE_DAILY_TIME_EVENTS = 25;
 	
+	
 	private boolean hasToBeInstantiated = true;
 
 	
@@ -196,5 +197,7 @@ public class TimeManager {
 		return (currentAmountOfHoursPassed - inputAmountOfHoursPassed); 
 	}
 	
-	
+	public int Get_AMOUNT_OF_DISCRETE_DAILY_TIME_EVENTS() {
+		return AMOUNT_OF_DISCRETE_DAILY_TIME_EVENTS;
+	}
 }
