@@ -13,13 +13,13 @@ import simulation.resource.Resource_Type;
 import simulation.result.ResultManager;
 import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
+import statistics.Distribution;
+import statistics.GammaDistribution;
+import statistics.NormalDistribution;
+import statistics.PoissonDistribution;
 
 import java.util.Random;
 
-import Statistics.Distribution;
-import Statistics.GammaDistribution;
-import Statistics.NormalDistribution;
-import Statistics.PoissonDistribution;
 import simulation.entity.EntityManager;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;

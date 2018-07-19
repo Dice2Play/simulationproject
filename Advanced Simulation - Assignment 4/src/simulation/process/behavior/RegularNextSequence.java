@@ -1,10 +1,10 @@
 package simulation.process.behavior;
 
-import Statistics.ArtificialDistribution;
-import Statistics.Statistics;
 import simulation.entity.Entity;
 import simulation.process.DecisionBasedOnChance;
 import simulation.process.SequenceObject;
+import statistics.ArtificialDistribution;
+import statistics.Statistics;
 
 public class RegularNextSequence extends NextSequenceBehavior {
 

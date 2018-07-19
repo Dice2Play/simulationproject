@@ -1,7 +1,7 @@
 package simulation.process.commands;
 
-import Statistics.Distribution;
 import simulation.interfaces.DoubleCommand;
+import statistics.Distribution;
 
 public class GenerateProcessingTimeAccordingToDistributionCommand implements DoubleCommand {
 
@@ -14,7 +14,7 @@ public class GenerateProcessingTimeAccordingToDistributionCommand implements Dou
 	
 	@Override
 	public double Execute() {
-		return Statistics.Statistics.GetDistributionResult(distributionUsedForGeneratingProcesstime);
+		return statistics.Statistics.GetDistributionResult(distributionUsedForGeneratingProcesstime);
 	}
 
 }

@@ -1,4 +1,4 @@
-package Statistics;
+package statistics;
 import java.util.*;
 
 public class PoissonDistribution extends Distribution{

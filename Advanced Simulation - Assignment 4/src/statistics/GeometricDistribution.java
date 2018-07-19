@@ -1,4 +1,4 @@
-package Statistics;
+package statistics;
 import java.util.Random;
 
 

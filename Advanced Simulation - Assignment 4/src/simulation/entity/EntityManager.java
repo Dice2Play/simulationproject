@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Statistics.ArtificialDistribution;
-import Statistics.Distribution;
-import Statistics.NormalDistribution;
-import Statistics.PoissonDistribution;
-import Statistics.Statistics;
 import simulation.interfaces.Command;
 import simulation.interfaces.Tick_Listener;
 import simulation.process.SequenceObject;
 import simulation.time.Event_Type;
 import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
+import statistics.ArtificialDistribution;
+import statistics.Distribution;
+import statistics.NormalDistribution;
+import statistics.PoissonDistribution;
+import statistics.Statistics;
 
 public class EntityManager implements Tick_Listener{
 

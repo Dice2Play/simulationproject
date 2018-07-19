@@ -2,11 +2,11 @@ package simulation.process.behavior;
 
 import java.util.ArrayList;
 
-import Statistics.ArtificialDistribution;
-import Statistics.Statistics;
 import simulation.entity.Entity;
 import simulation.process.DecisionBasedOnChance;
 import simulation.process.SequenceObject;
+import statistics.ArtificialDistribution;
+import statistics.Statistics;
 
 public class NextSequenceBasedOnChance extends NextSequenceBehavior {
 
