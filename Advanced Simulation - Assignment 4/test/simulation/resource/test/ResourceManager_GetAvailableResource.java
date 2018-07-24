@@ -1,31 +1,34 @@
 package simulation.resource.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.function.Executable;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.function.*;
+
+import simulation.resource.ParkingSpotReserved;
+import simulation.resource.Resource;
+import simulation.resource.ResourceManager;
+import simulation.resource.Resource_Type;
 
 class ResourceManager_GetAvailableResource {
 
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
-	
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	
+		
 
 	/**
-	 * NULL case, create no resources, try to get one of a random resource_type
+	 * NULL case, create no resources, try to get a resource_type
+	 * @throws Exception 
 	 */
 	@Test
-	void TestWhetherResourceIsAvailableOnInstantiate()
+	void TestWhetherResourceIsAvailableOnInstantiate() 
 	{
-		exception.expect(Exception.class);
-		fail("Not yet implemented");
+		Assertions.assertThrows(Exception.class, () -> ResourceManager.GetInstance().GetAvailableResource(Resource_Type.CASH_REGISTER));
 	}
 	
 	/**
@@ -34,7 +37,9 @@ class ResourceManager_GetAvailableResource {
 	@Test
 	void TestWhetherResourceIsAvailableNoneCreated()
 	{
-		fail("Not yet implemented");
+		
+		Resource resource = new ParkingSpotReserved("Parking spot 1");
+		Assertions.assertThrows(Exception.class, () -> ResourceManager.GetInstance().GetAvailableResource(Resource_Type.CASH_REGISTER));
 	}
 	
 	/**
@@ -43,7 +48,16 @@ class ResourceManager_GetAvailableResource {
 	@Test
 	void TestWhetherResourceIsAvailable()
 	{
-		fail("Not yet implemented");
+		
+		try {
+			Resource resource = new ParkingSpotReserved("Parking spot 1");
+			Assertions.assertEquals(resource, ResourceManager.GetInstance().GetAvailableResource(Resource_Type.PARKING_SPOT_AVAILABLE_AND_RESERVED));
+		} 
+		
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

@@ -2,9 +2,9 @@ package simulation.process.behavior;
 
 import simulation.process.SequenceObject;
 
-public class NextSequenceTerminate extends NextSequenceBehavior {
+public class NoNextSequence extends NextSequenceBehavior {
 
-	public NextSequenceTerminate(SequenceObject currentSequenceObject) {
+	public NoNextSequence(SequenceObject currentSequenceObject) {
 		super(currentSequenceObject);
 	}
 

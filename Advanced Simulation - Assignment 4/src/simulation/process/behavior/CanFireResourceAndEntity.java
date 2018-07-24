@@ -2,9 +2,9 @@ package simulation.process.behavior;
 
 public class CanFireResourceAndEntity extends CanFireBehavior{
 
-	private simulation.process.Seize seizeObject;
+	private simulation.process.SeizeResource seizeObject;
 	
-	public CanFireResourceAndEntity(simulation.process.Seize seizeObject)
+	public CanFireResourceAndEntity(simulation.process.SeizeResource seizeObject)
 	{
 		this.seizeObject = seizeObject;
 	}

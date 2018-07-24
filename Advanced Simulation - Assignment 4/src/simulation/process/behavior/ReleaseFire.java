@@ -1,7 +1,7 @@
 package simulation.process.behavior;
 
 import simulation.process.Release;
-import simulation.process.Seize;
+import simulation.process.SeizeResource;
 
 public class ReleaseFire extends FireBehavior{
 

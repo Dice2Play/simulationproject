@@ -1,12 +1,13 @@
 package simulation.process.behavior;
 
-import simulation.process.Seize;
+
+import simulation.process.SeizeResource;
 
 public class SeizeFire extends FireBehavior{
 
-	private Seize seizeObject;
+	private SeizeResource seizeObject;
 	
-	public SeizeFire(Seize seizeObject)
+	public SeizeFire(SeizeResource seizeObject)
 	{
 		this.seizeObject = seizeObject;
 	}

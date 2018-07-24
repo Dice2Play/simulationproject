@@ -29,7 +29,7 @@ class ResourceManager_CheckForAvailableResource {
 	 */
 	@Test
 	void TestWhetherNoResourcesAreAvailableOnInstantiate() {
-		exception.expect(Exception.class);
+
 		boolean isResourceAvailable = ResourceManager.GetInstance().CheckForAvailableResource(Resource_Type.CASH_REGISTER);
 		assertEquals(false, isResourceAvailable);
 	}

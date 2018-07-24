@@ -9,11 +9,11 @@ import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
 import simulation.time.TimeManager;
 
-public class Seize extends SequenceObject {
+public class SeizeResource extends SequenceObject {
 
 	private ArrayList<Resource_Type> typesOfRequiredResources = new ArrayList<Resource_Type>();
 	
-	public Seize(String ID, Process_Priority processPriority) {
+	public SeizeResource(String ID, Process_Priority processPriority) {
 		super(ID, processPriority);
 		fireBehavior = new SeizeFire(this);
 		canFireBehavior = new CanFireResourceAndEntity(this);
