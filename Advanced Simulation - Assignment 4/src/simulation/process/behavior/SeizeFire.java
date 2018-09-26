@@ -1,13 +1,14 @@
 package simulation.process.behavior;
 
 
-import simulation.process.SeizeResource;
+import simulation.entity.Entity;
+import simulation.process.Seize;
 
 public class SeizeFire extends FireBehavior{
 
-	private SeizeResource seizeObject;
+	private Seize seizeObject;
 	
-	public SeizeFire(SeizeResource seizeObject)
+	public SeizeFire(Seize seizeObject)
 	{
 		this.seizeObject = seizeObject;
 	}
@@ -17,10 +18,14 @@ public class SeizeFire extends FireBehavior{
 		
 		try 
 		{
-			seizeObject.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
+			// Get first entity from queue
+			Entity firstEntityFromQueue = seizeObject.GetFirstEntityFromQueue();			
+			
+			
+			seizeObject.GetNextSequenceBehavior().SetNextSequenceObjectForEntity(firstEntityFromQueue);
 			seizeObject.SeizeRequiredResources();
 			seizeObject.SetAssignedResourcesForEntity();
-			seizeObject.SetStartTimeForResource();
+			seizeObject.SetStartTimeForResource(firstEntityFromQueue);
 			seizeObject.RemoveFirstEntityFromQueue();
 		} 
 		

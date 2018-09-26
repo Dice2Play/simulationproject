@@ -1,5 +1,6 @@
 package simulation.process.behavior;
 
+import simulation.entity.Entity;
 import simulation.process.SequenceObject;
 
 public abstract class NextSequenceBehavior {
@@ -11,5 +12,5 @@ public abstract class NextSequenceBehavior {
 		this.currentSequenceObject = currentSequenceObject;
 	}
 	
-	public abstract void SetNextSequenceObjectForEntity();
+	public abstract void SetNextSequenceObjectForEntity(Entity entityForNextSequence);
 }

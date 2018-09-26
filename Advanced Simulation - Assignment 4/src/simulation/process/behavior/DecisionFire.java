@@ -1,5 +1,6 @@
 package simulation.process.behavior;
 
+import simulation.entity.Entity;
 import simulation.process.Decision;
 
 public class DecisionFire extends FireBehavior{
@@ -13,8 +14,21 @@ public class DecisionFire extends FireBehavior{
 
 	@Override
 	public void Fire() {
-		currentDecision.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
-		currentDecision.RemoveFirstEntityFromQueue();
+	
+		try
+		{
+			// Get first entity from queue
+			Entity firstEntityFromQueue = currentDecision.GetFirstEntityFromQueue();
+			currentDecision.GetNextSequenceBehavior().SetNextSequenceObjectForEntity(firstEntityFromQueue);
+			currentDecision.RemoveFirstEntityFromQueue();
+		}
+		
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		
 	}
 	
 	

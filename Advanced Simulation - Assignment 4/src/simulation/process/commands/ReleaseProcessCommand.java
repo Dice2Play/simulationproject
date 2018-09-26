@@ -1,5 +1,6 @@
 package simulation.process.commands;
 
+import simulation.entity.Entity;
 import simulation.interfaces.Command;
 import simulation.process.Process;
 
@@ -18,8 +19,11 @@ public class ReleaseProcessCommand implements Command{
 		
 		try
 		{
+			// Get first entity from queue
+			Entity firstEntityFromQueue = currentProcess.GetFirstEntityFromQueue();		
+			
 			// Set next process
-			currentProcess.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
+			currentProcess.GetNextSequenceBehavior().SetNextSequenceObjectForEntity(firstEntityFromQueue);
 			
 			// Remove entity from current queue
 			currentProcess.RemoveFirstEntityFromQueue();

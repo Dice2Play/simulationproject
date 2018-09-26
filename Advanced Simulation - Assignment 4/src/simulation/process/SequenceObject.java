@@ -64,11 +64,11 @@ public abstract class SequenceObject {
 	
 	
 	/**
-	 * Gets the next entity in queue 
+	 * Gets the first entity in queue 
 	 * @return
 	 * @throws Exception 
 	 */
-	public Entity GetNextEntityFromQueue() throws Exception
+	public Entity GetFirstEntityFromQueue() throws Exception
 	{
 		return queue.GetFirstAvailableEntityForSpecifiedSequenceObject(this);
 	}

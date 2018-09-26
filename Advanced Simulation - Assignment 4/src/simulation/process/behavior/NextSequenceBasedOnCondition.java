@@ -13,7 +13,7 @@ public class NextSequenceBasedOnCondition extends NextSequenceBehavior{
 	}
 
 	@Override
-	public void SetNextSequenceObjectForEntity() {
+	public void SetNextSequenceObjectForEntity(Entity entityForNextSequence) {
 
 		try
 		{
@@ -22,12 +22,11 @@ public class NextSequenceBasedOnCondition extends NextSequenceBehavior{
 			
 			
 			// Set next sequenceObject for entity
-			Entity currentEntity = currentSequenceObject.GetNextEntityFromQueue();
-			currentEntity.SetCurrentSequenceObject(chosenSequenceObject);
+			entityForNextSequence.SetCurrentSequenceObject(chosenSequenceObject);
 			
 				
 			// Adds entity to queue of next sequenceObject
-			chosenSequenceObject.AddEntityToQueue(currentEntity);
+			chosenSequenceObject.AddEntityToQueue(entityForNextSequence);
 
 		}
 		

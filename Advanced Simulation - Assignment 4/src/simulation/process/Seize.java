@@ -2,6 +2,7 @@ package simulation.process;
 
 import java.util.ArrayList;
 
+import simulation.entity.Entity;
 import simulation.process.behavior.CanFireResourceAndEntity;
 import simulation.process.behavior.RegularNextSequence;
 import simulation.process.behavior.SeizeFire;
@@ -9,11 +10,11 @@ import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
 import simulation.time.TimeManager;
 
-public class SeizeResource extends SequenceObject {
+public class Seize extends SequenceObject {
 
 	private ArrayList<Resource_Type> typesOfRequiredResources = new ArrayList<Resource_Type>();
 	
-	public SeizeResource(String ID, Process_Priority processPriority) {
+	public Seize(String ID, Process_Priority processPriority) {
 		super(ID, processPriority);
 		fireBehavior = new SeizeFire(this);
 		canFireBehavior = new CanFireResourceAndEntity(this);
@@ -22,7 +23,7 @@ public class SeizeResource extends SequenceObject {
 
 	@Override
 	public void Validate() throws Exception {
-		if(typesOfRequiredResources.isEmpty()) { throw new Exception(String.format("VALIDATE MODEL ERROR: No resource has been set for %s", this.GetID()));}
+		//if(typesOfRequiredResources.isEmpty()) { throw new Exception(String.format("VALIDATE MODEL ERROR: No resource has been set for %s", this.GetID()));}
 		if(GetLinkedSequenceObjects().size() != 1){throw new Exception(String.format("VALIDATE MODEL ERROR: Exactly 1 Sequence Link need to be set for %s", this.GetID()));}
 	}
 	
@@ -66,15 +67,15 @@ public class SeizeResource extends SequenceObject {
 		
 		for(Resource_Type typeOfRequiredResourceNeeded : typesOfRequiredResources)
 		{
-			GetNextEntityFromQueue().AssignResource(ResourceManager.GetInstance().GetAvailableResource(typeOfRequiredResourceNeeded));
+			GetFirstEntityFromQueue().AssignResource(ResourceManager.GetInstance().GetAvailableResource(typeOfRequiredResourceNeeded));
 		}
 			
 			
 	}
 
-	public void SetStartTimeForResource() throws Exception {
-		GetNextEntityFromQueue().SetStartDaySeize(TimeManager.GetInstance().GetCurrentDay());
-		GetNextEntityFromQueue().SetStartTimeSeize(TimeManager.GetInstance().GetCurrentTime());
+	public void SetStartTimeForResource(Entity entityToSetSeizeTimeFor) throws Exception {
+		entityToSetSeizeTimeFor.SetStartDaySeize(TimeManager.GetInstance().GetCurrentDay());
+		entityToSetSeizeTimeFor.SetStartTimeSeize(TimeManager.GetInstance().GetCurrentTime());
 	}
 
 }

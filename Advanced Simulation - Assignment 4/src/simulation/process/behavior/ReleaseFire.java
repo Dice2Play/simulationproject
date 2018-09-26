@@ -1,7 +1,8 @@
 package simulation.process.behavior;
 
+import simulation.entity.Entity;
 import simulation.process.Release;
-import simulation.process.SeizeResource;
+import simulation.process.Seize;
 
 public class ReleaseFire extends FireBehavior{
 
@@ -17,9 +18,12 @@ public class ReleaseFire extends FireBehavior{
 	public void Fire() {
 		try
 		{
-			releaseObject.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
-			releaseObject.UpdateEntity();
-			releaseObject.ReleaseResources();
+			// Get first entity from queue
+			Entity firstEntityFromQueue = releaseObject.GetFirstEntityFromQueue();			
+			
+			releaseObject.GetNextSequenceBehavior().SetNextSequenceObjectForEntity(firstEntityFromQueue);
+			releaseObject.UpdateEntity(firstEntityFromQueue);
+			releaseObject.ReleaseResources(firstEntityFromQueue);
 			releaseObject.RemoveFirstEntityFromQueue();
 
 		}

@@ -30,6 +30,8 @@ import simulation.process.DecisionBasedOnCondition;
 import simulation.process.Process;
 import simulation.process.ProcessManager;
 import simulation.process.Process_Priority;
+import simulation.process.Release;
+import simulation.process.Seize;
 import simulation.process.Termination;
 import simulation.process.commands.IsParkingSpotFullBooleanCommand;
 import simulation.process.commands.GenerateProcessingTimeAccordingToDistributionCommand;
@@ -127,28 +129,41 @@ public class Model {
 		// Create references
 				
 			// Decisions
-		DecisionBasedOnCondition isParkingLotFull = new DecisionBasedOnCondition("DECISION: IS PARKINGLOT FULL?", new IsParkingSpotFullBooleanCommand());
-		DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
+			DecisionBasedOnCondition isParkingLotFull = new DecisionBasedOnCondition("DECISION: IS PARKINGLOT FULL?", new IsParkingSpotFullBooleanCommand());
+			DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
 		
 		
 		
 			// Processes
-		Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
-		Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
-		
+			Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
+			Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
+
+
+			
 			// Terminators
-		Termination termination1 = new Termination("End of the line baby");
+			Termination termination1 = new Termination("End of the line baby");
 		
 			// Queue's
-		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE?");
-		Queue queue2 = new Queue("CLEAN CAR QUEUE");
-		Queue queue3 = new Queue("Termination QUEUE");
-		Queue queue4 = new Queue("DECISION: IS PARKING LOT FULL? QUEUE");
-		Queue queue5 = new Queue("Set entity to rejected action QUEUE ");
-		
+			Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE?");
+			Queue queue2 = new Queue("CLEAN CAR QUEUE");
+			Queue queue3 = new Queue("Termination QUEUE");
+			Queue queue4 = new Queue("DECISION: IS PARKING LOT FULL? QUEUE");
+			Queue queue5 = new Queue("Set entity to rejected action QUEUE ");
+			Queue queue6 = new Queue("Set entity to SEIZE FOR PROCESS_1 QUEUE ");
+			Queue queue7 = new Queue("Set entity to SEIZE FOR PROCESS_2 QUEUE ");
+			Queue queue8 = new Queue("Set entity to RELEASE FOR PROCESS_1_2 QUEUE ");
+			
+			
 			// Actions
-		Action setEntityToRejected = new Action("Set entity to rejected action", new IncrementAmountOfRejects());
-
+			Action setEntityToRejected = new Action("Set entity to rejected action", new IncrementAmountOfRejects());
+			
+			// Release
+			Release release_terminate = new Release("RELEASE", Process_Priority.Normal);
+			
+			// Seize
+			Seize seize_process1 = new Seize("SEIZE FOR PROCESS 1", Process_Priority.Normal);
+			Seize seize_process2 = new Seize("SEIZE FOR PROCESS 2", Process_Priority.Normal);
+			
 		
 		// Set decisions
 		isParkingLotFull.SetQueue(queue4);
@@ -156,18 +171,31 @@ public class Model {
 		isParkingLotFull.AddNextSequenceLink(shortOrLongCleaning);
 		
 		
-		shortOrLongCleaning.AddNextSequenceLink(process1);
-		shortOrLongCleaning.AddNextSequenceLink(process2);
+		shortOrLongCleaning.AddNextSequenceLink(seize_process1);
+		shortOrLongCleaning.AddNextSequenceLink(seize_process2);
 		shortOrLongCleaning.SetQueue(queue1);
 		
 		
 		// Set processes
 		process1.SetQueue(queue2);
-		process1.AddNextSequenceLink(termination1);
+		process1.AddNextSequenceLink(release_terminate);
 		
 		
 		process2.SetQueue(queue2);
-		process2.AddNextSequenceLink(termination1);
+		process2.AddNextSequenceLink(release_terminate);
+		
+		// Set Seize
+		seize_process1.SetQueue(queue6);
+		seize_process1.AddNextSequenceLink(process1);
+
+		seize_process2.SetQueue(queue7);
+		seize_process2.AddNextSequenceLink(process2);
+		
+		// Set Release
+		release_terminate.SetQueue(queue8);
+		release_terminate.AddNextSequenceLink(termination1);
+		
+		
 		
 		// Set terminators
 		termination1.SetQueue(queue3);

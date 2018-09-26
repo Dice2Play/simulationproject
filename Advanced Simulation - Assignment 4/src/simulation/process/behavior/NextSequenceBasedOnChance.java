@@ -15,7 +15,7 @@ public class NextSequenceBasedOnChance extends NextSequenceBehavior {
 	}
 
 	@Override
-	public void SetNextSequenceObjectForEntity() {
+	public void SetNextSequenceObjectForEntity(Entity entityForNextSequence) {
 		
 		try
 		{
@@ -28,11 +28,10 @@ public class NextSequenceBasedOnChance extends NextSequenceBehavior {
 			SequenceObject chosenSequenceObject = currentSequenceObject.GetLinkedSequenceObjects().get((int) Statistics.GetDistributionResult(new ArtificialDistribution(possibleOutcomes, probabilityOfPossibleOutcomes)));
 			
 			// Set next sequenceObject for entity
-			Entity currentEntity = currentSequenceObject.GetNextEntityFromQueue();
-			currentEntity.SetCurrentSequenceObject(chosenSequenceObject);
+			entityForNextSequence.SetCurrentSequenceObject(chosenSequenceObject);
 			
 			// Adds entity to queue of next sequenceObject
-			chosenSequenceObject.AddEntityToQueue(currentEntity);
+			chosenSequenceObject.AddEntityToQueue(entityForNextSequence);
 		}
 		
 		catch(Exception ex)

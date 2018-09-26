@@ -89,7 +89,7 @@ public class Process extends SequenceObject{
 	
 	private void SeizeEntity() {
 		try {
-			seizedEntity = GetNextEntityFromQueue();
+			seizedEntity = GetFirstEntityFromQueue();
 			seizedEntity.Seize();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

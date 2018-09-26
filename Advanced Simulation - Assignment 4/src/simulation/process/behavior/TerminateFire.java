@@ -1,5 +1,6 @@
 package simulation.process.behavior;
 
+import simulation.entity.Entity;
 import simulation.process.SequenceObject;
 
 public class TerminateFire extends FireBehavior{
@@ -15,8 +16,11 @@ public class TerminateFire extends FireBehavior{
 	public void Fire() {
 		try
 		{
-			currentSeqObj.GetNextSequenceBehavior().SetNextSequenceObjectForEntity();
-			currentSeqObj.GetNextEntityFromQueue().SetFinished();
+			// Get first entity from queue
+			Entity firstEntityFromQueue = currentSeqObj.GetFirstEntityFromQueue();		
+			
+			currentSeqObj.GetNextSequenceBehavior().SetNextSequenceObjectForEntity(firstEntityFromQueue);
+			firstEntityFromQueue.SetFinished();
 			currentSeqObj.RemoveFirstEntityFromQueue();
 		}
 		

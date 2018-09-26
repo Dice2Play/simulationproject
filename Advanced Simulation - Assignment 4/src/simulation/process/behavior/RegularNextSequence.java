@@ -13,18 +13,17 @@ public class RegularNextSequence extends NextSequenceBehavior {
 	}
 
 	@Override
-	public void SetNextSequenceObjectForEntity() {
+	public void SetNextSequenceObjectForEntity(Entity entityForNextSequence) {
 		try
 		{
 			// Get next sequenceObject
 			SequenceObject nextSequenceObject = currentSequenceObject.GetLinkedSequenceObjects().getFirst();
 			
 			// Set next sequenceObject for entity
-			Entity currentEntity = currentSequenceObject.GetNextEntityFromQueue();
-			currentEntity.SetCurrentSequenceObject(nextSequenceObject);
+			entityForNextSequence.SetCurrentSequenceObject(nextSequenceObject);
 			
 			// Adds entity to queue of next sequenceObject
-			nextSequenceObject.AddEntityToQueue(currentEntity);
+			nextSequenceObject.AddEntityToQueue(entityForNextSequence);
 		}
 		
 		catch(Exception ex)
