@@ -147,6 +147,11 @@ public class EntityManager implements Tick_Listener{
 		return 0;
 	}
 	
+	public double GetAmountOfRejects()
+	{
+		return amountOfRejects;
+	}
+	
 	public void IncrementAmountOfRejects()
 	{
 		amountOfRejects++;

@@ -43,7 +43,7 @@ public class Model {
 	final int AMOUNT_OF_DAYS_TO_RUN;
 	final int AMOUNT_OF_CASH_REGISTERS = 3;
 	final int AMOUNT_OF_CLEANING_SPOTS = 10;
-	final int AMOUNT_OF_NOT_RESERVED_PARKING_SPOT = 20;
+	final int AMOUNT_OF_NOT_RESERVED_PARKING_SPOT = 0;
 	final int AMOUNT_OF_RESERVED_PARKING_SPOT = 5;
 	final int AMOUNT_OF_CLEANERS = 3;
 	final int AMOUNT_OF_ASSISTANTS = 3;
@@ -93,20 +93,12 @@ public class Model {
 
 	public void GenerateResources()
 	{
-		// Add cash registers
-		for(int index = 0; index < AMOUNT_OF_CASH_REGISTERS; index++) {new CashRegister(String.format("CASH_REGISTER_%d", index + 1));}
-				
-		// Add cleaning spots
-		for(int index = 0; index < AMOUNT_OF_CLEANING_SPOTS; index++) {new CleaningSpot(String.format("CLEANING_SPOT_%d", index + 1));}
-						
-		// Add parking spots
-		for(int index = 0; index < AMOUNT_OF_NOT_RESERVED_PARKING_SPOT; index++) {new ParkingSpotNotReserved(String.format("NOT_RESERVED_PARKING_SPOT_%d", index + 1));}
-		for(int index = 0; index < AMOUNT_OF_RESERVED_PARKING_SPOT; index++) {new ParkingSpotReserved(String.format("RESERVED_PARKING_SPOT_%d", index + 1));}
-		
-		// Add employees
-		for(int index = 0; index < AMOUNT_OF_ASSISTANTS; index++) {new Assistant(String.format("ASSISTANT_%d", index + 1));}
-		for(int index = 0; index < AMOUNT_OF_CLEANERS; index++) {new Cleaner(String.format("CLEANER_%d", index + 1));}
-		
+		ResourceManager.GetInstance().SetAmountOfCashRegisters(AMOUNT_OF_CASH_REGISTERS);
+		ResourceManager.GetInstance().SetAmountOfCleaningSpots(AMOUNT_OF_CLEANING_SPOTS);
+		ResourceManager.GetInstance().SetAmountOfReservedParkingSpots(AMOUNT_OF_NOT_RESERVED_PARKING_SPOT);
+		ResourceManager.GetInstance().SetAmountOfNotReservedParkingSpots(AMOUNT_OF_RESERVED_PARKING_SPOT);
+		ResourceManager.GetInstance().SetAmountOfAssistants(AMOUNT_OF_ASSISTANTS);
+		ResourceManager.GetInstance().SetAmountOfCleaners(AMOUNT_OF_CLEANERS);
 	}
 		
 	public void GenerateProcesses()
@@ -211,7 +203,7 @@ public class Model {
 	}
 	
 	/**
-	 * Call this method when the run is finished, to get statistics about the run.
+	 * Call this method when the run is finished, it will retrieve the statistics about the run.
 	 */
 	public void Report()
 	{
