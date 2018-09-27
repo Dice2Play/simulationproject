@@ -24,24 +24,21 @@ public class EntityManager implements Tick_Listener{
 	private double amountOfRejects;
 
 	
-	// Transform time unit constant
-	final double TIME_UNIT_TRANSFORM_FACTOR = (1.0/60.0);
-	
 	// Set schedule
 	ArrayList<Double> poissonArrivalRates = new ArrayList<Double>();
 	
-	final double POISSON_ARRIVAL_RATE_0 = 1/5.067; 
-	final double POISSON_ARRIVAL_RATE_1 = 1/4.111;
-	final double POISSON_ARRIVAL_RATE_2 = 1/3.244;
-	final double POISSON_ARRIVAL_RATE_3 = 1/2.067;
-	final double POISSON_ARRIVAL_RATE_4 = 1/1.578;
-	final double POISSON_ARRIVAL_RATE_5 = 1/1.267;
-	final double POISSON_ARRIVAL_RATE_6 = 1/0.978;
-	final double POISSON_ARRIVAL_RATE_7 = 1/1.556;
-	final double POISSON_ARRIVAL_RATE_8 = 1/2.511;
-	final double POISSON_ARRIVAL_RATE_9 = 1/4.733;
-	final double POISSON_ARRIVAL_RATE_10 = 1/4.400;
-	final double POISSON_ARRIVAL_RATE_11 = 1/3.222;
+	final double POISSON_ARRIVAL_RATE_0 = 5.067; 
+	final double POISSON_ARRIVAL_RATE_1 = 4.111;
+	final double POISSON_ARRIVAL_RATE_2 = 3.244;
+	final double POISSON_ARRIVAL_RATE_3 = 2.067;
+	final double POISSON_ARRIVAL_RATE_4 = 1.578;
+	final double POISSON_ARRIVAL_RATE_5 = 1.267;
+	final double POISSON_ARRIVAL_RATE_6 = 0.978;
+	final double POISSON_ARRIVAL_RATE_7 = 1.556;
+	final double POISSON_ARRIVAL_RATE_8 = 2.511;
+	final double POISSON_ARRIVAL_RATE_9 = 4.733;
+	final double POISSON_ARRIVAL_RATE_10 = 4.400;
+	final double POISSON_ARRIVAL_RATE_11 = 3.222;
 	final double POISSON_ARRIVAL_RATE_12 = 0;
 	
 	
@@ -98,7 +95,7 @@ public class EntityManager implements Tick_Listener{
 		// Time at which next entity should arrive
 		double currentHour = Math.floor(TimeManager.GetInstance().GetCurrentTime());
 		double generatedValueForNextEntity = Statistics.GetDistributionResult(new PoissonDistribution(poissonArrivalRates.get((int)currentHour), new Random()));
-		double timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + generatedValueForNextEntity;
+		double timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + (60/generatedValueForNextEntity)/60;
 		
 		
 		// Add time event which will generate an entity when its being executed
