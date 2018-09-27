@@ -46,12 +46,32 @@ class Queue_Shared {
 		process1.SetQueue(processSharedQueue);
 		process1.AddNextSequenceLink(release_process1);
 		
+		Process process2 = new Process("Process cleaning spot 2", Process_Priority.Normal,10);
+		process2.SetQueue(processSharedQueue);
+		process2.AddNextSequenceLink(release_process1);
+		
+		Process process3 = new Process("Process cleaning spot 3", Process_Priority.Normal,10);
+		process3.SetQueue(processSharedQueue);
+		process3.AddNextSequenceLink(release_process1);
+		
+		Process process4 = new Process("Process cleaning spot 4", Process_Priority.Normal,10);
+		process4.SetQueue(processSharedQueue);
+		process4.AddNextSequenceLink(release_process1);
+		
+		Process process5 = new Process("Process cleaning spot 5", Process_Priority.Normal,10);
+		process5.SetQueue(processSharedQueue);
+		process5.AddNextSequenceLink(release_process1);
+		
+		Process process6 = new Process("Process cleaning spot 6", Process_Priority.Normal,10);
+		process6.SetQueue(processSharedQueue);
+		process6.AddNextSequenceLink(release_process1);
+		
 		
 		// Seize
 		simulation.process.Seize seize_process1 = new simulation.process.Seize("SEIZE Some resources", Process_Priority.Normal);
 		Queue queue1 = new Queue("Queue for seize process_1");
 		seize_process1.SetQueue(queue1);
-		seize_process1.AddNextSequenceLink(release_process1);
+		seize_process1.AddNextSequenceLink(process1);
 		seize_process1.AddRequiredResource(Resource_Type.CASH_REGISTER);
 		seize_process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
 		seize_process1.AddRequiredResource(Resource_Type.EMPLOYEE_CLEANER);
@@ -70,7 +90,8 @@ class Queue_Shared {
 		
 		
 		// Let TimeManager tick for a few days to make sure that an entity is generated
-		for(int amountOfDaysPassed = 0; amountOfDaysPassed <= 3; amountOfDaysPassed++)
+		int AMOUNT_OF_DAYS_TO_RUN = 5;
+		while(TimeManager.GetInstance().GetCurrentDay() < AMOUNT_OF_DAYS_TO_RUN)
 		{
 			while(ProcessManager.GetInstance().CanFire())
 			{

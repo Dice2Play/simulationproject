@@ -42,7 +42,8 @@ class Decision_Probability {
 		
 		// Queue's
 		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE?");
-		Queue queue2 = new Queue("CLEAN CAR QUEUE");
+		Queue queue2 = new Queue("CLEAN CAR QUEUE SHORT");
+		Queue queue4 = new Queue("CLEAN CAR QUEUE LONG");
 		
 		// Decision
 		DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
@@ -58,7 +59,7 @@ class Decision_Probability {
 		process1.AddNextSequenceLink(termination1);
 		
 		
-		process2.SetQueue(queue2);
+		process2.SetQueue(queue4);
 		process2.AddNextSequenceLink(termination1);
 		
 		// Entity manager

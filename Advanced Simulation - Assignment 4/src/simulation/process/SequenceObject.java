@@ -59,7 +59,7 @@ public abstract class SequenceObject {
 	
 	public boolean IsThereANextEntityFromQueueForCurrentProcess()
 	{
-		return queue.IsThereAnAvailableEntityInQueue() && queue.IsNextEntityMeantForSequenceObject(this);
+		return queue.IsThereAnAvailableEntityInQueue();
 	}
 	
 	
@@ -70,7 +70,7 @@ public abstract class SequenceObject {
 	 */
 	public Entity GetFirstEntityFromQueue() throws Exception
 	{
-		return queue.GetFirstAvailableEntityForSpecifiedSequenceObject(this);
+		return queue.GetFirstAvailableEntityForSpecifiedSequenceObject();
 	}
 	
 	void RemoveEntityFromQueue(Entity entityToRemove)
