@@ -6,21 +6,32 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.Rule;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.jupiter.api.function.*;
 
+import simulation.entity.EntityManager;
+import simulation.process.ProcessManager;
+import simulation.queue.QueueManager;
 import simulation.resource.ParkingSpotReserved;
 import simulation.resource.Resource;
 import simulation.resource.ResourceManager;
 import simulation.resource.Resource_Type;
+import simulation.time.TimeManager;
 
 class ResourceManager_GetAvailableResource {
 
 		
 
+	@BeforeEach
+	void ResetManagers()
+	{
+		ResourceManager.GetInstance().Reset();
+	}
+	
 	/**
 	 * NULL case, create no resources, try to get a resource_type
 	 * @throws Exception 
@@ -60,6 +71,6 @@ class ResourceManager_GetAvailableResource {
 		}
 	}
 	
-	
+
 	
 }

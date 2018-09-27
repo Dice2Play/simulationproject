@@ -39,9 +39,9 @@ public class Seize extends SequenceObject {
 	public void SeizeRequiredResources() throws Exception
 	{
 		for(Resource_Type typeOfResource : typesOfRequiredResources)
-		{
-			ResourceManager.GetInstance().GetAvailableResource(typeOfResource).Seize();
+		{			
 			ResourceManager.GetInstance().GetAvailableResource(typeOfResource).SetStartDayAndTimeOfSeize();
+			ResourceManager.GetInstance().GetAvailableResource(typeOfResource).Seize();
 		}
 	}
 
@@ -63,11 +63,11 @@ public class Seize extends SequenceObject {
 		return true;
 	}
 
-	public void SetAssignedResourcesForEntity() throws Exception {
+	public void SetAssignedResourcesForEntity(Entity firstEntityFromQueue) throws Exception {
 		
 		for(Resource_Type typeOfRequiredResourceNeeded : typesOfRequiredResources)
 		{
-			GetFirstEntityFromQueue().AssignResource(ResourceManager.GetInstance().GetAvailableResource(typeOfRequiredResourceNeeded));
+			firstEntityFromQueue.AssignResource(ResourceManager.GetInstance().GetAvailableResource(typeOfRequiredResourceNeeded));
 		}
 			
 			

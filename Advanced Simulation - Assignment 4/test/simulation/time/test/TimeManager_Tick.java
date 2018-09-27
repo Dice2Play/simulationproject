@@ -6,6 +6,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import simulation.entity.EntityManager;
+import simulation.process.ProcessManager;
+import simulation.queue.QueueManager;
+import simulation.resource.ResourceManager;
 import simulation.time.Event_Type;
 import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
@@ -47,5 +51,6 @@ class TimeManager_Tick {
 		
 	}
 	
+
 
 }

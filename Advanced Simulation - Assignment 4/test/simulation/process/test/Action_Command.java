@@ -2,20 +2,27 @@ package simulation.process.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import simulation.entity.EntityManager;
 import simulation.process.Action;
+import simulation.process.ProcessManager;
 import simulation.process.Termination;
 import simulation.process.commands.IncrementAmountOfRejects;
 import simulation.queue.Queue;
+import simulation.queue.QueueManager;
+import simulation.resource.ResourceManager;
 import simulation.time.TimeManager;
 
 
 class Action_Command {
 
 
+	/*
+	 * Test whether action command works by measuring the amount of cars left after executing action command.
+	 */
 
 	@Test
 	void TestActionIncrementAmountOfCarsLeft() {
@@ -65,5 +72,7 @@ class Action_Command {
 		
 		
 	}
+	
+
 
 }

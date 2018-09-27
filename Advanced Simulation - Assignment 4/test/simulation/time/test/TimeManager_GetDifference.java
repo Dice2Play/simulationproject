@@ -3,9 +3,14 @@ package simulation.time.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import simulation.entity.EntityManager;
+import simulation.process.ProcessManager;
+import simulation.queue.QueueManager;
+import simulation.resource.ResourceManager;
 import simulation.time.TimeManager;
 
 class TimeManager_GetDifference {
@@ -72,5 +77,7 @@ class TimeManager_GetDifference {
 		assertEquals(8,difference);
 		
 	}
+	
+
 
 }

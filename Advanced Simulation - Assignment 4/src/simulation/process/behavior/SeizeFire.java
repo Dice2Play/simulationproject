@@ -23,9 +23,8 @@ public class SeizeFire extends FireBehavior{
 			
 			
 			seizeObject.GetNextSequenceBehavior().SetNextSequenceObjectForEntity(firstEntityFromQueue);
+			seizeObject.SetAssignedResourcesForEntity(firstEntityFromQueue);
 			seizeObject.SeizeRequiredResources();
-			seizeObject.SetAssignedResourcesForEntity();
-			seizeObject.SetStartTimeForResource(firstEntityFromQueue);
 			seizeObject.RemoveFirstEntityFromQueue();
 		} 
 		

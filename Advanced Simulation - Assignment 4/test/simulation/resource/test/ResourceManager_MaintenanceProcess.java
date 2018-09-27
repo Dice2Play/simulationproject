@@ -11,30 +11,30 @@ import simulation.resource.ResourceManager;
 
 class ResourceManager_MaintenanceProcess {
 
-	@BeforeEach
-	void setUp()  {
-		
-		ParkingSpotReserved parkingSpot = new ParkingSpotReserved("Parking spot");
-		simulation.process.Process someProcessUsingAParkingSpot = new simulation.process.Process("I NEED A PARKING SPOT PROCESS", Process_Priority.Normal, 1);
-		
-		
-		
-		
-	}
+//	@BeforeEach
+//	void setUp()  {
+//		
+//		ParkingSpotReserved parkingSpot = new ParkingSpotReserved("Parking spot");
+//		simulation.process.Process someProcessUsingAParkingSpot = new simulation.process.Process("I NEED A PARKING SPOT PROCESS", Process_Priority.Normal, 1);
+//		
+//		
+//		
+//		
+//	}
 
-	@Test
-	void CheckWhetherMaintenanceProcessIsGeneratedAfterTenUses() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void CheckWhetherMaintenanceProcessIsGeneratedAfterTenUsesAndParkingSpotCantBeUsed() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	void CheckWhetherAfterMaintenanceProcessParkingSpotIsAvailableAgain() {
-		fail("Not yet implemented");
-	}
+//	@Test
+//	void CheckWhetherMaintenanceProcessIsGeneratedAfterTenUses() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	void CheckWhetherMaintenanceProcessIsGeneratedAfterTenUsesAndParkingSpotCantBeUsed() {
+//		fail("Not yet implemented");
+//	}
+//	
+//	@Test
+//	void CheckWhetherAfterMaintenanceProcessParkingSpotIsAvailableAgain() {
+//		fail("Not yet implemented");
+//	}
 	
 }
