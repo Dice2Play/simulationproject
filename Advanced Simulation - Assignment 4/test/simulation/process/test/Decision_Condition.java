@@ -37,7 +37,8 @@ class Decision_Condition {
 		
 		// Queue's
 		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE?");
-		Queue queue2 = new Queue("CLEAN CAR QUEUE");
+		Queue queue2 = new Queue("CLEAN CAR QUEUE SHORT");
+		Queue queue4 = new Queue("CLEAN CAR QUEUE LONG");
 		
 		// Decision
 		DecisionBasedOnCondition shortOrLongCleaning = new DecisionBasedOnCondition("DECISION: LONG OR SHORT CLEANING?", new AlwaysTrueCommand());
@@ -53,7 +54,7 @@ class Decision_Condition {
 		process1.AddNextSequenceLink(termination1);
 		
 		
-		process2.SetQueue(queue2);
+		process2.SetQueue(queue4);
 		process2.AddNextSequenceLink(termination1);
 		
 		// Entity manager

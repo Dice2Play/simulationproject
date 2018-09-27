@@ -49,11 +49,11 @@ public class Queue {
 	 * @return
 	 * @throws Exception 
 	 */
-	public Entity GetFirstAvailableEntityForSpecifiedSequenceObject(SequenceObject seqObj) throws Exception
+	public Entity GetFirstAvailableEntityForSpecifiedSequenceObject() throws Exception
 	{
 		for(Entity entity : entities)
 		{
-			if(entity.IsAvailable() && entity.GetCurrentSequenceObject().equals(seqObj)) {return entity;}
+			if(entity.IsAvailable()) {return entity;}
 		}
 		
 		// Throw exception
@@ -70,9 +70,6 @@ public class Queue {
 		entities.removeFirst();
 	}
 	
-	public boolean IsNextEntityMeantForSequenceObject(SequenceObject seqObj)
-	{
-		return entities.getFirst().GetCurrentSequenceObject().equals(seqObj);
-	}
+
 	
 }
