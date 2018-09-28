@@ -27,6 +27,11 @@ class PoissonArrivalDistribution {
 			assertTrue(true);
 		}
 		
+		else if(poissonResult == Integer.MAX_VALUE)
+		{
+			fail("A value of infinity has been generated");
+		}
+		
 		else
 			
 		{

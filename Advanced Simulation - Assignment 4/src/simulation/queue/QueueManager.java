@@ -25,6 +25,13 @@ public class QueueManager {
 		System.out.println(String.format("QUEUE MANAGER: Registered QUEUE %s",queueToRegister.GetID()));
 	}
 	
+	public void DeRegisterQueue(Queue queueToDeRegister)
+	{
+		queues.add(queueToDeRegister);
+		
+		System.out.println(String.format("QUEUE MANAGER: Deregistered QUEUE %s",queueToDeRegister.GetID()));
+	}
+	
 	public void Reset()
 	{
 		queueManager = null;

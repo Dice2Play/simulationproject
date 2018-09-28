@@ -31,19 +31,11 @@ class Decision_Probability {
 		
 		
 		// Terminators
-		Termination termination1 = new Termination("End of the line baby");
-		Queue queue3 = new Queue("Termination QUEUE");
-		termination1.SetQueue(queue3);
-		
+		Termination termination1 = new Termination("End of the line baby");		
 		
 		// Processes
 		Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,0);
 		Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, 0);
-		
-		// Queue's
-		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE?");
-		Queue queue2 = new Queue("CLEAN CAR QUEUE SHORT");
-		Queue queue4 = new Queue("CLEAN CAR QUEUE LONG");
 		
 		// Decision
 		DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
@@ -52,14 +44,9 @@ class Decision_Probability {
 		// Set decisions
 		shortOrLongCleaning.AddNextSequenceLink(process1);
 		shortOrLongCleaning.AddNextSequenceLink(process2);
-		shortOrLongCleaning.SetQueue(queue1);
 		
 		// Set processes
-		process1.SetQueue(queue2);
 		process1.AddNextSequenceLink(termination1);
-		
-		
-		process2.SetQueue(queue4);
 		process2.AddNextSequenceLink(termination1);
 		
 		// Entity manager

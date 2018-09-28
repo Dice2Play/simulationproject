@@ -8,6 +8,7 @@ import simulation.process.behavior.CanFireBehavior;
 import simulation.process.behavior.FireBehavior;
 import simulation.process.behavior.NextSequenceBehavior;
 import simulation.queue.Queue;
+import simulation.queue.QueueManager;
 
 public abstract class SequenceObject {
 
@@ -28,6 +29,10 @@ public abstract class SequenceObject {
 		this.ID = ID;
 		this.processPriority = processPriority;
 		
+		// Create and set Queue
+		Queue queue = new Queue(String.format("QUEUE - %s", ID));
+		SetQueue(queue);
+		
 		// Register to Process Manager
 		ProcessManager.GetInstance().RegisterSequenceObject(this);
 	}
@@ -35,6 +40,18 @@ public abstract class SequenceObject {
 	public String GetID()
 	{
 		return ID;
+	}
+	
+	public void SetSharedQueue(SequenceObject seqObjWhichQueueToUse)
+	{
+		// Get reference to current queue
+		Queue currentQueue = GetQueue();
+		
+		// Set queue same as input sequenceObj one
+		SetQueue(seqObjWhichQueueToUse.GetQueue());
+		
+		// Remove old queue from queue manager
+		QueueManager.GetInstance().DeRegisterQueue(currentQueue);
 	}
 	
 	public void AddEntityToQueue(Entity entityToAdd)
@@ -47,7 +64,7 @@ public abstract class SequenceObject {
 		return processPriority;
 	}
 	
-	public void SetQueue(Queue queue)
+	private void SetQueue(Queue queue)
 	{
 		this.queue = queue;
 	}

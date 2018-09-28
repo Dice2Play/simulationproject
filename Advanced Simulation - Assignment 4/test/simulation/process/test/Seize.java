@@ -17,6 +17,14 @@ import simulation.time.TimeManager;
 
 class Seize {
 
+	
+	@BeforeEach
+	void Setup()
+	{
+		ResourceManager.GetInstance().Reset();
+		TimeManager.GetInstance().Reset();
+	}
+	
 	/*
 	 * Test whether seize sequenceobject works by seizing some resources and check whether these resources are seized.
 	 */
@@ -25,14 +33,10 @@ class Seize {
 
 		// Terminators
 		Termination termination1 = new Termination("End of the line baby");
-		Queue queue3 = new Queue("Termination QUEUE");
-		termination1.SetQueue(queue3);
 		
 		
 		// Seize
 		simulation.process.Seize seize_process1 = new simulation.process.Seize("SEIZE Some resources", Process_Priority.Normal);
-		Queue queue1 = new Queue("Queue for seize process_1");
-		seize_process1.SetQueue(queue1);
 		seize_process1.AddNextSequenceLink(termination1);
 		seize_process1.AddRequiredResource(Resource_Type.CASH_REGISTER);
 		seize_process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);

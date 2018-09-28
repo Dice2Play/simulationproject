@@ -31,15 +31,13 @@ class Action_Command {
 		
 		// Terminators
 		Termination termination1 = new Termination("End of the line baby");
-		Queue queue3 = new Queue("Termination QUEUE");
-		termination1.SetQueue(queue3);
-		
+
 		
 		// Set actions
 		Action setEntityToRejected = new Action("Set entity to rejected action", new IncrementAmountOfRejects());
 		Queue queue5 = new Queue("Set entity to rejected action QUEUE ");
 		setEntityToRejected.AddNextSequenceLink(termination1);
-		setEntityToRejected.SetQueue(queue5);
+
 		
 		// Entity manager
 		// Set starting process

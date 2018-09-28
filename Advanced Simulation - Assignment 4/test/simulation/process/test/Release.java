@@ -20,6 +20,7 @@ class Release {
 	void Setup()
 	{
 		ResourceManager.GetInstance().Reset();
+		TimeManager.GetInstance().Reset();
 	}
 	
 	/*
@@ -27,24 +28,19 @@ class Release {
 	 */
 	@Test
 	void TestWhetherResourcesAreReleased() {
+		
 		// Terminators
 		Termination termination1 = new Termination("End of the line baby");
-		Queue queue3 = new Queue("Termination QUEUE");
-		termination1.SetQueue(queue3);
-		
+	
 			
 		// Release 
 		simulation.process.Release release_process1 = new simulation.process.Release("RELEASE Some resources", Process_Priority.Normal);
-		Queue queue2 = new Queue("Queue for release process_1");
-		release_process1.SetQueue(queue2);
 		release_process1.AddNextSequenceLink(termination1);
 
 		
 		
 		// Seize
 		simulation.process.Seize seize_process1 = new simulation.process.Seize("SEIZE Some resources", Process_Priority.Normal);
-		Queue queue1 = new Queue("Queue for seize process_1");
-		seize_process1.SetQueue(queue1);
 		seize_process1.AddNextSequenceLink(release_process1);
 		seize_process1.AddRequiredResource(Resource_Type.CASH_REGISTER);
 		seize_process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);

@@ -29,48 +29,39 @@ class Queue_Shared {
 		
 		// Terminators
 		Termination termination1 = new Termination("End of the line baby");
-		Queue terminateQueue = new Queue("Termination QUEUE");
-		termination1.SetQueue(terminateQueue);
 		
 		
 		// Release 
 		simulation.process.Release release_process1 = new simulation.process.Release("RELEASE Some resources", Process_Priority.Normal);
-		Queue releaseQueue = new Queue("Queue for release process_1");
-		release_process1.SetQueue(releaseQueue);
 		release_process1.AddNextSequenceLink(termination1);
 		
 		// Processes
-		Queue processSharedQueue = new Queue("Queue for cleaning spots");
-		
 		Process process1 = new Process("Process cleaning spot 1", Process_Priority.Normal,10);
-		process1.SetQueue(processSharedQueue);
 		process1.AddNextSequenceLink(release_process1);
 		
 		Process process2 = new Process("Process cleaning spot 2", Process_Priority.Normal,10);
-		process2.SetQueue(processSharedQueue);
+		process2.SetSharedQueue(process1);
 		process2.AddNextSequenceLink(release_process1);
 		
 		Process process3 = new Process("Process cleaning spot 3", Process_Priority.Normal,10);
-		process3.SetQueue(processSharedQueue);
+		process3.SetSharedQueue(process1);
 		process3.AddNextSequenceLink(release_process1);
 		
 		Process process4 = new Process("Process cleaning spot 4", Process_Priority.Normal,10);
-		process4.SetQueue(processSharedQueue);
+		process4.SetSharedQueue(process1);
 		process4.AddNextSequenceLink(release_process1);
 		
 		Process process5 = new Process("Process cleaning spot 5", Process_Priority.Normal,10);
-		process5.SetQueue(processSharedQueue);
+		process5.SetSharedQueue(process1);
 		process5.AddNextSequenceLink(release_process1);
 		
 		Process process6 = new Process("Process cleaning spot 6", Process_Priority.Normal,10);
-		process6.SetQueue(processSharedQueue);
+		process6.SetSharedQueue(process1);
 		process6.AddNextSequenceLink(release_process1);
 		
 		
 		// Seize
 		simulation.process.Seize seize_process1 = new simulation.process.Seize("SEIZE Some resources", Process_Priority.Normal);
-		Queue queue1 = new Queue("Queue for seize process_1");
-		seize_process1.SetQueue(queue1);
 		seize_process1.AddNextSequenceLink(process1);
 		seize_process1.AddRequiredResource(Resource_Type.CASH_REGISTER);
 		seize_process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
