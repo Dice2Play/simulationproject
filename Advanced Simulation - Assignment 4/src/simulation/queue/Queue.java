@@ -49,7 +49,7 @@ public class Queue {
 	 * @return
 	 * @throws Exception 
 	 */
-	public Entity GetFirstAvailableEntityForSpecifiedSequenceObject() throws Exception
+	public Entity GetFirstAvailableEntity() throws Exception
 	{
 		for(Entity entity : entities)
 		{

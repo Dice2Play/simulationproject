@@ -4,12 +4,12 @@ import simulation.entity.Entity;
 import simulation.interfaces.Command;
 import simulation.process.Process;
 
-public class ReleaseProcessCommand implements Command{
+public class Release_Entity_From_ProcessCommand implements Command{
 
 	Process currentProcess;
 	
 	
-	public ReleaseProcessCommand(Process process)
+	public Release_Entity_From_ProcessCommand(Process process)
 	{
 		this.currentProcess = process;
 	}
@@ -19,8 +19,8 @@ public class ReleaseProcessCommand implements Command{
 		
 		try
 		{
-			// Get first entity from queue
-			Entity firstEntityFromQueue = currentProcess.GetFirstEntityFromQueue();		
+			// Get entity that is reserved by this process
+			Entity firstEntityFromQueue = currentProcess.GetReservedEntity();
 			
 			// Set next process
 			currentProcess.GetNextSequenceBehavior().SetNextSequenceObjectForEntity(firstEntityFromQueue);

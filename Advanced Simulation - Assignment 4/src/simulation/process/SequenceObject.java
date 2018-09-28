@@ -87,7 +87,7 @@ public abstract class SequenceObject {
 	 */
 	public Entity GetFirstEntityFromQueue() throws Exception
 	{
-		return queue.GetFirstAvailableEntityForSpecifiedSequenceObject();
+		return queue.GetFirstAvailableEntity();
 	}
 	
 	void RemoveEntityFromQueue(Entity entityToRemove)
