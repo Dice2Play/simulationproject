@@ -22,14 +22,14 @@ public class QueueManager {
 	{
 		queues.add(queueToRegister);
 		
-		System.out.println(String.format("QUEUE MANAGER: Registered QUEUE %s",queueToRegister.GetID()));
+		System.out.println(String.format("QUEUE MANAGER: Registered %s",queueToRegister.GetID()));
 	}
 	
 	public void DeRegisterQueue(Queue queueToDeRegister)
 	{
 		queues.add(queueToDeRegister);
 		
-		System.out.println(String.format("QUEUE MANAGER: Deregistered QUEUE %s",queueToDeRegister.GetID()));
+		System.out.println(String.format("QUEUE MANAGER: Deregistered %s",queueToDeRegister.GetID()));
 	}
 	
 	public void Reset()

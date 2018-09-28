@@ -27,6 +27,7 @@ public class EntityManager implements Tick_Listener{
 	// Set schedule
 	ArrayList<Double> poissonArrivalRates = new ArrayList<Double>();
 	
+	
 	final double POISSON_ARRIVAL_RATE_0 = 5.067; 
 	final double POISSON_ARRIVAL_RATE_1 = 4.111;
 	final double POISSON_ARRIVAL_RATE_2 = 3.244;
@@ -94,7 +95,9 @@ public class EntityManager implements Tick_Listener{
 	{
 		// Time at which next entity should arrive
 		double currentHour = Math.floor(TimeManager.GetInstance().GetCurrentTime());
-		double generatedValueForNextEntity = Statistics.GetDistributionResult(new PoissonDistribution(poissonArrivalRates.get((int)currentHour), new Random()));
+		double generatedValueForNextEntity = Statistics.GetDistributionResult(new PoissonDistribution(poissonArrivalRates.get((int)currentHour) * 60, new Random())) / 60;
+		
+		
 		double timeOnWhichNextEntityArrives = TimeManager.GetInstance().GetCurrentTime() + (60/generatedValueForNextEntity)/60;
 		
 		
