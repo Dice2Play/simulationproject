@@ -21,7 +21,7 @@ public class Process extends SequenceObject{
 	private boolean isUsingCommandForGeneratingProcessTime = false;
 	private DoubleCommand commandForGeneratingProcessTime;
 	private boolean hasAlreadyGeneratedGeneratingTime = false;
-	private Entity seizedEntity;
+	private Entity reservedEntity;
 	
 
 	
@@ -89,8 +89,8 @@ public class Process extends SequenceObject{
 	
 	private void SeizeEntity() {
 		try {
-			seizedEntity = GetFirstEntityFromQueue();
-			seizedEntity.Seize();
+			reservedEntity = GetFirstEntityFromQueue();
+			reservedEntity.Seize();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,7 +116,7 @@ public class Process extends SequenceObject{
 
 	private void ReleaseEntity() 
 	{
-		try {GetSeizedEntity().Release();}
+		try {GetReservedEntity().Release();}
 		catch (Exception e) {e.printStackTrace();}
 	}
 
@@ -130,12 +130,12 @@ public class Process extends SequenceObject{
 	{
 		if(isUsingCommandForGeneratingProcessTime) { hasAlreadyGeneratedGeneratingTime = false;}
 		
-		seizedEntity = null;
+		reservedEntity = null;
 	}
 
-	public Entity GetSeizedEntity() {
+	public Entity GetReservedEntity() {
 		
-		return seizedEntity;
+		return reservedEntity;
 	}
 
 	@Override

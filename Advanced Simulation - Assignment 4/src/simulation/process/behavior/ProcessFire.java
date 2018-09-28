@@ -1,6 +1,6 @@
 package simulation.process.behavior;
 
-import simulation.process.commands.ReleaseProcessCommand;
+import simulation.process.commands.Release_Entity_From_ProcessCommand;
 import simulation.time.Event_Type;
 import simulation.time.TimeEvent;
 import simulation.time.TimeManager;
@@ -24,7 +24,7 @@ public class ProcessFire extends FireBehavior{
 		double timeForRelease = TimeManager.GetInstance().GetCurrentTime() + process.GetProcessTime();
 		
 		// Generate TimeEvent for release
-		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeForRelease, new ReleaseProcessCommand(process), String.format("Process %s has released entity&process", process.GetID()), Event_Type.GENERAL));
+		TimeManager.GetInstance().AddTimeEvent(new TimeEvent(timeForRelease, new Release_Entity_From_ProcessCommand(process), String.format("Process %s has released entity&process", process.GetID()), Event_Type.GENERAL));
 		
 		
 		
