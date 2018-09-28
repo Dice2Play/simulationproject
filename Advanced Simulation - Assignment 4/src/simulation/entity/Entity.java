@@ -82,7 +82,7 @@ public class Entity {
 		return calledUnderTwoTimesCleaningTime;
 	}
 	
-	public void UpdateProcessingTime(double amountOfTimeToAdd)
+	private void UpdateProcessingTime(double amountOfTimeToAdd)
 	{
 		processingTime+= amountOfTimeToAdd;
 	}
@@ -148,6 +148,8 @@ public class Entity {
 
 	public void Update() {
 		processingTime = TimeManager.GetInstance().GetDifference(startTimeSeize, startDaySeize);
+		UpdateProcessingTime(processingTime);
+		
 	}
 	
 }

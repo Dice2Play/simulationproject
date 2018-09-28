@@ -43,7 +43,7 @@ public class Model {
 	final int AMOUNT_OF_DAYS_TO_RUN;
 	final int AMOUNT_OF_CASH_REGISTERS = 3;
 	final int AMOUNT_OF_CLEANING_SPOTS = 10;
-	final int AMOUNT_OF_NOT_RESERVED_PARKING_SPOT = 0;
+	final int AMOUNT_OF_NOT_RESERVED_PARKING_SPOT = 20;
 	final int AMOUNT_OF_RESERVED_PARKING_SPOT = 5;
 	final int AMOUNT_OF_CLEANERS = 3;
 	final int AMOUNT_OF_ASSISTANTS = 3;
@@ -125,17 +125,23 @@ public class Model {
 			DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
 		
 			// Processes
-			Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
-			Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
+//			Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
+//			Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
 		
+			Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,5 );
+			Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, 10);
+			
 			// Terminators
-			Termination termination1 = new Termination("End of the line baby");			
+			Termination termination1 = new Termination("End of the line baby (process1)");			
+			Termination termination2 = new Termination("End of the line baby (process2)");	
+			Termination termination3 = new Termination("End of the line baby (setEntityToRejected)");	
 			
 			// Actions
 			Action setEntityToRejected = new Action("Set entity to rejected action", new IncrementAmountOfRejects());
 			
 			// Release
-			Release release_terminate = new Release("RELEASE", Process_Priority.Normal);
+			Release release_process1 = new Release("RELEASE FOR PROCESS 1", Process_Priority.Normal);
+			Release release_process2 = new Release("RELEASE FOR PROCESS 2", Process_Priority.Normal);
 			
 			// Seize
 			Seize seize_process1 = new Seize("SEIZE FOR PROCESS 1", Process_Priority.Normal);
@@ -152,18 +158,19 @@ public class Model {
 		
 		
 		// Set processes
-		process1.AddNextSequenceLink(release_terminate);
-		process2.AddNextSequenceLink(release_terminate);
+		process1.AddNextSequenceLink(release_process1);
+		process2.AddNextSequenceLink(release_process2);
 		
 		// Set Seize
 		seize_process1.AddNextSequenceLink(process1);
 		seize_process2.AddNextSequenceLink(process2);
 		
 		// Set Release
-		release_terminate.AddNextSequenceLink(termination1);
+		release_process1.AddNextSequenceLink(termination1);
+		release_process2.AddNextSequenceLink(termination2);
 		
 		// Set actions
-		setEntityToRejected.AddNextSequenceLink(termination1);
+		setEntityToRejected.AddNextSequenceLink(termination3);
 
 		
 		// Entity manager

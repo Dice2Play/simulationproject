@@ -17,15 +17,7 @@ public class Statistics {
 
 	public static double GetDistributionResult(Distribution distribution)
 	{
-		double generatedValue = distribution.nextRandom();
-		
-		while(generatedValue <= 0.0)
-		{
-			generatedValue = distribution.nextRandom();
-		}
-		
-		
-		return generatedValue;
+		return distribution.nextRandom();
 	}
 	
 	// Get CI
