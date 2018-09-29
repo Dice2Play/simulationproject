@@ -17,7 +17,6 @@ public class Process extends SequenceObject{
 
 	private double generatedProcessTime;
 	private double processTime;
-	private boolean isAvailable = true;
 	private boolean isUsingCommandForGeneratingProcessTime = false;
 	private DoubleCommand commandForGeneratingProcessTime;
 	private boolean hasAlreadyGeneratedGeneratingTime = false;
@@ -49,14 +48,14 @@ public class Process extends SequenceObject{
 	
 	public void SetIsAvailable(boolean newValue)
 	{
-		isAvailable = newValue;
+		isSequenceObjectAvailable = newValue;
 	}
 			
 
 	
 	public boolean IsAvailable()
 	{
-		return isAvailable;
+		return isSequenceObjectAvailable;
 	}
 	
 	
@@ -101,7 +100,7 @@ public class Process extends SequenceObject{
 
 	private void SeizeProcess()
 	{
-		isAvailable = false;	
+		isSequenceObjectAvailable = false;	
 	}
 
 	/**
@@ -122,7 +121,7 @@ public class Process extends SequenceObject{
 
 	private void ReleaseProcess()
 	{
-		isAvailable = true;
+		isSequenceObjectAvailable = true;
 		
 	}
 	

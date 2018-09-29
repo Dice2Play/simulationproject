@@ -16,6 +16,7 @@ public abstract class SequenceObject {
 	private Process_Priority processPriority;
 	private Queue queue;
 	private LinkedList<SequenceObject> linkedSequenceObjects = new LinkedList<SequenceObject>();
+	protected boolean isSequenceObjectAvailable = true;
 	
 	
 	protected CanFireBehavior canFireBehavior;
@@ -131,6 +132,11 @@ public abstract class SequenceObject {
 	public Queue GetQueue()
 	{
 		return queue;
+	}
+	
+	public boolean GetIsSequenceObjectAvailable()
+	{
+		return isSequenceObjectAvailable;
 	}
 
 	public abstract void Validate() throws Exception;
