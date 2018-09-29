@@ -40,7 +40,6 @@ public class Seize extends SequenceObject {
 	{
 		for(Resource_Type typeOfResource : typesOfRequiredResources)
 		{			
-			ResourceManager.GetInstance().GetAvailableResource(typeOfResource).SetStartDayAndTimeOfSeize();
 			ResourceManager.GetInstance().GetAvailableResource(typeOfResource).Seize();
 		}
 	}
@@ -73,9 +72,5 @@ public class Seize extends SequenceObject {
 			
 	}
 
-	public void SetStartTimeForResource(Entity entityToSetSeizeTimeFor) throws Exception {
-		entityToSetSeizeTimeFor.SetStartDaySeize(TimeManager.GetInstance().GetCurrentDay());
-		entityToSetSeizeTimeFor.SetStartTimeSeize(TimeManager.GetInstance().GetCurrentTime());
-	}
 
 }

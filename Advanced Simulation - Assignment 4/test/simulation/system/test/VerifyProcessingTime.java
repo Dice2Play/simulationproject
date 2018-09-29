@@ -2,6 +2,9 @@ package simulation.system.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,22 +30,33 @@ class VerifyProcessingTime {
 	@Test
 	void TestSingleProcess() {
 		
+		// Set processing time
+		double processingTime = 10.0;
+		
 		// Create/set entity
 		Entity entity1 = new Entity("Car_x");
-		Entity entity2= new Entity("Car_x");
-		Entity entityWhichHasToFinish = new Entity("Car_x");
+		Entity entity2 = new Entity("Car_y");
+		Entity entity3 = new Entity("Car_z");
+		ArrayList<Entity> entitiesToTest = new ArrayList<Entity>();
+		entitiesToTest.add(entity1);
+		entitiesToTest.add(entity2);
+		entitiesToTest.add(entity3);
+		
 		
 		
 		// Set references 
 		Seize seize_1 = new Seize("Seize 1", Process_Priority.Normal);
 		Release release_1 = new Release("Release 1", Process_Priority.Normal);
-		simulation.process.Process process_1 = new simulation.process.Process("Process 1", Process_Priority.Normal, 5);
+		simulation.process.Process process_1 = new simulation.process.Process("Process 1", Process_Priority.Normal,processingTime);
 		Termination terminate_1 = new Termination("Terminate 1");
 		
+		// Add entities to first sequence object
+		seize_1.AddEntityToQueue(entity1);
+		seize_1.AddEntityToQueue(entity2);
+		seize_1.AddEntityToQueue(entity3);
 		
 		
 		// Set sequence objects
-		seize_1.AddEntityToQueue(entityWhichHasToFinish);
 		seize_1.AddNextSequenceLink(process_1);
 		process_1.AddNextSequenceLink(release_1);
 		release_1.AddNextSequenceLink(terminate_1);
@@ -68,6 +82,20 @@ class VerifyProcessingTime {
 			
 			TimeManager.GetInstance().Tick();
 		}
+		
+		
+		// Check for all entities whether their 'total processing time' matches manual set 'processingTime'
+		for(Entity entity : entitiesToTest)
+		{
+			if(entity.GetProcessingTime() != processingTime)
+			{
+				fail("processing time of entity isn't the same as the specified one.");
+			}
+		}
+		
+		// If fail hasn't fired, return success
+		assertTrue(true);
+		
 	}
 	
 	/*
