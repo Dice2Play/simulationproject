@@ -34,8 +34,8 @@ class Decision_Probability {
 		Termination termination1 = new Termination("End of the line baby");		
 		
 		// Processes
-		Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,0);
-		Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, 0);
+		Process process1 = new Process("SHORT CLEANING CAR",0);
+		Process process2 = new Process("LONG CLEANING CAR", 0);
 		
 		// Decision
 		DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);

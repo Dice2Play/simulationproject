@@ -14,12 +14,16 @@ import simulation.process.Process_Priority;
 import simulation.process.Release;
 import simulation.process.Seize;
 import simulation.process.Termination;
+import simulation.resource.ResourceManager;
+import simulation.resource.Resource_Type;
 import simulation.time.TimeManager;
 
 class VerifyProcessingTime {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		
+		
 	}
 
 	
@@ -29,6 +33,10 @@ class VerifyProcessingTime {
 	 */
 	@Test
 	void TestSingleProcess() {
+		
+		
+		// Set resources
+		ResourceManager.GetInstance().SetAmountOfCleaners(1);
 		
 		// Set processing time
 		double processingTime = 10.0;
@@ -45,9 +53,9 @@ class VerifyProcessingTime {
 		
 		
 		// Set references 
-		Seize seize_1 = new Seize("Seize 1", Process_Priority.Normal);
-		Release release_1 = new Release("Release 1", Process_Priority.Normal);
-		simulation.process.Process process_1 = new simulation.process.Process("Process 1", Process_Priority.Normal,processingTime);
+		Seize seize_1 = new Seize("Seize 1");
+		Release release_1 = new Release("Release 1");
+		simulation.process.Process process_1 = new simulation.process.Process("Process 1",processingTime);
 		Termination terminate_1 = new Termination("Terminate 1");
 		
 		// Add entities to first sequence object
@@ -58,6 +66,7 @@ class VerifyProcessingTime {
 		
 		// Set sequence objects
 		seize_1.AddNextSequenceLink(process_1);
+		seize_1.AddRequiredResource(Resource_Type.EMPLOYEE_CLEANER);
 		process_1.AddNextSequenceLink(release_1);
 		release_1.AddNextSequenceLink(terminate_1);
 		

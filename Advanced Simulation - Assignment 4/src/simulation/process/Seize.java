@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import simulation.entity.Entity;
 import simulation.process.behavior.CanFireResourceAndEntity;
+import simulation.process.behavior.CanFireResourceAndEntityAndProcess;
 import simulation.process.behavior.RegularNextSequence;
 import simulation.process.behavior.SeizeFire;
 import simulation.resource.ResourceManager;
@@ -14,10 +15,10 @@ public class Seize extends SequenceObject {
 
 	private ArrayList<Resource_Type> typesOfRequiredResources = new ArrayList<Resource_Type>();
 	
-	public Seize(String ID, Process_Priority processPriority) {
-		super(ID, processPriority);
+	public Seize(String ID) {
+		super(ID, Process_Priority.Normal);
 		fireBehavior = new SeizeFire(this);
-		canFireBehavior = new CanFireResourceAndEntity(this);
+		canFireBehavior = new CanFireResourceAndEntityAndProcess(this);
 		nextSequenceBehavior = new RegularNextSequence(this);
 	}
 
@@ -70,6 +71,20 @@ public class Seize extends SequenceObject {
 		}
 			
 			
+	}
+
+	/*
+	 * Check if next sequence object is available
+	 */
+	public boolean IsNextSequenceObjectAvailable() {
+		return this.GetLinkedSequenceObjects().getFirst().GetIsSequenceObjectAvailable();
+	}
+
+
+
+	public void SetSeizeTimeForEntity(Entity firstEntityFromQueue) {
+		firstEntityFromQueue.SetStartDaySeize(TimeManager.GetInstance().GetCurrentDay());
+		firstEntityFromQueue.SetStartTimeSeize(TimeManager.GetInstance().GetCurrentTime());
 	}
 
 

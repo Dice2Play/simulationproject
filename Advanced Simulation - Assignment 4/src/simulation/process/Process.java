@@ -17,7 +17,6 @@ public class Process extends SequenceObject{
 
 	private double generatedProcessTime;
 	private double processTime;
-	private boolean isAvailable = true;
 	private boolean isUsingCommandForGeneratingProcessTime = false;
 	private DoubleCommand commandForGeneratingProcessTime;
 	private boolean hasAlreadyGeneratedGeneratingTime = false;
@@ -26,9 +25,9 @@ public class Process extends SequenceObject{
 
 	
 
-	public Process(String ID, Process_Priority processPriority, double processTime)
+	public Process(String ID, double processTime)
 	{
-		super(ID, processPriority);
+		super(ID, Process_Priority.High);
 		this.processTime = processTime;
 		fireBehavior = new ProcessFire(this);
 		canFireBehavior = new CanFireProcessAndEntity(this);
@@ -36,9 +35,9 @@ public class Process extends SequenceObject{
 		isUsingCommandForGeneratingProcessTime = false;
 	}
 	
-	public Process(String ID, Process_Priority processPriority, DoubleCommand commandForGeneratingProcessTime)
+	public Process(String ID, DoubleCommand commandForGeneratingProcessTime)
 	{
-		super(ID, processPriority);
+		super(ID, Process_Priority.High);
 		this.commandForGeneratingProcessTime = commandForGeneratingProcessTime;
 		fireBehavior = new ProcessFire(this);
 		canFireBehavior = new CanFireProcessAndEntity(this);
@@ -49,14 +48,14 @@ public class Process extends SequenceObject{
 	
 	public void SetIsAvailable(boolean newValue)
 	{
-		isAvailable = newValue;
+		isSequenceObjectAvailable = newValue;
 	}
 			
 
 	
 	public boolean IsAvailable()
 	{
-		return isAvailable;
+		return isSequenceObjectAvailable;
 	}
 	
 	
@@ -101,7 +100,7 @@ public class Process extends SequenceObject{
 
 	private void SeizeProcess()
 	{
-		isAvailable = false;	
+		isSequenceObjectAvailable = false;	
 	}
 
 	/**
@@ -122,7 +121,7 @@ public class Process extends SequenceObject{
 
 	private void ReleaseProcess()
 	{
-		isAvailable = true;
+		isSequenceObjectAvailable = true;
 		
 	}
 	

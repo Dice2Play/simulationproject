@@ -32,36 +32,36 @@ class Queue_Shared {
 		
 		
 		// Release 
-		simulation.process.Release release_process1 = new simulation.process.Release("RELEASE Some resources", Process_Priority.Normal);
+		simulation.process.Release release_process1 = new simulation.process.Release("RELEASE Some resources");
 		release_process1.AddNextSequenceLink(termination1);
 		
 		// Processes
-		Process process1 = new Process("Process cleaning spot 1", Process_Priority.Normal,10);
+		Process process1 = new Process("Process cleaning spot 1",10);
 		process1.AddNextSequenceLink(release_process1);
 		
-		Process process2 = new Process("Process cleaning spot 2", Process_Priority.Normal,10);
+		Process process2 = new Process("Process cleaning spot 2",10);
 		process2.SetSharedQueue(process1);
 		process2.AddNextSequenceLink(release_process1);
 		
-		Process process3 = new Process("Process cleaning spot 3", Process_Priority.Normal,10);
+		Process process3 = new Process("Process cleaning spot 3",10);
 		process3.SetSharedQueue(process1);
 		process3.AddNextSequenceLink(release_process1);
 		
-		Process process4 = new Process("Process cleaning spot 4", Process_Priority.Normal,10);
+		Process process4 = new Process("Process cleaning spot 4",10);
 		process4.SetSharedQueue(process1);
 		process4.AddNextSequenceLink(release_process1);
 		
-		Process process5 = new Process("Process cleaning spot 5", Process_Priority.Normal,10);
+		Process process5 = new Process("Process cleaning spot 5",10);
 		process5.SetSharedQueue(process1);
 		process5.AddNextSequenceLink(release_process1);
 		
-		Process process6 = new Process("Process cleaning spot 6", Process_Priority.Normal,10);
+		Process process6 = new Process("Process cleaning spot 6",10);
 		process6.SetSharedQueue(process1);
 		process6.AddNextSequenceLink(release_process1);
 		
 		
 		// Seize
-		simulation.process.Seize seize_process1 = new simulation.process.Seize("SEIZE Some resources", Process_Priority.Normal);
+		simulation.process.Seize seize_process1 = new simulation.process.Seize("SEIZE Some resources");
 		seize_process1.AddNextSequenceLink(process1);
 		seize_process1.AddRequiredResource(Resource_Type.CASH_REGISTER);
 		seize_process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);

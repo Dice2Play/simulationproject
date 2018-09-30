@@ -36,7 +36,7 @@ class Seize {
 		
 		
 		// Seize
-		simulation.process.Seize seize_process1 = new simulation.process.Seize("SEIZE Some resources", Process_Priority.Normal);
+		simulation.process.Seize seize_process1 = new simulation.process.Seize("SEIZE Some resources");
 		seize_process1.AddNextSequenceLink(termination1);
 		seize_process1.AddRequiredResource(Resource_Type.CASH_REGISTER);
 		seize_process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);

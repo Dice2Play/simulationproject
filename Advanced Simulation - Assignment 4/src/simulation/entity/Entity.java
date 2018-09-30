@@ -30,6 +30,7 @@ public class Entity {
 	public Entity(String ID)
 	{
 		this.ID = ID;
+	
 	}
 	
 	public String GetID()
@@ -147,8 +148,8 @@ public class Entity {
 	}
 
 	public void Update() {
-		processingTime = TimeManager.GetInstance().GetDifference(startTimeSeize, startDaySeize);
-		UpdateProcessingTime(processingTime);
+		double difference = TimeManager.GetInstance().GetDifference(startTimeSeize, startDaySeize);
+		UpdateProcessingTime(difference);
 		
 	}
 	
