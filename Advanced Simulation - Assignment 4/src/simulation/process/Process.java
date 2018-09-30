@@ -25,9 +25,9 @@ public class Process extends SequenceObject{
 
 	
 
-	public Process(String ID, Process_Priority processPriority, double processTime)
+	public Process(String ID, double processTime)
 	{
-		super(ID, processPriority);
+		super(ID, Process_Priority.High);
 		this.processTime = processTime;
 		fireBehavior = new ProcessFire(this);
 		canFireBehavior = new CanFireProcessAndEntity(this);
@@ -35,9 +35,9 @@ public class Process extends SequenceObject{
 		isUsingCommandForGeneratingProcessTime = false;
 	}
 	
-	public Process(String ID, Process_Priority processPriority, DoubleCommand commandForGeneratingProcessTime)
+	public Process(String ID, DoubleCommand commandForGeneratingProcessTime)
 	{
-		super(ID, processPriority);
+		super(ID, Process_Priority.High);
 		this.commandForGeneratingProcessTime = commandForGeneratingProcessTime;
 		fireBehavior = new ProcessFire(this);
 		canFireBehavior = new CanFireProcessAndEntity(this);

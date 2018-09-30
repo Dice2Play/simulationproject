@@ -10,8 +10,8 @@ import simulation.resource.Resource;
 
 public class Release extends SequenceObject{
 
-	public Release(String ID, Process_Priority processPriority) {
-		super(ID, processPriority);
+	public Release(String ID) {
+		super(ID, Process_Priority.Normal);
 		fireBehavior = new ReleaseFire(this);
 		canFireBehavior = new CanFireEntity(this);
 		nextSequenceBehavior = new RegularNextSequence(this);

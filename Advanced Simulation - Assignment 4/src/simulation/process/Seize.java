@@ -15,8 +15,8 @@ public class Seize extends SequenceObject {
 
 	private ArrayList<Resource_Type> typesOfRequiredResources = new ArrayList<Resource_Type>();
 	
-	public Seize(String ID, Process_Priority processPriority) {
-		super(ID, processPriority);
+	public Seize(String ID) {
+		super(ID, Process_Priority.Normal);
 		fireBehavior = new SeizeFire(this);
 		canFireBehavior = new CanFireResourceAndEntityAndProcess(this);
 		nextSequenceBehavior = new RegularNextSequence(this);

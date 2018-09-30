@@ -37,9 +37,9 @@ class EntityFinishesAfterSeizeProcessRelease {
 		
 		
 		// Set references 
-		Seize seize_1 = new Seize("Seize 1", Process_Priority.Normal);
-		Release release_1 = new Release("Release 1", Process_Priority.Normal);
-		simulation.process.Process process_1 = new simulation.process.Process("Process 1", Process_Priority.Normal, 5);
+		Seize seize_1 = new Seize("Seize 1");
+		Release release_1 = new Release("Release 1");
+		simulation.process.Process process_1 = new simulation.process.Process("Process 1", 5);
 		Termination terminate_1 = new Termination("Terminate 1");
 		
 		// Set sequence objects

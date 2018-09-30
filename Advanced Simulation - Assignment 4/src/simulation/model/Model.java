@@ -128,8 +128,8 @@ public class Model {
 //			Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
 //			Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
 		
-			Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,5 );
-			Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, 10);
+			Process process1 = new Process("SHORT CLEANING CAR",5 );
+			Process process2 = new Process("LONG CLEANING CAR", 10);
 			
 			// Terminators
 			Termination termination1 = new Termination("End of the line baby (process1)");			
@@ -140,12 +140,12 @@ public class Model {
 			Action setEntityToRejected = new Action("Set entity to rejected action", new IncrementAmountOfRejects());
 			
 			// Release
-			Release release_process1 = new Release("RELEASE FOR PROCESS 1", Process_Priority.Normal);
-			Release release_process2 = new Release("RELEASE FOR PROCESS 2", Process_Priority.Normal);
+			Release release_process1 = new Release("RELEASE FOR PROCESS 1");
+			Release release_process2 = new Release("RELEASE FOR PROCESS 2");
 			
 			// Seize
-			Seize seize_process1 = new Seize("SEIZE FOR PROCESS 1", Process_Priority.Normal);
-			Seize seize_process2 = new Seize("SEIZE FOR PROCESS 2", Process_Priority.Normal);
+			Seize seize_process1 = new Seize("SEIZE FOR PROCESS 1");
+			Seize seize_process2 = new Seize("SEIZE FOR PROCESS 2");
 			
 		
 		// Set decisions

@@ -29,8 +29,8 @@ class Decision_Condition {
 		Termination termination1 = new Termination("End of the line baby");		
 		
 		// Processes
-		Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,0);
-		Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, 0);
+		Process process1 = new Process("SHORT CLEANING CAR",0);
+		Process process2 = new Process("LONG CLEANING CAR", 0);
 		
 		// Decision
 		DecisionBasedOnCondition shortOrLongCleaning = new DecisionBasedOnCondition("DECISION: LONG OR SHORT CLEANING?", new AlwaysTrueCommand());
