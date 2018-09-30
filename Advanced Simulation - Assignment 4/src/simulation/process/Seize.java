@@ -81,4 +81,11 @@ public class Seize extends SequenceObject {
 	}
 
 
+
+	public void SetSeizeTimeForEntity(Entity firstEntityFromQueue) {
+		firstEntityFromQueue.SetStartDaySeize(TimeManager.GetInstance().GetCurrentDay());
+		firstEntityFromQueue.SetStartTimeSeize(TimeManager.GetInstance().GetCurrentTime());
+	}
+
+
 }

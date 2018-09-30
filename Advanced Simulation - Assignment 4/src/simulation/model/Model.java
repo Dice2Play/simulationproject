@@ -125,12 +125,9 @@ public class Model {
 			DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
 		
 			// Processes
-//			Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
-//			Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
-		
-			Process process1 = new Process("SHORT CLEANING CAR",5 );
-			Process process2 = new Process("LONG CLEANING CAR", 10);
-			
+			Process process1 = new Process("SHORT CLEANING CAR",new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
+			Process process2 = new Process("LONG CLEANING CAR", new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
+					
 			// Terminators
 			Termination termination1 = new Termination("End of the line baby (process1)");			
 			Termination termination2 = new Termination("End of the line baby (process2)");	
