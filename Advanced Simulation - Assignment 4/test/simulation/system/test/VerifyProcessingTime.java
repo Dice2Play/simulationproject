@@ -47,7 +47,7 @@ class VerifyProcessingTime {
 		// Set references 
 		Seize seize_1 = new Seize("Seize 1", Process_Priority.Normal);
 		Release release_1 = new Release("Release 1", Process_Priority.Normal);
-		simulation.process.Process process_1 = new simulation.process.Process("Process 1", Process_Priority.Normal,processingTime);
+		simulation.process.Process process_1 = new simulation.process.Process("Process 1", Process_Priority.High,processingTime);
 		Termination terminate_1 = new Termination("Terminate 1");
 		
 		// Add entities to first sequence object

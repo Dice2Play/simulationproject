@@ -48,7 +48,7 @@ public class ProcessManager {
 	public boolean CanFire() {
 		for(SequenceObject sequenceObject: sequenceObjects)
 		{
-			if(sequenceObject.CanFire())
+ 			if(sequenceObject.CanFire())
 			{
 				return true;
 			}
@@ -105,7 +105,7 @@ public class ProcessManager {
 
 		@Override
 		public int compare(SequenceObject seqObj1, SequenceObject seqObj2) {
-			return (seqObj1.GetProcessPriority().getLevelCode() - seqObj2.GetProcessPriority().getLevelCode());
+			return (seqObj2.GetProcessPriority().getLevelCode() - seqObj1.GetProcessPriority().getLevelCode());
 		}
 		
 	}
