@@ -19,7 +19,7 @@ public class CanFireResourceAndEntityAndProcess extends CanFireBehavior{
 	public boolean CanFire() {
 		return seizeObject.AreRequiredResourcesAvailable() &&
 				seizeObject.IsThereANextEntityFromQueueForCurrentProcess() &&
-				seizeObject.IsNextSequenceObjectAvailable();
+				seizeObject.CheckForAvailableSequenceObject();
 	}
 
 }
