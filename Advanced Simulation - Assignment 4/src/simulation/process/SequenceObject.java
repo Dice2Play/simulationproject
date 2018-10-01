@@ -122,6 +122,32 @@ public abstract class SequenceObject {
 	public NextSequenceBehavior GetNextSequenceBehavior() {
 		return nextSequenceBehavior;
 	}
+	
+	public SequenceObject GetFirstAvailableSequenceObject() throws Exception
+	{
+		for(SequenceObject seqObj : linkedSequenceObjects)
+		{
+			if(seqObj.GetIsSequenceObjectAvailable())
+			{
+				return seqObj;
+			}
+		}
+		
+		throw new Exception("Assumption violated: No available sequenceobject.");
+	}
+	
+	public boolean CheckForAvailableSequenceObject() 
+	{
+		for(SequenceObject seqObj : linkedSequenceObjects)
+		{
+			if(seqObj.GetIsSequenceObjectAvailable())
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 
 	public void RemoveFirstEntityFromQueue()

@@ -17,7 +17,7 @@ public class RegularNextSequence extends NextSequenceBehavior {
 		try
 		{
 			// Get next sequenceObject
-			SequenceObject nextSequenceObject = currentSequenceObject.GetLinkedSequenceObjects().getFirst();
+			SequenceObject nextSequenceObject = currentSequenceObject.GetFirstAvailableSequenceObject();
 			
 			// Set next sequenceObject for entity
 			entityForNextSequence.SetCurrentSequenceObject(nextSequenceObject);
