@@ -132,11 +132,20 @@ public class Model {
 		
 		
 		
-			// Processes
-		Process process1 = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
-		Process process2 = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
-		
-			// Terminators
+		// Processes
+		Process cleaningCar_short = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
+		Process cleaningCar_long = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
+		// add process: park the car, drive To CleanSpot
+	    Process parktheCar = new Process("Prking the car", Process_Priority.Normal, 1);//parking car assum 1 minute, not indicate in the doc.
+		Process driveToCleanSpot = new Process("Drive to cleaning spot by Assitant", Process_Priority.Normal,5);//take 5 minute
+		// add process: park the car, drive To CleanSpot
+		Process driveBackToParkingSpot = new Process("Drive back to parking spot", Process_Priority.Normal, 5);
+		Process callCustomer = new Process("Calling customer", Process_Priority.Normal, 10);//take 5 minute
+	   // the time waiting for customer can be changed, instead of 60... but with diviation format
+		Process waitforCustomerArrival = new Process("waiting customer to come", Process_Priority.Normal, 60);//It takes 60 minutes, with a standard deviation of 12 minutes, for the customer to pick up
+	   //payment processing
+		Process paying = new Process("Do the payment", Process_Priority.Normal, 15);//
+		// Terminators
 		Termination termination1 = new Termination("End of the line baby");
 		
 			// Queue's
@@ -145,33 +154,80 @@ public class Model {
 		Queue queue3 = new Queue("Termination QUEUE");
 		Queue queue4 = new Queue("DECISION: IS PARKING LOT FULL? QUEUE");
 		Queue queue5 = new Queue("Set entity to rejected action QUEUE ");
+		Queue queue6 = new Queue("Waiting to be drive and clean");
+		Queue queue7 = new Queue("Waiting to be drive back after cleaned");
+		Queue queue8 = new Queue("Waiting to be called to pick up");
+		Queue queue9 = new Queue("Waiting to do the payment, if any required resource is busy");
+
+		
 		
 			// Actions
 		Action setEntityToRejected = new Action("Set entity to rejected action", new IncrementAmountOfRejects());
-
-		
-		// Set decisions
-		isParkingLotFull.SetQueue(queue4);
-		isParkingLotFull.AddNextSequenceLink(setEntityToRejected);
-		isParkingLotFull.AddNextSequenceLink(shortOrLongCleaning);
 		
 		
-		shortOrLongCleaning.AddNextSequenceLink(process1);
-		shortOrLongCleaning.AddNextSequenceLink(process2);
+		// Set decisions when just entre the system, wether the parking lot is full
+		isParkingLotFull.SetQueue(queue4); //decsion, is the parking lot full?
+		isParkingLotFull.AddNextSequenceLink(setEntityToRejected); //add first posibility, reject, leave the system
+		isParkingLotFull.AddNextSequenceLink(parktheCar); //add second possibility, not full, so park the car 1st.
+		
+        //set process: park the car
+		parktheCar.AddRequiredResource(Resource_Type.PARKING_SPOT_AVAILABLE_AND_NOT_RESERVED);
+		//didnt set queue for this process
+		parktheCar.AddNextSequenceLink(driveToCleanSpot);
+		
+		//set process: driveToCleanSpot
+		driveToCleanSpot.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
+		driveToCleanSpot.AddRequiredResource(Resource_Type.CLEANING_SPOT);
+		driveToCleanSpot.SetQueue(queue6);	
+		driveToCleanSpot.AddNextSequenceLink(shortOrLongCleaning);
+		
+		
+		shortOrLongCleaning.AddNextSequenceLink(cleaningCar_short);
+		shortOrLongCleaning.AddNextSequenceLink(cleaningCar_long);
 		shortOrLongCleaning.SetQueue(queue1);
 		
 		
 		// Set processes
-		process1.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
-		process1.AddRequiredResource(Resource_Type.CLEANING_SPOT);
-		process1.SetQueue(queue2);
-		process1.AddNextSequenceLink(termination1);
+		//alternative 1, short leaning
+		cleaningCar_short.AddRequiredResource(Resource_Type.EMPLOYEE_CLEANER);
+		cleaningCar_short.AddRequiredResource(Resource_Type.CLEANING_SPOT);
+		cleaningCar_short.SetQueue(queue2);
+	//	cleaningCar_short.AddNextSequenceLink(termination1);
+		cleaningCar_short.AddNextSequenceLink(driveBackToParkingSpot);
+		//Do we need a queue here?
+		
+		//alternative 2, long cleaning 		
+		cleaningCar_long.AddRequiredResource(Resource_Type.EMPLOYEE_CLEANER);
+		cleaningCar_long.AddRequiredResource(Resource_Type.CLEANING_SPOT);
+		cleaningCar_long.SetQueue(queue2);
+	//	cleaningCar_long.AddNextSequenceLink(termination1);
+		cleaningCar_long.AddNextSequenceLink(driveBackToParkingSpot);
+		
+		//set process: drive the car back to parking area
+		driveBackToParkingSpot.AddRequiredResource(Resource_Type.PARKING_SPOT_AVAILABLE_AND_NOT_RESERVED);
+		driveBackToParkingSpot.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
+		driveBackToParkingSpot.SetQueue(queue7);
+		driveBackToParkingSpot.AddNextSequenceLink(callCustomer);
+		
+		//set process
+		callCustomer.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
+		callCustomer.SetQueue(queue8);
+		callCustomer.AddNextSequenceLink(waitforCustomerArrival);
+		
+		//set process: waiting for pick up, this dont need resource. still taking resouce form the parking lot
+		waitforCustomerArrival.AddRequiredResource(Resource_Type.PARKING_SPOT_AVAILABLE_AND_NOT_RESERVED);//I dont think here need this resoucs, but here not allowed to write null
+		waitforCustomerArrival.AddNextSequenceLink(paying);
 		
 		
-		process2.AddRequiredResource(Resource_Type.EMPLOYEE_ASSISTANT);
-		process2.AddRequiredResource(Resource_Type.CLEANING_SPOT);
-		process2.SetQueue(queue2);
-		process2.AddNextSequenceLink(termination1);
+		
+		
+		//set process: paying, this might have a queur
+		paying.AddRequiredResource(Resource_Type.CASH_REGISTER);
+		//a if satement can be add here to check, if assistent not avaliable then use cleaner to do payment
+		paying.AddRequiredResource(Resource_Type.EMPLOYEE_CLEANER);
+		paying.SetQueue(queue9);
+		paying.AddNextSequenceLink(termination1);
+				
 		
 		// Set terminators
 		termination1.SetQueue(queue3);
