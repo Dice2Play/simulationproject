@@ -158,7 +158,7 @@ public class Model {
 		Queue queue7 = new Queue("Waiting to be drive back after cleaned");
 		Queue queue8 = new Queue("Waiting to be called to pick up");
 		Queue queue9 = new Queue("Waiting to do the payment, if any required resource is busy");
-
+		Queue queue_temp = new Queue("payment, if any required resource is busy");
 		
 		
 			// Actions
@@ -194,7 +194,6 @@ public class Model {
 		cleaningCar_short.SetQueue(queue2);
 	//	cleaningCar_short.AddNextSequenceLink(termination1);
 		cleaningCar_short.AddNextSequenceLink(driveBackToParkingSpot);
-		//Do we need a queue here?
 		
 		//alternative 2, long cleaning 		
 		cleaningCar_long.AddRequiredResource(Resource_Type.EMPLOYEE_CLEANER);
@@ -216,6 +215,7 @@ public class Model {
 		
 		//set process: waiting for pick up, this dont need resource. still taking resouce form the parking lot
 		waitforCustomerArrival.AddRequiredResource(Resource_Type.PARKING_SPOT_AVAILABLE_AND_NOT_RESERVED);//I dont think here need this resoucs, but here not allowed to write null
+		waitforCustomerArrival.SetQueue(queue_temp);
 		waitforCustomerArrival.AddNextSequenceLink(paying);
 		
 		
