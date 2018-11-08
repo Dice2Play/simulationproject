@@ -131,6 +131,10 @@ public class EntityManager implements Tick_Listener{
 	{
 		startingSequenceObject = newStartingSequenceObject;
 	}
+	public int getTotalEntitySize()
+	{
+		return entities.size();
+	}
 
 	public double GetLeftRate()
 	{
@@ -150,6 +154,10 @@ public class EntityManager implements Tick_Listener{
 	public void IncrementAmountOfRejects()
 	{
 		amountOfRejects++;
+	}
+	public double getAmountRejection()
+	{
+		return this.amountOfRejects;
 	}
 	
 	

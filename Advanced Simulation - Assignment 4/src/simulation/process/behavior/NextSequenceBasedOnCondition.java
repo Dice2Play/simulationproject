@@ -18,7 +18,8 @@ public class NextSequenceBasedOnCondition extends NextSequenceBehavior{
 		try
 		{
 			// If result is true take the first element of linked sequence objects, otherwise take the second one.
-			SequenceObject chosenSequenceObject = ((DecisionBasedOnCondition)currentSequenceObject).GetConditionResult() ? currentSequenceObject.GetLinkedSequenceObjects().get(0) : currentSequenceObject.GetLinkedSequenceObjects().get(1); 
+			SequenceObject chosenSequenceObject = ((DecisionBasedOnCondition)currentSequenceObject).GetConditionResult() ?
+					currentSequenceObject.GetLinkedSequenceObjects().get(0) : currentSequenceObject.GetLinkedSequenceObjects().get(1); 
 			
 			
 			// Set next sequenceObject for entity

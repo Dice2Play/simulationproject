@@ -13,6 +13,7 @@ public class Entity {
 	private double pickUpTime;
 	private double calledTime;
 	private double cleaningTime;
+	private double finishTime;//terminating the process. could also be leaving the process directly.
 	private boolean isFinished; // means it got fired by a terminate sequence object
 	
 	private double processingTime;
@@ -89,6 +90,9 @@ public class Entity {
 	public boolean IsFinished()
 	{
 		return isFinished;
+	}
+	public void setFinishTime(double TerminatedTime) {
+		this.finishTime = TerminatedTime;
 	}
 
 	public double getArrivalTime() {

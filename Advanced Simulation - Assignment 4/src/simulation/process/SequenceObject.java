@@ -8,6 +8,7 @@ import simulation.process.behavior.CanFireBehavior;
 import simulation.process.behavior.FireBehavior;
 import simulation.process.behavior.NextSequenceBehavior;
 import simulation.queue.Queue;
+import simulation.time.TimeManager;
 
 public abstract class SequenceObject {
 
@@ -108,6 +109,7 @@ public abstract class SequenceObject {
 
 	public void RemoveFirstEntityFromQueue()
 	{
+		queue.GetTheHeadEntity().setFinishTime(TimeManager.GetInstance().GetCurrentTime());
 		queue.RemoveFirstEntityFromQueue();
 	}
 	

@@ -108,6 +108,7 @@ public class Process extends SequenceObject{
 	public void Seize()
 	{
 		SeizeProcess();
+		System.out.println("resouce sized!");
 		SeizeResources();
 		SeizeEntity();
 	}

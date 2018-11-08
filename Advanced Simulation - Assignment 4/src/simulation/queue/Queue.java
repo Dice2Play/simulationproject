@@ -20,7 +20,10 @@ public class Queue {
 		// Register to Queue Manager
 		QueueManager.GetInstance().RegisterQueue(this);
 	}
-	
+	public Entity GetTheHeadEntity()
+	{
+		return entities.get(0);
+	}
 	public void AddEntity(Entity entityToAdd)
 	{
 		this.entities.add(entityToAdd);

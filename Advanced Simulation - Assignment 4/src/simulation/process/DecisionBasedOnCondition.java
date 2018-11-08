@@ -26,10 +26,19 @@ public class DecisionBasedOnCondition extends Decision{
 		if(hasBooleanCommandFireAlready == false)
 		{
 			condition = boolCommand.Execute();
+		//	System.out.println();
 			hasBooleanCommandFireAlready = true;
 		}
 		
 		return condition;
 	}
+	//test purpose
+	public boolean GetConditionResult2()
+	{
+		condition = boolCommand.Execute();
+
+		return condition;
+	}
+
 
 }

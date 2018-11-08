@@ -126,7 +126,7 @@ public class Model {
 		
 		// Create references
 				
-			// Decisions
+		// Decisions
 		DecisionBasedOnCondition isParkingLotFull = new DecisionBasedOnCondition("DECISION: IS PARKINGLOT FULL?", new IsParkingSpotFullBooleanCommand());
 		DecisionBasedOnChance shortOrLongCleaning = new DecisionBasedOnChance("DECISION: LONG OR SHORT CLEANING?", PROBABILITY_SHORT_CLEANING, PROBABILITY_LONG_CLEANING);
 		
@@ -136,7 +136,7 @@ public class Model {
 		Process cleaningCar_short = new Process("SHORT CLEANING CAR", Process_Priority.Normal,new GenerateProcessingTimeAccordingToDistributionCommand(SHORT_CLEANING_NORMAL_DISTRIBUTION));
 		Process cleaningCar_long = new Process("LONG CLEANING CAR", Process_Priority.Normal, new GenerateProcessingTimeAccordingToDistributionCommand(LONG_CLEANING_NORMAL_DISTRIBUTION));
 		// add process: park the car, drive To CleanSpot
-	    Process parktheCar = new Process("Prking the car", Process_Priority.Normal, 1);//parking car assum 1 minute, not indicate in the doc.
+	    Process parktheCar = new Process("Decison made: Prking the car", Process_Priority.Normal, 1);//parking car assum 1 minute, not indicate in the doc.
 		Process driveToCleanSpot = new Process("Drive to cleaning spot by Assitant", Process_Priority.Normal,5);//take 5 minute
 		// add process: park the car, drive To CleanSpot
 		Process driveBackToParkingSpot = new Process("Drive back to parking spot", Process_Priority.Normal, 5);
@@ -148,7 +148,7 @@ public class Model {
 		// Terminators
 		Termination termination1 = new Termination("End of the line baby");
 		
-			// Queue's
+		// Queue's
 		Queue queue1 = new Queue("DECISION: LONG OR SHORT CLEANING QUEUE?");
 		Queue queue2 = new Queue("CLEAN CAR QUEUE");
 		Queue queue3 = new Queue("Termination QUEUE");
@@ -167,13 +167,13 @@ public class Model {
 		
 		
 		// Set decisions when just entre the system, wether the parking lot is full
-		isParkingLotFull.SetQueue(queue4); //decsion, is the parking lot full?
+		isParkingLotFull.AddNextSequenceLink(parktheCar); //add second possibility, not full, so park the car 1st.	
 		isParkingLotFull.AddNextSequenceLink(setEntityToRejected); //add first posibility, reject, leave the system
-		isParkingLotFull.AddNextSequenceLink(parktheCar); //add second possibility, not full, so park the car 1st.
+		isParkingLotFull.SetQueue(queue4); //decsion, is the parking lot full?
 		
+			
         //set process: park the car
 		parktheCar.AddRequiredResource(Resource_Type.PARKING_SPOT_AVAILABLE_AND_NOT_RESERVED);
-		//didnt set queue for this process
 		parktheCar.SetQueue(queue10);
 		parktheCar.AddNextSequenceLink(driveToCleanSpot);
 		
@@ -261,6 +261,12 @@ public class Model {
 		ResultManager.GetInstance().SetMeanLeftRate(meanLeftRate);
 		ResultManager.GetInstance().SetMeanWaitingRateUnder6Hours(meanWaitingRateUnder6Hours);
 		ResultManager.GetInstance().SetMeanProcessingTime(meanProcessingTime);
+		/**
+		 * Test purpose
+		 */
+		System.out.println("Print the total entity have registered in the system:" +EntityManager.GetInstance().getTotalEntitySize());
+		System.out.println("Print the total entity have rejected the system:" +EntityManager.GetInstance().getAmountRejection());
+		
 	}
 	
 	public void Run()
